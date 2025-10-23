@@ -1,19 +1,25 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './db/connectDB.js';
+import userRoutes from './routes/routes.js';
 
 
+// Initialize Express app
+const app = express();
 dotenv.config({ quiet: true });
 
-const app = express();
+
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use('/', userRoutes);
 
 
-
-
+// Connect to the database
 connectDB(process.env.CONNECTDB);
 
 
-
+// Start the server
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
