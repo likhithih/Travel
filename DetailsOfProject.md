@@ -76,6 +76,46 @@ This project is a fullstack website for Travel Tourism, built with a Node.js/Exp
 - No testing performed on the backend functionality.
 - Database connection and basic server setup complete.
 
+## API Testing with Postman
+
+### Registration Endpoint
+**Method:** POST  
+**URL:** http://localhost:4000/register  
+**Headers:**  
+- Content-Type: application/json  
+
+**Body (raw JSON):**
+```json
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "phone": 1234567890,
+  "password": "password123",
+  "confirmPassword": "password123",
+  "address": {
+    "street": "123 Main St",
+    "city": "New York",
+    "state": "NY",
+    "pincode": "10001",
+    "country": "USA"
+  }
+}
+```
+
+### Login Endpoint
+**Method:** POST  
+**URL:** http://localhost:4000/login  
+**Headers:**  
+- Content-Type: application/json  
+
+**Body (raw JSON):**
+```json
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+```
+
 ## Next Steps
 - Implement frontend login/signup forms.
 - Add middleware for JWT authentication.
