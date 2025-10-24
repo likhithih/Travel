@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 
 const travelImages = [
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=700&q=80",
-  "https://images.unsplash.com/photo-1526779259212-1235d11b8b0c?auto=format&fit=crop&w=700&q=80",
-  "https://images.unsplash.com/photo-1549887534-33d0f7c8cf28?auto=format&fit=crop&w=700&q=80",
+  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=700&q=80",
+  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=700&q=80",
 ];
 
 export default function Login() {
@@ -17,7 +17,7 @@ export default function Login() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % travelImages.length);
-    }, 2000);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -33,13 +33,20 @@ export default function Login() {
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center relative overflow-hidden"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1470&q=80')",
-      }}
-    >
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Dynamic Blurred Background */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url(${travelImages[currentImage]})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(10px)',
+        }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      />
+
       {/* Overlay with subtle floating animation */}
       <motion.div
         className="absolute inset-0 bg-black/40"
@@ -54,17 +61,17 @@ export default function Login() {
         className="relative z-10 flex flex-col md:flex-row w-full max-w-4xl bg-white/20 backdrop-blur-md rounded-3xl shadow-2xl overflow-hidden"
       >
         {/* Left Carousel */}
-        <div className="md:w-1/2 h-64 md:h-auto relative">
-          <AnimatePresence>
+        <div className="md:w-1/2 h-64 md:h-auto relative overflow-hidden">
+          <AnimatePresence mode="wait">
             <motion.img
               key={currentImage}
               src={travelImages[currentImage]}
               alt="Travel"
-              className="w-full h-full object-cover"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1 }}
+              className="w-full h-full object-cover absolute inset-0"
+              initial={{ x: 300, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -300, opacity: 0 }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
             />
           </AnimatePresence>
         </div>
@@ -155,7 +162,7 @@ export default function Login() {
           {/* Footer */}
           <p className="text-center mt-6 text-sm text-gray-600">
             Don’t have an account?{" "}
-            <a href="#" className="text-blue-500 hover:underline font-medium">
+            <a href="/signup" className="text-blue-500 hover:underline font-medium">
               Sign up
             </a>
           </p>
