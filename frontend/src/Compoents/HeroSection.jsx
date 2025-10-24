@@ -34,7 +34,7 @@ function HeroSection() {
 
   return (
     <div>
-      <section className="relative min-h-screen">
+      <section className="relative min-h-screen flex items-center justify-center">
         <div
           className="absolute inset-0 transition-opacity duration-1000"
           style={{
@@ -57,27 +57,22 @@ function HeroSection() {
           <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
             {/* Left Content */}
             <div className="mx-auto place-self-center lg:col-span-12 text-center">
-              <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl text-white">
+              <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-8xl text-white">
                KARNATAKA
               </h1>
-              <p className="max-w-2xl mb-6 font-bold text-white lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
+              <p className="max-w-2xl mb-6 font-bold text-white lg:mb-8 md:text-lg lg:text-2xl dark:text-gray-500">
                 One state,Many Worlds
               </p>
 
               {/* Buttons */}
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <a
                   href="#"
                   className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
                 >
                   Learn more
                   <FaArrowRight/>
-                  {/* <svg
-                    className="w-5 h-5 ml-2 -mr-1"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  > */}
+               
                     <path
                       fillRule="evenodd"
                       d="M10.293 3.293a1 1 0 011.414 0l6 
