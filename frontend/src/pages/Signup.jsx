@@ -97,7 +97,7 @@ export default function Signup() {
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         className="w-full lg:w-1/2 h-full flex items-start justify-center pt-8"
       >
-        <div className="ml-12 mb-12 max-w-lg bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-md rounded-3xl shadow-2xl p-8 border border-white/10">
+        <div className="ml-12 mb-12 max-w-lg bg-linear-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-md rounded-3xl shadow-2xl p-8 border border-white/10">
           {/* Header */}
           <motion.h1
             className="text-4xl font-extrabold mb-4 text-white text-center"

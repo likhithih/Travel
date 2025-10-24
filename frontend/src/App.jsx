@@ -8,6 +8,7 @@ import Card from './Compoents/Card'
 import TopDestination from './Compoents/TopDestination'
 import BestAgency from './Compoents/BestAgency'
 import Footer from './Compoents/Footer'
+import Signup from './pages/Signup'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
       <TopDestination/>
       <BestAgency/>
       <Login/>
+      {/* <Signup/> */}
       <Footer/>
     </>
   )

@@ -124,7 +124,7 @@ const EarthAnimation = () => {
     };
   }, []);
 
-  return <div ref={mountRef} className="w-full h-full" />;
+  return <div ref={mountRef} className="w-full  h-full" />;
 };
 
 export default EarthAnimation;
