@@ -4,6 +4,7 @@ import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaPhone, FaMapMarkerAlt 
 import { auth, provider, signInWithPopup } from "../firebaseConfig";
 import { useState } from "react";
 import EarthAnimation from "../Compoents/Three/EarthAnimation";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
   const [user, setUser] = useState(null);
@@ -336,9 +337,9 @@ export default function Signup() {
             {/* Footer */}
             <p className="text-center text-sm text-white">
               Already have an account?{" "}
-              <a href="#" className="text-blue-300 hover:underline font-medium">
+              <Link to="/login" className="text-blue-300 hover:underline font-medium">
                 Log in
-              </a>
+              </Link>
             </p>
           </form>
         </div>

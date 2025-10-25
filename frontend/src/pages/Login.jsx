@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { auth, provider, signInWithPopup } from "../firebaseConfig";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const travelImages = [
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=700&q=80",
@@ -162,9 +163,9 @@ export default function Login() {
           {/* Footer */}
           <p className="text-center mt-6 text-sm text-gray-600">
             Don’t have an account?{" "}
-            <a href="/signup" className="text-blue-500 hover:underline font-medium">
+            <Link to="/signup" className="text-blue-500 hover:underline font-medium">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </motion.div>
