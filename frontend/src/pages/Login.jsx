@@ -2,7 +2,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { auth, provider, signInWithPopup } from "../firebaseConfig";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const travelImages = [
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=700&q=80",
@@ -11,8 +13,13 @@ const travelImages = [
 ];
 
 export default function Login() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
 
   // Change carousel image every 2 seconds
   useEffect(() => {
@@ -22,19 +29,57 @@ export default function Login() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:4000/login', formData);
+      toast.success('Login successful!');
+      localStorage.setItem('token', response.data.token);
+      setTimeout(() => { navigate('/home') }, 2000);
+    } catch (error) {
+      console.error('Login error:', error);
+      toast.error(error.response?.data?.message || 'Login failed. Please try again.');
+    }
+  };
+
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       setUser(result.user);
-      alert(`Welcome ${result.user.displayName}!`);
+
+      // Send Google user data to backend
+      const googleUserData = {
+        googleId: result.user.uid,
+        email: result.user.email,
+        displayName: result.user.displayName,
+        photoURL: result.user.photoURL
+      };
+
+      const response = await axios.post('http://localhost:4000/google-signin', googleUserData);
+
+      if (response.status === 200) {
+        toast.success(`Welcome ${result.user.displayName}!`);
+        localStorage.setItem('token', response.data.token);
+        setTimeout(() => { navigate('/home') }, 2000);
+      }
     } catch (error) {
       console.error(error);
-      alert("Google Sign-in failed. Please try again.");
+      toast.error("Google Sign-in failed. Please try again.");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <>
+      <ToastContainer />
+      <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Dynamic Blurred Background */}
       <motion.div
         className="absolute inset-0"
@@ -78,7 +123,7 @@ export default function Login() {
         </div>
 
         {/* Right Form */}
-        <div className="md:w-1/2 p-8 flex flex-col justify-center bg-gray-50/70 backdrop-blur-sm">
+        <form onSubmit={handleLogin} className="md:w-1/2 p-8 flex flex-col justify-center bg-gray-50/70 backdrop-blur-sm">
           {/* NEW LOGIN HEADING */}
           <motion.h1
             className="text-4xl font-extrabold mb-4 text-gray-800 text-center"
@@ -108,6 +153,9 @@ export default function Login() {
             <input
               className="w-full outline-none py-2.5 text-gray-900 placeholder-gray-800"
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
               placeholder="Email"
               required
             />
@@ -122,6 +170,9 @@ export default function Login() {
             <input
               className="w-full outline-none py-2.5 text-gray-900 placeholder-gray-800"
               type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
               placeholder="Password"
               required
             />
@@ -140,6 +191,7 @@ export default function Login() {
 
           {/* Login Button */}
           <motion.button
+            onClick={handleLogin}
             whileHover={{ scale: 1.05, boxShadow: "0px 8px 20px rgba(59,130,246,0.4)" }}
             whileTap={{ scale: 0.95 }}
             type="submit"
@@ -167,8 +219,9 @@ export default function Login() {
               Sign up
             </Link>
           </p>
-        </div>
+        </form>
       </motion.div>
     </div>
+    </>
   );
 }

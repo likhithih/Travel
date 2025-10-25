@@ -34,7 +34,7 @@ const LandingPage = () => {
   return (
     <>
       {/* <Landing_Navbar /> */}
-      <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white overflow-hidden">
+      <div className="min-h-screen bg-linear-to-br from-indigo-900 via-purple-900 to-pink-900 text-white overflow-hidden">
         {/* Hero Section */}
         <motion.section
           className="relative min-h-screen flex items-center justify-center"
@@ -45,7 +45,7 @@ const LandingPage = () => {
 
           <div className="relative z-10 text-center px-4">
             <motion.h1
-              className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-pink-500 bg-clip-text text-transparent"
+              className="text-6xl md:text-8xl font-bold mb-6 bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text text-transparent"
               variants={fadeInUp}
             >
               Explore Karnataka
@@ -57,7 +57,7 @@ const LandingPage = () => {
               Discover the magic of Karnataka - from ancient temples to pristine beaches, your adventure awaits.
             </motion.p>
             <motion.button
-              className="bg-gradient-to-r from-pink-500 to-yellow-500 hover:from-pink-600 hover:to-yellow-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105"
+              className="bg-linear-to-r from-pink-500 to-yellow-500 hover:from-pink-600 hover:to-yellow-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105"
               variants={scaleIn}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -76,7 +76,7 @@ const LandingPage = () => {
 
         {/* Features Section */}
         <motion.section
-          className="py-20 px-4 bg-gradient-to-br from-blue-50 via-white to-pink-50"
+          className="py-20 px-4 bg-linear-to-br from-blue-50 via-white to-pink-50"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -168,7 +168,7 @@ const LandingPage = () => {
               Join thousands of travelers who have discovered the wonders of Karnataka.
             </p>
             <motion.button
-              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-bold py-4 px-10 rounded-full text-xl transition-all duration-300 transform hover:scale-105"
+              className="bg-linear-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-bold py-4 px-10 rounded-full text-xl transition-all duration-300 transform hover:scale-105"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: true,
+        required: function() { return !this.googleId; },
         unique: true,
         trim: true
     },
@@ -16,42 +16,53 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
         type: Number,
-        required: true,
+        required: function() { return !this.googleId; },
         trim: true
     },
     password: {
         type: String,
-        required: true,
+        required: function() { return !this.googleId; },
         minlength: 6
     },
     confirmPassword: {
         type: String,
         minlength: 6
     },
+    googleId: {
+        type: String,
+        unique: true,
+        sparse: true
+    },
+    googleDisplayName: {
+        type: String,
+        trim: true
+    },
+    googlePhotoURL: {
+        type: String,
+        trim: true
+    },
     address: {
         street: {
             type: String,
-            required: true,
             trim: true
         },
         city: {
             type: String,
-            required: true,
+            required: function() { return !this.googleId; },
             trim: true
         },
         state: {
             type: String,
-            required: true,
             trim: true
         },
         pincode: {
             type: String,
-            required: true,
+            required: function() { return !this.googleId; },
             trim: true
         },
         country: {
             type: String,
-            required: true,
+            required: function() { return !this.googleId; },
             trim: true
         }
     },

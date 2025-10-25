@@ -2,6 +2,61 @@ import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+// Google Sign-In registration/login
+export const googleSignIn = async (req, res) => {
+    try {
+        const { googleId, email, displayName, photoURL } = req.body;
+
+        // Check if user already exists with this Google ID or email
+        let user = await User.findOne({ $or: [{ googleId }, { email }] });
+
+        if (user) {
+            // If user exists but doesn't have Google ID, update it
+            if (!user.googleId) {
+                user.googleId = googleId;
+                user.googleDisplayName = displayName;
+                user.googlePhotoURL = photoURL;
+                await user.save();
+            }
+        } else {
+            // Create new user for Google sign-in
+            user = new User({
+                email,
+                googleId,
+                googleDisplayName: displayName,
+                googlePhotoURL: photoURL,
+                // Set default values for required fields that are not provided by Google
+                username: displayName.replace(/\s+/g, '').toLowerCase() + Math.random().toString(36).substr(2, 5),
+                address: {
+                    city: 'Not Provided',
+                    pincode: '000000',
+                    country: 'Not Provided'
+                }
+            });
+            await user.save();
+        }
+
+        // Generate JWT token
+        const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        res.status(200).json({
+            message: 'Google sign-in successful',
+            token,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                googleDisplayName: user.googleDisplayName,
+                googlePhotoURL: user.googlePhotoURL,
+                role: user.role
+            }
+        });
+    } catch (error) {
+        console.error('Google sign-in error:', error);
+        res.status(500).json({ message: 'Server error during Google sign-in' });
+    }
+};
+
 
 // Register a new user
 export const registerUser = async (req, res) => {
@@ -49,7 +104,6 @@ export const registerUser = async (req, res) => {
                 email: newUser.email,
                 phone: newUser.phone,
                 address: newUser.address,
-                role: newUser.role
             }
         });
     } catch (error) {

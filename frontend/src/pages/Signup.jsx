@@ -4,9 +4,12 @@ import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaPhone, FaMapMarkerAlt 
 import { auth, provider, signInWithPopup } from "../firebaseConfig";
 import { useState } from "react";
 import EarthAnimation from "../Compoents/Three/EarthAnimation";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Signup() {
+  const navigate = useNavigate()
   const [user, setUser] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -59,9 +62,14 @@ export default function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Here you would typically send the data to your backend
-      console.log('Signup data:', formData);
-      alert('Signup successful! (This is a demo)');
+      try {
+        const response = await axios.post('http://localhost:4000/register', formData);
+        toast.success('Signup successful!');
+        setTimeout(() => { navigate('/login') }, 2000);
+      } catch (error) {
+        console.error('Signup error:', error);
+        toast.error(error.response?.data?.message || 'Signup failed. Please try again.');
+      }
     }
   };
 
@@ -69,10 +77,24 @@ export default function Signup() {
     try {
       const result = await signInWithPopup(auth, provider);
       setUser(result.user);
-      alert(`Welcome ${result.user.displayName}!`);
+
+      // Send Google user data to backend
+      const googleUserData = {
+        googleId: result.user.uid,
+        email: result.user.email,
+        displayName: result.user.displayName,
+        photoURL: result.user.photoURL
+      };
+
+      const response = await axios.post('http://localhost:4000/google-signin', googleUserData);
+
+      if (response.status === 200) {
+        toast.success(`Welcome ${result.user.displayName}!`);
+        setTimeout(() => { navigate('/home') }, 2000);
+      }
     } catch (error) {
       console.error(error);
-      alert("Google Sign-in failed. Please try again.");
+      toast.error("Google Sign-in failed. Please try again.");
     }
   };
 
@@ -344,6 +366,7 @@ export default function Signup() {
           </form>
         </div>
       </motion.div>
+      <ToastContainer/>
     </div>
   );
 }
