@@ -1,8 +1,18 @@
-import React from 'react'
+import Navbar from '../Compoents/Navbar.jsx'
+import Footer from '../Compoents/Footer.jsx'
+import BestAgency from '../Compoents/BestAgency.jsx'
+import Card from '../Compoents/Card.jsx'
+import HeroSection from '../Compoents/HeroSection.jsx'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <>
+      <Navbar />
+      <HeroSection />
+      <BestAgency />
+      <Card/>
+      <Footer />
+    </>
   )
 }
 
