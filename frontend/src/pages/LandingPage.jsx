@@ -8,6 +8,7 @@ import kundamundi from '../assets/Kundamundi.jpg';
 import waterfall from '../assets/Waterfall.jpg';
 import Landing_Navbar from '../Compoents/Landing_Navbar';
 import { Link } from 'react-router-dom';
+import { FaArrowDown } from 'react-icons/fa';
 
 const LandingPage = () => {
   // Animation variants
@@ -74,7 +75,7 @@ const LandingPage = () => {
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <FaMapMarkerAlt className="text-4xl text-yellow-400" />
+            <FaArrowDown className="text-4xl text-yellow-400" />
           </motion.div>
         </motion.section>
 
@@ -99,7 +100,7 @@ const LandingPage = () => {
               className="text-4xl md:text-5xl font-bold text-center mb-16 text-white drop-shadow-lg"
               variants={fadeInUp}
             >
-              Why Choose Karnataka?
+              Why Choose Travels Karnataka?
             </motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[

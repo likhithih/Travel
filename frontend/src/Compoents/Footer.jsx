@@ -22,7 +22,7 @@ export default function Footer() {
             </h1>
             <p className="mt-[18px] text-[15px] font-normal text-white/80">
             Discover and book your dream trips effortlessly with Travels Karnataka — flights, hotels, and adventures all in one place.
-Your j       journey to unforgettable experiences starts here! ✈️🌍
+            Your journey to unforgettable experiences starts here! ✈️🌍
             </p>
 
             {/* SOCIAL ICONS */}
@@ -65,7 +65,7 @@ Your j       journey to unforgettable experiences starts here! ✈️🌍
                   href="mailto:help@lorem.com"
                   className="text-[14px] font-medium text-white"
                 >
-                  help@lorem.com
+                  help@gmail.com
                 </a>
                 <p className="text-[12px] font-medium text-white">
                   Support Email
@@ -119,14 +119,14 @@ Your j       journey to unforgettable experiences starts here! ✈️🌍
                 <a
                   target="_blank"
                   rel="playstore"
-                  href="www.playstore.com"
+                  href="https://play.google.com/store"
                 >
                <span> <IoLogoGooglePlaystore/><p>Play Store</p></span>
                 </a>
                 <a
                   target="_blank"
                   rel="Appstore"
-                  href="www.Appstore.com"
+                  href="https://www.apple.com/app-store/"
                 >
                  <span><FaAppStore/>App Store</span>
                 </a>
