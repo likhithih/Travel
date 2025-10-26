@@ -26,12 +26,7 @@ export const googleSignIn = async (req, res) => {
                 googleDisplayName: displayName,
                 googlePhotoURL: photoURL,
                 // Set default values for required fields that are not provided by Google
-                username: displayName.replace(/\s+/g, '').toLowerCase() + Math.random().toString(36).substr(2, 5),
-                address: {
-                    city: 'Not Provided',
-                    pincode: '000000',
-                    country: 'Not Provided'
-                }
+                username: displayName.replace(/\s+/g, '').toLowerCase() + Math.random().toString(36).substr(2, 5)
             });
             await user.save();
         }
@@ -61,7 +56,7 @@ export const googleSignIn = async (req, res) => {
 // Register a new user
 export const registerUser = async (req, res) => {
     try {
-        const { username, email, phone, password, confirmPassword, address } = req.body;
+        const { username, email, password, confirmPassword } = req.body;
         // address should be an object with street, city, state, pincode, country
 
         // Check if password and confirmPassword match
@@ -83,10 +78,8 @@ export const registerUser = async (req, res) => {
         const newUser = new User({
             username,
             email,
-            phone,
             password: hashedPassword,
-            confirmPassword: hashedPassword,
-            address
+            confirmPassword: hashedPassword
         });
 
         // Save user to database
@@ -101,9 +94,7 @@ export const registerUser = async (req, res) => {
             user: {
                 id: newUser._id,
                 username: newUser.username,
-                email: newUser.email,
-                phone: newUser.phone,
-                address: newUser.address,
+                email: newUser.email
             }
         });
     } catch (error) {
@@ -139,9 +130,6 @@ export const loginUser = async (req, res) => {
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                phone: user.phone,
-                address: user.address,
-                role: user.role
             }
         });
     } catch (error) {

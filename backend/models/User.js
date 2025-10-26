@@ -14,11 +14,7 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         trim: true
     },
-    phone: {
-        type: Number,
-        required: function() { return !this.googleId; },
-        trim: true
-    },
+
     password: {
         type: String,
         required: function() { return !this.googleId; },
@@ -41,31 +37,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    address: {
-        street: {
-            type: String,
-            trim: true
-        },
-        city: {
-            type: String,
-            required: function() { return !this.googleId; },
-            trim: true
-        },
-        state: {
-            type: String,
-            trim: true
-        },
-        pincode: {
-            type: String,
-            required: function() { return !this.googleId; },
-            trim: true
-        },
-        country: {
-            type: String,
-            required: function() { return !this.googleId; },
-            trim: true
-        }
-    },
+
     createdAt: {
         type: Date,
         default: Date.now
