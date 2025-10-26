@@ -117,6 +117,19 @@ This project is a comprehensive fullstack website for Travel Tourism, featuring 
 - **Login Page**: Animated background carousel, form validation, toast notifications, redirects to /home on success
 - **Routing**: Public routes (/login, /signup, /) and protected (/home)
 
+## Admin Panel Setup
+- **Framework**: React (Vite setup)
+- **Location**: Admin/ directory
+- **Build Tool**: Vite
+- **Purpose**: Administrative dashboard for managing the travel tourism website, including user management, content updates, and analytics.
+- **Structure**:
+  - **src/App.jsx**: Main admin app component with routing and layout for admin features.
+- **Features** (assumed based on typical admin panels):
+  - User management: View, edit, delete user accounts.
+  - Content management: Update destinations, bookings, and site content.
+  - Analytics: View site statistics and user activity.
+  - Authentication: Separate admin login with elevated permissions.
+
 ## Current Status
 - Backend authentication system fully implemented with email/password and Google OAuth.
 - Frontend UI built with modern design: responsive navbar, animated login page, protected home page.
@@ -125,6 +138,7 @@ This project is a comprehensive fullstack website for Travel Tourism, featuring 
 - Password confirmation validation and error handling in place.
 - Database connection and server setup complete.
 - Basic testing performed on frontend components; backend endpoints tested via Postman.
+- UI improvements: Adjusted feature cards on the landing page (LandingPage.jsx) to be smaller by reducing icon sizes from text-6xl to text-5xl and padding from p-8 to p-6 for better visual balance and less bulky appearance.
 
 ## API Testing with Postman
 

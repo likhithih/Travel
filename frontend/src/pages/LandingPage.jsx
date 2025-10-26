@@ -104,63 +104,63 @@ const LandingPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 {
-                  icon: <FaPlane className="text-6xl text-blue-300" />,
+                  icon: <FaPlane className="text-5xl text-blue-300" />,
                   title: 'Seamless Travel',
                   desc: 'Easy bookings and hassle-free journeys with our expert guides',
                   gradient: 'from-blue-600 to-cyan-600',
                   bgColor: 'bg-slate-800/60'
                 },
                 {
-                  icon: <FaCamera className="text-6xl text-purple-300" />,
+                  icon: <FaCamera className="text-5xl text-purple-300" />,
                   title: 'Unforgettable Memories',
                   desc: 'Capture moments in breathtaking locations across Karnataka',
                   gradient: 'from-purple-600 to-pink-600',
                   bgColor: 'bg-slate-800/60'
                 },
                 {
-                  icon: <FaStar className="text-6xl text-yellow-300" />,
+                  icon: <FaStar className="text-5xl text-yellow-300" />,
                   title: 'Top-Rated Experiences',
                   desc: 'Trusted by thousands of travelers worldwide',
                   gradient: 'from-yellow-600 to-orange-600',
                   bgColor: 'bg-slate-800/60'
                 },
                 {
-                  icon: <FaMountain className="text-6xl text-green-300" />,
+                  icon: <FaMountain className="text-5xl text-green-300" />,
                   title: 'Diverse Landscapes',
                   desc: 'From Western Ghats to coastal beaches, explore varied terrains',
                   gradient: 'from-green-600 to-emerald-600',
                   bgColor: 'bg-slate-800/60'
                 },
                 {
-                  icon: <FaUtensils className="text-6xl text-red-300" />,
+                  icon: <FaUtensils className="text-5xl text-red-300" />,
                   title: 'Culinary Delights',
                   desc: 'Savor authentic Karnataka cuisine and local specialties',
                   gradient: 'from-red-600 to-pink-600',
                   bgColor: 'bg-slate-800/60'
                 },
                 {
-                  icon: <FaCalendarAlt className="text-6xl text-indigo-300" />,
+                  icon: <FaCalendarAlt className="text-5xl text-indigo-300" />,
                   title: 'Festivals & Culture',
                   desc: 'Experience vibrant festivals and rich cultural heritage',
                   gradient: 'from-indigo-600 to-purple-600',
                   bgColor: 'bg-slate-800/60'
                 },
                 {
-                  icon: <FaHiking className="text-6xl text-emerald-300" />,
+                  icon: <FaHiking className="text-5xl text-emerald-300" />,
                   title: 'Adventure Activities',
                   desc: 'Trekking, wildlife safaris, and thrilling outdoor experiences',
                   gradient: 'from-emerald-600 to-cyan-600',
                   bgColor: 'bg-slate-800/60'
                 },
                 {
-                  icon: <FaLeaf className="text-6xl text-lime-300" />,
+                  icon: <FaLeaf className="text-5xl text-lime-300" />,
                   title: 'Eco-Friendly Travel',
                   desc: 'Sustainable tourism with minimal environmental impact',
                   gradient: 'from-lime-600 to-green-600',
                   bgColor: 'bg-slate-800/60'
                 },
                 {
-                  icon: <FaGem className="text-6xl text-amber-300" />,
+                  icon: <FaGem className="text-5xl text-amber-300" />,
                   title: 'Heritage Sites',
                   desc: 'UNESCO World Heritage sites and ancient monuments',
                   gradient: 'from-amber-600 to-yellow-600',
@@ -169,7 +169,7 @@ const LandingPage = () => {
               ].map((feature, index) => (
                 <motion.div
                   key={index}
-                  className={`relative ${feature.bgColor} rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-500 border border-slate-600/50 overflow-hidden group backdrop-blur-lg`}
+                  className={`relative ${feature.bgColor} rounded-2xl p-6 text-center hover:shadow-2xl transition-all duration-500 border border-slate-600/50 overflow-hidden group backdrop-blur-lg`}
                   variants={scaleIn}
                   whileHover={{ scale: 1.05, y: -5 }}
                 >
