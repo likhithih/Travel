@@ -124,11 +124,15 @@ This project is a comprehensive fullstack website for Travel Tourism, featuring 
 - **Purpose**: Administrative dashboard for managing the travel tourism website, including user management, content updates, and analytics.
 - **Structure**:
   - **src/App.jsx**: Main admin app component with routing and layout for admin features.
+  - **src/pages/Login.jsx**: Admin login page with form validation, axios integration, and error handling.
 - **Features** (assumed based on typical admin panels):
   - User management: View, edit, delete user accounts.
   - Content management: Update destinations, bookings, and site content.
   - Analytics: View site statistics and user activity.
   - Authentication: Separate admin login with elevated permissions.
+- **Backend Integration**: Connected to main backend with role-based access control. Admin users have role: 'admin' and can login via /admin-login endpoint.
+- **Default Admin Credentials**: Email: admin@example.com, Password: admin123 (created via script for testing).
+- **Separation**: Admin login is separate from regular user login to maintain security and proper access control.
 
 ## Current Status
 - Backend authentication system fully implemented with email/password and Google OAuth.

@@ -103,7 +103,7 @@ export const registerUser = async (req, res) => {
     }
 };
 
-// Login user
+// Login user (regular user login)
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -121,7 +121,7 @@ export const loginUser = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET , { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET , { expiresIn: '1h' });
 
         res.status(200).json({
             message: 'Login successful',
@@ -130,10 +130,52 @@ export const loginUser = async (req, res) => {
                 id: user._id,
                 username: user.username,
                 email: user.email,
+                role: user.role
             }
         });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ message: 'Server error during login' });
+    }
+};
+
+// Admin login
+export const adminLogin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Find user by email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid email or password' });
+        }
+
+        // Check password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ message: 'Invalid email or password' });
+        }
+
+        // Check if user is admin
+        if (user.role !== 'admin') {
+            return res.status(403).json({ message: 'Access denied. Admin privileges required.' });
+        }
+
+        // Generate JWT token
+        const token = jwt.sign({ userId: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET , { expiresIn: '1h' });
+
+        res.status(200).json({
+            message: 'Admin login successful',
+            token,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                role: user.role
+            }
+        });
+    } catch (error) {
+        console.error('Admin login error:', error);
+        res.status(500).json({ message: 'Server error during admin login' });
     }
 };
