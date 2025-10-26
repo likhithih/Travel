@@ -64,7 +64,7 @@ function Navbar() {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
+                <a href="Contact" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
                   <span>Contact Us</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                 </a>
