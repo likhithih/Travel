@@ -125,14 +125,25 @@ This project is a comprehensive fullstack website for Travel Tourism, featuring 
 - **Structure**:
   - **src/App.jsx**: Main admin app component with routing and layout for admin features.
   - **src/pages/Login.jsx**: Admin login page with form validation, axios integration, and error handling.
+  - **src/pages/Dashboard.jsx**: Main dashboard page with sidebar navigation and statistics cards.
+  - **src/pages/Users.jsx**: User management page for viewing and managing user accounts.
+  - **src/pages/Bookings.jsx**: Bookings management page for handling travel bookings.
+  - **src/pages/Destinations.jsx**: Destinations management page for managing travel destinations.
+  - **src/pages/AddDestination.jsx**: Page for adding new destinations to the system.
+  - **src/components/Sidebar.jsx**: Modern collapsible sidebar component with navigation menu and logout functionality.
 - **Features** (assumed based on typical admin panels):
   - User management: View, edit, delete user accounts.
   - Content management: Update destinations, bookings, and site content.
   - Analytics: View site statistics and user activity.
   - Authentication: Separate admin login with elevated permissions.
+- **UI Components**:
+  - **Sidebar**: Modern collapsible sidebar with icons, responsive design, mobile overlay, and smooth animations.
+  - **Dashboard**: Statistics cards showing users, bookings, destinations, and revenue; recent activity feed.
+  - **Navigation**: Menu items for Dashboard, Users, Destinations, Hotels, Bookings, Analytics, and Settings.
 - **Backend Integration**: Connected to main backend with role-based access control. Admin users have role: 'admin' and can login via /admin-login endpoint.
 - **Default Admin Credentials**: Email: admin@example.com, Password: admin123 (created via script for testing).
 - **Separation**: Admin login is separate from regular user login to maintain security and proper access control.
+- **Theme**: Uses default light theme only; theme toggle functionality has been removed for simplicity.
 
 ## Current Status
 - Backend authentication system fully implemented with email/password and Google OAuth.

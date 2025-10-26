@@ -28,7 +28,7 @@ export default function Login() {
       localStorage.setItem('adminToken', response.data.token);
       // Redirect to admin dashboard or handle navigation
       setTimeout(() => {
-        navigate('/mainpage'); // Assuming a dashboard route
+        navigate('/dashboard');
       }, 2000);
     } catch (error) {
       console.error('Login error:', error);
