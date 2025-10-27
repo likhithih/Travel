@@ -6,14 +6,14 @@ const Card = ({ cardsData }) => {
   const navigate = useNavigate();
 
   const handleExploreClick = (card) => {
-    navigate('/pre-booking', { state: { cardData: card } });
+    navigate('/package-details', { state: { cardData: card } });
   };
 
   return (
     <div>
 
       <div className="grid grid-cols-3 gap-4 p-4 mx-auto max-w-7xl">
-        {cardsData.map((card, index) => (
+        {cardsData && cardsData.map((card, index) => (
           <div
             key={index}
             className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100 max-w-xs mx-auto"
