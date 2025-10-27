@@ -122,7 +122,7 @@ const Bookings = () => {
                 <p className="text-gray-600 dark:text-gray-400">Manage travel bookings and reservations</p>
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
-                Total Revenue: <span className="font-semibold text-green-600">$9,600</span>
+                Total Revenue: <span className="font-semibold text-green-600">₹9,600</span>
               </div>
             </div>
           </div>
@@ -220,7 +220,7 @@ const Bookings = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
-                          <FaDollarSign className="text-green-500 mr-1" size={14} />
+                          <span className="text-green-500 mr-1">₹</span>
                           {booking.totalAmount.toLocaleString()}
                         </div>
                       </td>
@@ -288,7 +288,7 @@ const Bookings = () => {
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Payment & Status</h4>
                 <div className="space-y-2">
-                  <p><span className="font-medium">Total Amount:</span> ${selectedBooking.totalAmount.toLocaleString()}</p>
+                  <p><span className="font-medium">Total Amount:</span> ₹{selectedBooking.totalAmount.toLocaleString()}</p>
                   <p><span className="font-medium">Payment Status:</span>
                     <span className={`ml-2 px-2 py-1 text-xs rounded-full ${getPaymentStatusColor(selectedBooking.paymentStatus)}`}>
                       {selectedBooking.paymentStatus}

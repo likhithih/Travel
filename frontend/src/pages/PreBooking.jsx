@@ -27,7 +27,7 @@ const PreBooking = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100">
       {/* Hero Section with Image */}
       <div className="relative h-96 overflow-hidden">
         <img
@@ -35,10 +35,10 @@ const PreBooking = () => {
           alt={cardData.title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-8">
           <div className="text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">{cardData.title}</h1>
-            <p className="text-xl md:text-2xl">{cardData.location}</p>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">{cardData.title}</h1>
+            <p className="text-xl md:text-2xl drop-shadow-lg">{cardData.location}</p>
           </div>
         </div>
       </div>
@@ -122,12 +122,12 @@ const PreBooking = () => {
                 <div className="pt-4">
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 px-6 rounded-lg hover:from-green-600 hover:to-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 font-semibold text-lg shadow-lg"
+                    className="w-full bg-linear-to-r from-green-500 to-green-600 text-white py-4 px-6 rounded-lg hover:from-green-600 hover:to-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 font-semibold text-lg shadow-lg"
                   >
-                    Pay Now - {cardData.price}
+                    Book Now - {cardData.price}
                   </button>
                   <p className="text-xs text-gray-500 text-center mt-2">
-                    Secure payment powered by Stripe
+                    Secure payment powered by razorpay
                   </p>
                 </div>
               </form>

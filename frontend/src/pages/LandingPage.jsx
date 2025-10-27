@@ -6,7 +6,6 @@ import hampi from '../assets/Hampi-temple.jpg';
 import mysore from '../assets/Mysore-place.jpg';
 import kundamundi from '../assets/Kundamundi.jpg';
 import waterfall from '../assets/Waterfall.jpg';
-import Landing_Navbar from '../Compoents/Landing_Navbar';
 import { Link } from 'react-router-dom';
 import { FaArrowDown } from 'react-icons/fa';
 
@@ -34,7 +33,6 @@ const LandingPage = () => {
 
   return (
     <>
-      {/* <Landing_Navbar /> */}
       <div className="min-h-screen bg-linear-to-br from-indigo-900 via-purple-900 to-pink-900 text-white overflow-hidden">
         {/* Hero Section */}
         <motion.section

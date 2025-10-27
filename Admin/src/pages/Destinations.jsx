@@ -214,7 +214,7 @@ const Destinations = () => {
                       {destination.duration}
                     </div>
                     <div className="font-semibold text-green-600 dark:text-green-400">
-                      ${destination.price}
+                      ₹{destination.price}
                     </div>
                   </div>
 
@@ -282,7 +282,7 @@ const Destinations = () => {
                     <p><span className="font-medium">Category:</span> {selectedDestination.category}</p>
                     <p><span className="font-medium">Duration:</span> {selectedDestination.duration}</p>
                     <p><span className="font-medium">Rating:</span> {selectedDestination.rating} ⭐</p>
-                    <p><span className="font-medium">Price:</span> ${selectedDestination.price}</p>
+                    <p><span className="font-medium">Price:</span> ₹{selectedDestination.price}</p>
                     <p><span className="font-medium">Popular:</span> {selectedDestination.popular ? 'Yes' : 'No'}</p>
                   </div>
                 </div>

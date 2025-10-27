@@ -14,7 +14,6 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         trim: true
     },
-
     password: {
         type: String,
         required: function() { return !this.googleId; },
@@ -23,6 +22,10 @@ const userSchema = new mongoose.Schema({
     confirmPassword: {
         type: String,
         minlength: 6
+    },
+    phone: {
+        type: String,
+        trim: true
     },
     googleId: {
         type: String,
@@ -42,7 +45,11 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user'
     },
-
+    status: {
+        type: String,
+        enum: ['active', 'inactive'],
+        default: 'active'
+    },
     createdAt: {
         type: Date,
         default: Date.now
