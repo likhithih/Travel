@@ -46,10 +46,10 @@ function Navbar() {
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
+                <Link to={'/about'} className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10">
                   <span>About</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               </li>
               <li>
                 <Link to={'/destination'} className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10">
@@ -106,6 +106,11 @@ function Navbar() {
                 <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
                   Destination
                 </a>
+              </li>
+              <li>
+                <Link to={'/about'} className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
+                  About
+                </Link>
               </li>
               <li>
                 <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>

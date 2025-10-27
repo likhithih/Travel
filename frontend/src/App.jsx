@@ -10,6 +10,8 @@ import ProtectedRoute from "./Compoents/ProtectedRoute";
 import { Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import Destination from "./pages/Destination";
+import About from "./pages/About";
+import PackageDetails from "./pages/PackageDetails";
 
 function App() {
   return (
@@ -22,10 +24,12 @@ function App() {
 
         {/* Protected Routes */}
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/pre-booking" element={<PreBooking />} />
         <Route path="/destination" element={<Destination />} />
+        <Route path="/package-details" element={<PackageDetails />} />
       </Routes>
     </>
   );
