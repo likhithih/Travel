@@ -1,7 +1,9 @@
 // import { MapPin, Star } from "lucide-react";
 import { FiMapPin, FiStar } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const Card = () => {
+  const navigate = useNavigate();
   const cardsData = [
     {
       img: "https://images.unsplash.com/photo-1590766940554-634a7ed41450?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8a2FybmF0YWthfGVufDB8MHwwfHx8MA%3D%3D&auto=format&fit=crop&w=700&q=80",
@@ -65,6 +67,10 @@ const Card = () => {
     },
   ];
 
+  const handleExploreClick = (card) => {
+    navigate('/pre-booking', { state: { cardData: card } });
+  };
+
   return (
     <div>
       <h1 className="text-3xl font-bold text-center mt-5 mb-6 text-indigo-700">
@@ -121,12 +127,12 @@ const Card = () => {
                   </p>
                   <p className="text-xs text-gray-400">/ Per Person</p>
                 </div>
-                <a
-                  href="#"
+                <button
+                  onClick={() => handleExploreClick(card)}
                   className="text-blue-600 font-medium hover:text-blue-800 flex items-center gap-1"
                 >
                   EXPLORE MORE →
-                </a>
+                </button>
               </div>
             </div>
           </div>
