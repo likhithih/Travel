@@ -2,70 +2,8 @@
 import { FiMapPin, FiStar } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
-const Card = () => {
+const Card = ({ cardsData }) => {
   const navigate = useNavigate();
-  const cardsData = [
-    {
-      img: "https://images.unsplash.com/photo-1590766940554-634a7ed41450?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8a2FybmF0YWthfGVufDB8MHwwfHx8MA%3D%3D&auto=format&fit=crop&w=700&q=80",
-      location: "Karnataka, India",
-      title: "Every Life Matters",
-      desc: "We provide daily meals and run food drives to ensure child or elder in our community goes to bed.",
-      rating: "5.00",
-      reviews: "(334)",
-      duration: "3 Nights - 9 Days",
-      price: "₹589.00",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1595658658481-d53d3f999875?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=700&q=80",
-      location: "Mumbai, India",
-      title: "Urban Adventures",
-      desc: "Explore the vibrant city life with guided tours and cultural experiences.",
-      rating: "4.80",
-      reviews: "(256)",
-      duration: "5 Nights - 6 Days",
-      price: "₹450.00",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1642516864726-a243f416fc00?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGdvYXxlbnwwfDB8MHx8fDA%3D&auto=format&fit=crop&w=700&q=80",
-      location: "Goa, India",
-      title: "Beach Paradise",
-      desc: "Relax on pristine beaches and enjoy water sports in this tropical haven.",
-      rating: "4.90",
-      reviews: "(412)",
-      duration: "7 Nights - 8 Days",
-      price: "₹650.00",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8amFpcHVyfGVufDB8MHwwfHx8MA%3D%3D&auto=format&fit=crop&w=700&q=80",
-      location: "Jaipur, India",
-      title: "Royal Heritage",
-      desc: "Discover the palaces and forts of Rajasthan with expert historians.",
-      rating: "4.70",
-      reviews: "(198)",
-      duration: "6 Nights - 7 Days",
-      price: "₹520.00",
-    },
-    {
-      img: "https://plus.unsplash.com/premium_photo-1697729438401-fcb4ff66d9a8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8a2VyYWxhfGVufDB8MHwwfHx8MA%3D%3D&auto=format&fit=crop&w=700&q=80",
-      location: "Kerala, India",
-      title: "Backwater Bliss",
-      desc: "Cruise through serene backwaters and experience the lush greenery of Kerala.",
-      rating: "4.85",
-      reviews: "(289)",
-      duration: "6 Nights - 7 Days",
-      price: "₹580.00",
-    },
-    {
-      img: "https://plus.unsplash.com/premium_photo-1697729690458-2d64ca777c04?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aGltYWNoYWwlMjBwcmFkZXNofGVufDB8MHwwfHx8MA%3D%3D&auto=format&fit=crop&w=700&q=80",
-      location: "Himachal Pradesh, India",
-      title: "Mountain Escape",
-      desc: "Trek through the Himalayas and enjoy the fresh mountain air.",
-      rating: "4.75",
-      reviews: "(345)",
-      duration: "9 Nights - 10 Days",
-      price: "₹720.00",
-    },
-  ];
 
   const handleExploreClick = (card) => {
     navigate('/pre-booking', { state: { cardData: card } });
@@ -73,7 +11,7 @@ const Card = () => {
 
   return (
     <div>
-     
+
       <div className="grid grid-cols-3 gap-4 p-4 mx-auto max-w-7xl">
         {cardsData.map((card, index) => (
           <div
