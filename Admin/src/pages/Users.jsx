@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
+import { toast, ToastContainer } from 'react-toastify';
 import {
   FaSearch,
   FaEdit,
@@ -15,6 +16,8 @@ const Users = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
   const [filterStatus, setFilterStatus] = useState('all');
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -66,26 +69,34 @@ const Users = () => {
     setShowModal(true);
   };
 
-  const handleDeleteUser = async (userId) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      try {
-        const token = localStorage.getItem('adminToken');
-        const response = await fetch(`http://localhost:4000/admin/users/${userId}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
+  const handleDeleteUser = (user) => {
+    setUserToDelete(user);
+    setShowDeleteModal(true);
+  };
 
-        if (!response.ok) {
-          throw new Error('Failed to delete user');
+  const confirmDeleteUser = async () => {
+    if (!userToDelete) return;
+
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch(`http://localhost:4000/admin/users/${userToDelete.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
+      });
 
-        setUsers(users.filter(user => user.id !== userId));
-      } catch (err) {
-        alert('Error deleting user: ' + err.message);
+      if (!response.ok) {
+        throw new Error('Failed to delete user');
       }
+
+      setUsers(users.filter(user => user.id !== userToDelete.id));
+      setShowDeleteModal(false);
+      setUserToDelete(null);
+      toast.success('User deleted successfully');
+    } catch (err) {
+      toast.error('Error deleting user: ' + err.message);
     }
   };
 
@@ -114,7 +125,7 @@ const Users = () => {
           : user
       ));
     } catch (err) {
-      alert('Error updating user status: ' + err.message);
+      toast.error('Error updating user status: ' + err.message);
     }
   };
 
@@ -145,14 +156,14 @@ const Users = () => {
       setShowModal(false);
       setSelectedUser(null);
     } catch (err) {
-      alert('Error updating user: ' + err.message);
+      toast.error('Error updating user: ' + err.message);
     }
   };
 
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
       <Sidebar />
-
+      <ToastContainer />
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
@@ -233,7 +244,7 @@ const Users = () => {
                       <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                            <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                               {user.avatar}
                             </div>
                             <div className="ml-4">
@@ -248,8 +259,8 @@ const Users = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${user.status === 'active'
-                              ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-                              : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+                            : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
                             }`}>
                             {user.status}
                           </span>
@@ -272,15 +283,15 @@ const Users = () => {
                             <button
                               onClick={() => handleToggleStatus(user.id)}
                               className={`${user.status === 'active'
-                                  ? 'text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300'
-                                  : 'text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300'
+                                ? 'text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300'
+                                : 'text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300'
                                 }`}
                               title={user.status === 'active' ? 'Deactivate' : 'Activate'}
                             >
                               {user.status === 'active' ? <FaBan size={16} /> : <FaCheck size={16} />}
                             </button>
                             <button
-                              onClick={() => handleDeleteUser(user.id)}
+                              onClick={() => handleDeleteUser(user)}
                               className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                               title="Delete User"
                             >
@@ -352,6 +363,37 @@ const Users = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && userToDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md mx-4">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Confirm Delete</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Are you sure you want to delete user <strong>{userToDelete.name}</strong>? This action cannot be undone.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setUserToDelete(null);
+                }}
+                className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={confirmDeleteUser}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+              >
+                Delete User
+              </button>
+            </div>
           </div>
         </div>
       )}
