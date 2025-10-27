@@ -4,8 +4,8 @@ import Signup from "./pages/Signup";
 import LandingPage from "./pages/LandingPage";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
-import Booking from "./Compoents/Booking";
-import PreBooking from "./Compoents/PreBooking";
+import Booking from "./pages/Booking";
+import PreBooking from "./pages/PreBooking";
 import ProtectedRoute from "./Compoents/ProtectedRoute";
 import { Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,9 +23,9 @@ function App() {
         {/* Protected Routes */}
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
-        <Route path="/booking" element={<ProtectedRoute><Booking /></ProtectedRoute>} />
-        <Route path="/pre-booking" element={<ProtectedRoute><PreBooking /></ProtectedRoute>} />
-        <Route path="/destination" element={<ProtectedRoute><Destination /></ProtectedRoute>} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/pre-booking" element={<PreBooking />} />
+        <Route path="/destination" element={<Destination />} />
       </Routes>
     </>
   );
