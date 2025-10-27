@@ -124,10 +124,10 @@ const PreBooking = () => {
                     type="submit"
                     className="w-full bg-linear-to-r from-green-500 to-green-600 text-white py-4 px-6 rounded-lg hover:from-green-600 hover:to-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-105 font-semibold text-lg shadow-lg"
                   >
-                    Pay Now - {cardData.price}
+                    Book Now - {cardData.price}
                   </button>
                   <p className="text-xs text-gray-500 text-center mt-2">
-                    Secure payment powered by Stripe
+                    Secure payment powered by razorpay
                   </p>
                 </div>
               </form>
