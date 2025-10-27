@@ -41,13 +41,19 @@ function Navbar() {
             <ul className="flex items-center space-x-8">
               <li>
                 <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
-                  <span>Destination</span>
+                  <span>Home</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                 </a>
               </li>
               <li>
                 <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
-                  <span>Hotels</span>
+                  <span>About</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
+                  <span>Destinations</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                 </a>
               </li>
@@ -57,18 +63,12 @@ function Navbar() {
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                 </a>
               </li>
-              <li>
-                <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
-                  <span>Flights</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
-                </a>
-              </li>
-              <li>
+              {/* <li>
                 <a href="Contact" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
                   <span>Contact Us</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                 </a>
-              </li>
+              </li> */}
             </ul>
           </nav>
 

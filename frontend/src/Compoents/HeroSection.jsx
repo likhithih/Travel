@@ -60,7 +60,7 @@ function HeroSection() {
               <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-8xl text-white">
                KARNATAKA
               </h1>
-              <p className="max-w-2xl mb-6 font-bold text-pink-700 lg:mb-8 md:text-lg lg:text-4xl dark:text-gray-500">
+              <p className="max-w-2xl mb-6 font-bold text-pink-700 lg:mb-8 md:text-lg lg:text-4xl ">
                 One state,Many Worlds
               </p>
 

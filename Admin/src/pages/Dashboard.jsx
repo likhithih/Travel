@@ -34,7 +34,7 @@ const Dashboard = () => {
     },
     {
       title: 'Revenue',
-      value: '$45,678',
+      value: '₹45,678',
       icon: FaDollarSign,
       color: 'bg-yellow-500',
       change: '+15%'
