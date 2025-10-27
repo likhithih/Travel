@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa'; // For hamburger menu icons
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,10 +40,10 @@ function Navbar() {
           <nav className="hidden md:flex">
             <ul className="flex items-center space-x-8">
               <li>
-                <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
+                <Link to={'/home'} className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10">
                   <span>Home</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
@@ -52,16 +52,16 @@ function Navbar() {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
+                <Link to={'/destination'} className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10">
                   <span>Destinations</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/booking" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
+                <Link to={'/booking'} className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10">
                   <span>Booking</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               </li>
               {/* <li>
                 <a href="Contact" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">

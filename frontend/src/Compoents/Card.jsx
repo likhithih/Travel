@@ -73,9 +73,7 @@ const Card = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-center mt-5 mb-6 text-indigo-700">
-        Our Destination Packages
-      </h1>
+     
       <div className="grid grid-cols-3 gap-4 p-4 mx-auto max-w-7xl">
         {cardsData.map((card, index) => (
           <div

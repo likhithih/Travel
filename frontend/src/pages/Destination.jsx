@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Sidebar from '../Compoents/Sidebar'
 import Card from '../Compoents/Card'
 import { useTheme } from '../Compoents/ThemeContext';
+import Navbar from '../Compoents/Navbar';
 
 function Destination() {
   const [isHovered, setIsHovered] = useState(false);
@@ -97,13 +98,16 @@ function Destination() {
   });
 
   return (
+    <>
+    <Navbar/>
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
       <Sidebar isHovered={isHovered} setIsHovered={setIsHovered} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
-      <div className={`transition-all duration-500 ease-in-out ${isHovered ? 'ml-72' : 'ml-20'} p-8`}>
+      <div className={`transition-all duration-500 ease-in-out ${isHovered ? 'ml-72' : 'ml-20'} p-8 pt-20`}>
         <h1 className="text-4xl font-bold text-center mb-8 text-indigo-600">Explore Destinations</h1>
         <Card cardsData={filteredDestinations} />
       </div>
     </div>
+    </>
   )
 }
 
