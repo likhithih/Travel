@@ -3,7 +3,7 @@ import React from 'react'
 function Contact() {
   return (
     <div>
-      <section className="min-h-screen bg-linear-to-br from-blue-50 via-indigo-100 to-purple-100 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900">
+      <section className="min-h-screen bg-green-50 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900">
         <div className="py-8 lg:py-16 px-4 mx-auto max-w-3xl">
           <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">
             Contact Us

@@ -25,7 +25,7 @@ function HeroSection() {
   }, []);
 
   return (
-    <section className={`relative min-h-screen flex items-center justify-center overflow-hidden ${darkMode ? 'bg-black text-white' : ' text-black'}`}>
+    <section className={`relative min-h-screen flex items-center justify-center overflow-hidden ${darkMode ? 'bg-black text-white' : 'bg-green-50 text-black'}`}>
       {/* Backgrounds with smooth fade */}
       <AnimatePresence>
         <motion.div

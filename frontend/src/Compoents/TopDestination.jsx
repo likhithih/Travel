@@ -26,7 +26,7 @@ const features = [
 
 const TopDestination = () => {
   return (
-    <section className="bg-pink-100 dark:bg-gray-900 py-16 px-6 text-center relative overflow-hidden">
+    <section className="bg-green-50 dark:bg-gray-900 py-16 px-6 text-center relative overflow-hidden">
       <div className="max-w-5xl mx-auto">
         {/* Tag */}
         <div className="inline-block bg-white text-gray-900 dark:bg-gray-800 dark:text-white px-4 py-1 rounded-full shadow-sm mb-4 text-sm font-medium">

@@ -7,7 +7,7 @@ import { useTheme } from './ThemeContext';
 export default function BestAgency() {
   const { darkMode } = useTheme();
   return (
-    <section className={`${darkMode ? 'bg-gray-900' : 'bg-white'} py-16 px-6 md:px-20 lg:px-32 flex flex-col md:flex-row items-center justify-between gap-12`}>
+    <section className={`${darkMode ? 'bg-gray-900' : 'bg-green-50'} py-16 px-6 md:px-20 lg:px-32 flex flex-col md:flex-row items-center justify-between gap-12`}>
       {/* Left Content */}
       <div className="md:w-1/2 space-y-6">
         <h2 className={`text-4xl md:text-5xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>

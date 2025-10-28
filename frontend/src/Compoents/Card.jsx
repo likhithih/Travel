@@ -18,7 +18,7 @@ const Card = ({ cardsData = [] }) => {
         {cardsData && cardsData.map((card, index) => (
           <div
             key={index}
-            className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'} rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-xs mx-auto`}
+            className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-green-50 border-gray-100'} rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-xs mx-auto`}
           >
             {/* Image */}
             <img

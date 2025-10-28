@@ -119,7 +119,7 @@ const PackageDetails = () => {
   return (
     <>
       <Navbar />
-      <div className={`min-h-screen overflow-hidden mt-20 ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
+      <div className={`min-h-screen overflow-hidden mt-20 ${darkMode ? 'bg-gray-900 text-white' : 'bg-green-50 text-black'}`}>
         {/* Hero Section */}
         <motion.section
           className="relative py-20 px-4 text-center overflow-hidden"

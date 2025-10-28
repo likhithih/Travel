@@ -61,7 +61,7 @@ const About = () => {
   return (
     <>
       <Navbar />
-      <div className={`min-h-screen overflow-hidden mt-0 pt-15 ${darkMode ? 'bg-linear-to-br from-gray-900 via-slate-800 to-black text-white' : 'bg-linear-to-br from-gray-100 via-slate-200 to-white text-gray-900'}`}>
+      <div className={`min-h-screen overflow-hidden mt-0 pt-15 ${darkMode ? 'bg-linear-to-br from-gray-900 via-slate-800 to-black text-white' : 'bg-green-50 text-gray-900'}`}>
         {/* Hero Section */}
         <motion.section
           className="relative py-20 px-4 text-center overflow-hidden "

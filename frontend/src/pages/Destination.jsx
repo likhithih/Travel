@@ -99,7 +99,7 @@ function Destination() {
   return (
     <>
     <Navbar/>
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} `}>
+    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-green-50 text-gray-900'} `}>
       <Sidebar selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
       <div className="p-8 pt-20 ml-55 ">
         <h1 className="text-4xl font-bold text-center mb-8 text-indigo-600">Explore Destinations</h1>
