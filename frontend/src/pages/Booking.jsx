@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import HampiTemple from "../assets/Hampi-temple.jpg";
-import Kundamundi from "../assets/Kundamundi.jpg";
+import Flowers from "../assets/Bookings/Flowers.avif";
+import IdiDosha from "../assets/Bookings/Idi-dosha.jpg";
+import Meduwada from "../assets/Bookings/Meduwada.jpg";
 
 const BookingPage = ({ bookingData = {} }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const images = bookingData.images || [
-    "/Navbar-bg-logo.png",
-    HampiTemple,
-    Kundamundi,
-
+    Flowers,
+    IdiDosha,
+    Meduwada,
   ];
 
   const parseDays = (duration) => {
@@ -50,35 +50,18 @@ const BookingPage = ({ bookingData = {} }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
-      {/* Top Section */}
-      <div
-        className="relative text-center py-24 bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 text-white overflow-hidden"
-        style={{
-          backgroundImage: `url(${HampiTemple})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundBlendMode: 'overlay'
-        }}
-      >
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="relative z-10">
-          <h1 className="text-6xl font-extrabold mb-6 drop-shadow-2xl tracking-wider animate-fade-in">
-            Booking
-          </h1>
-          <p className="text-2xl italic drop-shadow-xl font-light animate-slide-up">
-            "Your adventure starts here"
-          </p>
-          <div className="mt-8 flex justify-center">
-            <div className="w-24 h-1 bg-white rounded-full animate-pulse"></div>
-          </div>
-        </div>
+    <div className="flex flex-col min-h-screen">
+      {/* Top Hero Section */}
+      <div className="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-600 text-white py-24 text-center relative overflow-hidden">
+        <h1 className="text-6xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">Booking</h1>
+        <p className="text-2xl italic mb-4 drop-shadow animate-slide-up">"Your adventure starts here"</p>
+        <div className="w-24 h-1 mx-auto bg-white rounded-full animate-pulse"></div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 py-12 grid md:grid-cols-2 gap-12 items-center">
+      <div className="flex flex-col md:flex-row flex-1">
         {/* Left Column - Image Carousel */}
-        <div className="relative w-full h-96 rounded-3xl overflow-hidden shadow-2xl transform transition-transform duration-500 hover:scale-105">
+        <div className="w-full md:w-1/2 relative overflow-hidden">
           {images.map((img, idx) => (
             <img
               key={idx}
@@ -89,96 +72,136 @@ const BookingPage = ({ bookingData = {} }) => {
               }`}
             />
           ))}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30"></div>
         </div>
 
         {/* Right Column - Booking Form */}
-        <div className="bg-white rounded-3xl shadow-2xl p-10 relative overflow-hidden transform transition-all duration-300 hover:scale-105">
-          <div className="absolute -top-20 -right-20 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-          <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+        <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 bg-white animate-slide-in-right">
+          <form className="md:w-96 w-80 flex flex-col space-y-6">
+            <h2 className="text-4xl font-bold text-gray-900 text-center">Complete Booking</h2>
+            <p className="text-sm text-gray-500 text-center">Fill in your details to confirm your trip</p>
 
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center relative z-10">Complete Your Booking</h2>
-
-          <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
-            {/* Username */}
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              placeholder="Your Name"
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
-            />
+            {/* Name */}
+            <div className="flex flex-col">
+              <label className="text-gray-600 mb-1">Name</label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Your Name"
+                required
+                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition-all duration-300"
+              />
+            </div>
 
             {/* Email */}
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Your Email"
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
-            />
+            <div className="flex flex-col">
+              <label className="text-gray-600 mb-1">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Your Email"
+                required
+                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition-all duration-300"
+              />
+            </div>
 
             {/* Booking Date */}
-            <input
-              type="date"
-              name="bookingDate"
-              value={formData.bookingDate}
-              onChange={handleChange}
-              required
-              min={new Date().toISOString().split("T")[0]}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
-            />
+            <div className="flex flex-col">
+              <label className="text-gray-600 mb-1">Choose Date of Booking</label>
+              <input
+                type="date"
+                name="bookingDate"
+                value={formData.bookingDate}
+                onChange={handleChange}
+                min={new Date().toISOString().split("T")[0]}
+                required
+                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition-all duration-300"
+              />
+            </div>
 
             {/* Number of Persons */}
-            <input
-              type="number"
-              name="persons"
-              value={formData.persons}
-              onChange={handleChange}
-              min="1"
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
-            />
+            <div className="flex flex-col">
+              <label className="text-gray-600 mb-1">Number of Persons</label>
+              <input
+                type="number"
+                name="persons"
+                value={formData.persons}
+                onChange={handleChange}
+                min="1"
+                required
+                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition-all duration-300"
+              />
+            </div>
 
-            {/* Package Dropdown */}
-            <select
-              name="packageType"
-              value={formData.packageType}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 bg-gray-50 hover:bg-white"
-            >
-              <option value="Standard">Standard</option>
-              <option value="Premium">Premium</option>
-              <option value="Luxury">Luxury</option>
-            </select>
+            {/* Package Type */}
+            <div className="flex flex-col">
+              <label className="text-gray-600 mb-1">Package Type</label>
+              <select
+                name="packageType"
+                value={formData.packageType}
+                onChange={handleChange}
+                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition-all duration-300"
+              >
+                <option value="Standard">Standard</option>
+                <option value="Premium">Premium</option>
+                <option value="Luxury">Luxury</option>
+              </select>
+            </div>
 
-            {/* Destination (readonly) */}
-            <input
-              type="text"
-              name="destination"
-              value={formData.destination}
-              disabled
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-100 text-gray-500 cursor-not-allowed"
-            />
+            {/* Destination */}
+            <div className="flex flex-col">
+              <label className="text-gray-600 mb-1">Destination</label>
+              <input
+                type="text"
+                name="destination"
+                value={formData.destination}
+                disabled
+                className="w-full h-12 px-4 rounded-xl border border-gray-200 bg-gray-100 text-gray-500 cursor-not-allowed"
+              />
+            </div>
 
             {/* Total Price */}
-            <div className="bg-gradient-to-r from-purple-200 via-blue-200 to-indigo-200 p-4 rounded-xl text-center font-semibold text-blue-800 shadow-inner">
-              Total Price: <span className="text-2xl">₹{totalPrice}</span>
+            <div className="w-full bg-indigo-100 text-indigo-800 p-3 rounded-xl text-center font-semibold">
+              Total Price: ₹{totalPrice}
             </div>
 
             {/* Submit */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-600 text-white py-3 px-4 rounded-xl hover:from-purple-600 hover:to-indigo-700 focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 transition-all duration-300 transform hover:scale-105 font-semibold text-lg shadow-lg"
+              className="w-full h-12 rounded-xl bg-indigo-500 text-white font-semibold hover:bg-indigo-600 transition-colors"
             >
               Book Now
             </button>
           </form>
         </div>
       </div>
+
+      {/* Tailwind custom animations */}
+      <style>
+        {`
+          @keyframes slide-in-right {
+            0% { transform: translateX(100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+          }
+          .animate-slide-in-right {
+            animation: slide-in-right 0.7s ease-out forwards;
+          }
+          @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          .animate-fade-in { animation: fade-in 1s ease-out forwards; }
+          @keyframes slide-up {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+          }
+          .animate-slide-up { animation: slide-up 1s ease-out forwards; }
+        `}
+      </style>
     </div>
   );
 };
