@@ -5,6 +5,7 @@ import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUtensils, FaCamera, FaBed, Fa
 import { useTheme } from '../Compoents/ThemeContext';
 import Navbar from '../Compoents/Navbar';
 import Footer from '../Compoents/Footer';
+import ImagesBar from '../Compoents/ImagesBar';
 import hampi from '../assets/Hampi-temple.jpg';
 import mysore from '../assets/Mysore-place.jpg';
 import kundamundi from '../assets/Kundamundi.jpg';
@@ -197,6 +198,19 @@ const PackageDetails = () => {
                 </div>
               </motion.div>
             </motion.div>
+          </div>
+        </motion.section>
+
+        {/* Images Bar Section */}
+        <motion.section
+          className={`pt-20  px-4 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+        >
+          <div className="max-w-6xl mx-auto">
+            <ImagesBar darkMode={darkMode} />
           </div>
         </motion.section>
 

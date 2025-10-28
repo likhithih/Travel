@@ -35,7 +35,7 @@ function Navbar() {
 
   return (
     <div>
-      <header className={`${isScrolled ? 'bg-black/80 backdrop-blur-md shadow-lg' : darkMode ? 'bg-gray-900/80 backdrop-blur-md' : 'bg-white/0'} ${darkMode ? 'text-white' : 'text-black'} fixed top-0 left-0 right-0 z-50 transition-all duration-300`}>
+      <header className={`${isScrolled ? (darkMode ? 'bg-black/80 backdrop-blur-md shadow-lg' : 'bg-white/80 backdrop-blur-md shadow-lg') : darkMode ? 'bg-gray-900/80 backdrop-blur-md' : 'bg-white'} ${darkMode ? 'text-white' : 'text-black'} fixed top-0 left-0 right-0 z-50 transition-all duration-300`}>
         <div className="container mx-auto flex items-center justify-between h-20 px-4">
           {/* Logo */}
           <a href="#" className="flex items-center space-x-3">
@@ -74,19 +74,14 @@ function Navbar() {
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
-              {/* <li>
-                <a href="Contact" className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'} hover:text-lime-400 transition-colors duration-300 relative group`}>
-                  <span>Contact Us</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
-                </a>
-              </li> */}
+             
             </ul>
           </nav>
 
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="hidden md:block text-white text-2xl focus:outline-none mr-4"
+            className="hidden md:block text-yellow-400 text-2xl focus:outline-none mr-4"
             aria-label="Toggle theme"
           >
             {darkMode ? <FaSun /> : <FaMoon  />}
@@ -142,16 +137,7 @@ function Navbar() {
                   Booking
                 </Link>
               </li>
-              <li>
-                <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
-                  Flights
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
-                  Contact Us
-                </a>
-              </li>
+              
               <li>
                 <button
                   onClick={() => {
