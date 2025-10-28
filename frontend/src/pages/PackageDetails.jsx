@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUtensils, FaCamera, FaBed, FaPlane, FaCheck, FaTimes,FaGem } from 'react-icons/fa';
+import { useTheme } from '../Compoents/ThemeContext';
 import Navbar from '../Compoents/Navbar';
 import Footer from '../Compoents/Footer';
 import hampi from '../assets/Hampi-temple.jpg';
@@ -11,6 +12,7 @@ import waterfall from '../assets/Waterfall.jpg';
 
 const PackageDetails = () => {
   const navigate = useNavigate();
+  const { darkMode } = useTheme();
 
   // Animation variants
   const fadeInUp = {
@@ -114,7 +116,7 @@ const PackageDetails = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-white text-black overflow-hidden mt-20">
+      <div className={`min-h-screen overflow-hidden mt-20 ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
         {/* Hero Section */}
         <motion.section
           className="relative py-20 px-4 text-center overflow-hidden"
@@ -130,13 +132,13 @@ const PackageDetails = () => {
               Karnataka Heritage Tour
             </motion.h1>
             <motion.p
-              className="text-xl md:text-2xl mb-8 text-gray-700"
+              className={`text-xl md:text-2xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
               variants={fadeInUp}
             >
               7 Days | 6 Nights | Explore Ancient Wonders & Royal Heritage
             </motion.p>
             <motion.div
-              className="flex justify-center space-x-8 text-gray-700"
+              className={`flex justify-center space-x-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
               variants={fadeInUp}
             >
               <div className="flex items-center">
@@ -157,7 +159,7 @@ const PackageDetails = () => {
 
         {/* Overview Section */}
         <motion.section
-          className="py-20 px-4 bg-gray-50"
+          className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-gray-50'}`}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -165,7 +167,7 @@ const PackageDetails = () => {
         >
           <div className="max-w-6xl mx-auto">
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-16 text-black"
+              className={`text-4xl md:text-5xl font-bold text-center mb-16 ${darkMode ? 'text-white' : 'text-black'}`}
               variants={fadeInUp}
             >
               Tour Overview
@@ -175,10 +177,10 @@ const PackageDetails = () => {
               variants={fadeInUp}
             >
               <div>
-                <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                <p className={`text-lg leading-relaxed mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Embark on a captivating journey through Karnataka's rich heritage. From the ancient ruins of Hampi to the royal palaces of Mysore and the misty hills of Coorg, this 7-day tour offers an immersive experience of South India's cultural treasures.
                 </p>
-                <p className="text-lg text-gray-700 leading-relaxed">
+                <p className={`text-lg leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Discover UNESCO World Heritage sites, savor authentic cuisine, and create unforgettable memories in one of India's most diverse states.
                 </p>
               </div>
@@ -186,10 +188,10 @@ const PackageDetails = () => {
                 className="relative"
                 variants={scaleIn}
               >
-                <div className="bg-blue-100 rounded-2xl p-8 text-center shadow-2xl">
-                  <FaGem className="text-6xl text-black mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold text-black mb-2">Heritage & Culture</h3>
-                  <p className="text-gray-600">Immerse yourself in Karnataka's ancient history</p>
+                <div className={`rounded-2xl p-8 text-center shadow-2xl ${darkMode ? 'bg-gray-700' : 'bg-blue-100'}`}>
+                  <FaGem className={`text-6xl mx-auto mb-4 ${darkMode ? 'text-white' : 'text-black'}`} />
+                  <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-black'}`}>Heritage & Culture</h3>
+                  <p className={`text-gray-600 ${darkMode ? 'text-gray-300' : ''}`}>Immerse yourself in Karnataka's ancient history</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -198,7 +200,7 @@ const PackageDetails = () => {
 
         {/* Itinerary Section */}
         <motion.section
-          className="py-20 px-4 bg-white"
+          className={`py-20 px-4 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -206,7 +208,7 @@ const PackageDetails = () => {
         >
           <div className="max-w-6xl mx-auto">
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-16 text-black"
+              className={`text-4xl md:text-5xl font-bold text-center mb-16 ${darkMode ? 'text-white' : 'text-black'}`}
               variants={fadeInUp}
             >
               Detailed Itinerary
@@ -215,21 +217,21 @@ const PackageDetails = () => {
               {itinerary.map((day, index) => (
                 <motion.div
                   key={index}
-                  className="bg-gray-100 rounded-2xl p-8 backdrop-blur-lg border border-gray-300"
+                  className={`rounded-2xl p-8 backdrop-blur-lg border ${darkMode ? 'bg-gray-800 border-gray-600' : 'bg-gray-100 border-gray-300'}`}
                   variants={fadeInUp}
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                     <h3 className="text-2xl font-bold text-blue-600 mb-2 md:mb-0">Day {day.day}: {day.title}</h3>
-                    <div className="flex space-x-4 text-sm text-gray-700">
+                    <div className={`flex space-x-4 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                       <span className="flex items-center"><FaUtensils className="mr-1" /> {day.meals}</span>
                       <span className="flex items-center"><FaBed className="mr-1" /> {day.accommodation}</span>
                     </div>
                   </div>
-                  <p className="text-gray-700 mb-4">{day.description}</p>
+                  <p className={`mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{day.description}</p>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <h4 className="font-semibold text-black mb-2">Activities:</h4>
-                      <ul className="text-gray-700 text-sm space-y-1">
+                      <h4 className={`font-semibold mb-2 ${darkMode ? 'text-white' : 'text-black'}`}>Activities:</h4>
+                      <ul className={`text-sm space-y-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         {day.activities.map((activity, i) => (
                           <li key={i} className="flex items-center">
                             <FaCheck className="text-green-400 mr-2 text-xs" />
@@ -247,7 +249,7 @@ const PackageDetails = () => {
 
         {/* Inclusions & Exclusions */}
         <motion.section
-          className="py-20 px-4 bg-gray-50"
+          className={`py-20 px-4 ${darkMode ? 'bg-gray-800' : 'bg-gray-50'}`}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -255,14 +257,14 @@ const PackageDetails = () => {
         >
           <div className="max-w-6xl mx-auto">
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-16 text-black"
+              className={`text-4xl md:text-5xl font-bold text-center mb-16 ${darkMode ? 'text-white' : 'text-black'}`}
               variants={fadeInUp}
             >
               Package Details
             </motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <motion.div
-                className="bg-gray-100 rounded-2xl p-8 backdrop-blur-lg border border-gray-300"
+                className={`rounded-2xl p-8 backdrop-blur-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gray-100 border-gray-300'}`}
                 variants={fadeInUp}
               >
                 <h3 className="text-3xl font-bold text-green-400 mb-6 flex items-center">
@@ -271,15 +273,15 @@ const PackageDetails = () => {
                 </h3>
                 <ul className="space-y-3">
                   {inclusions.map((item, index) => (
-                    <li key={index} className="flex items-start text-gray-700">
-                      <FaCheck className="text-green-400 mr-3 mt-1 shrink-0" />
+                    <li key={index} className={`flex items-start ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <FaCheck className="text-green-400 mr-3 mt-1 flex-shrink-0" />
                       {item}
                     </li>
                   ))}
                 </ul>
               </motion.div>
               <motion.div
-                className="bg-gray-100 rounded-2xl p-8 backdrop-blur-lg border border-gray-300"
+                className={`rounded-2xl p-8 backdrop-blur-lg border ${darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gray-100 border-gray-300'}`}
                 variants={fadeInUp}
               >
                 <h3 className="text-3xl font-bold text-red-400 mb-6 flex items-center">
@@ -288,8 +290,8 @@ const PackageDetails = () => {
                 </h3>
                 <ul className="space-y-3">
                   {exclusions.map((item, index) => (
-                    <li key={index} className="flex items-start text-gray-700">
-                      <FaTimes className="text-red-400 mr-3 mt-1 shrink-0" />
+                    <li key={index} className={`flex items-start ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <FaTimes className="text-red-400 mr-3 mt-1 flex-shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -301,7 +303,7 @@ const PackageDetails = () => {
 
         {/* Call to Action */}
         <motion.section
-          className="py-20 px-4 text-center bg-gray-100"
+          className={`py-20 px-4 text-center ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -315,7 +317,7 @@ const PackageDetails = () => {
               Ready to Book Your Adventure?
             </motion.h2>
             <motion.p
-              className="text-xl mb-8 text-gray-700"
+              className={`text-xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
               variants={fadeInUp}
             >
               Secure your spot for this unforgettable journey through Karnataka's heritage.

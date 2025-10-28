@@ -9,10 +9,13 @@ import { AiOutlineMail } from 'react-icons/ai';
 import { FiMapPin } from 'react-icons/fi';
 import { IoLogoGooglePlaystore } from 'react-icons/io5';
 import { FaAppStore } from 'react-icons/fa';
+import { useTheme } from './ThemeContext';
 
 export default function Footer() {
+  const { darkMode } = useTheme();
+
   return (
-    <footer className=" bg-violet-900 pt-9">
+    <footer className={`${darkMode ? 'bg-gray-900' : 'bg-violet-900'} pt-9`}>
       <div className="mx-auto w-full max-w-[1166px] px-4 xl:px-0">
         <div className="flex flex-col justify-between sm:px-[18px] md:flex-row md:px-10">
           {/* LEFT SECTION */}

@@ -35,7 +35,7 @@ function Navbar() {
 
   return (
     <div>
-      <header className={`${isScrolled ? 'bg-black/80 backdrop-blur-md shadow-lg' : 'bg-white/0'} text-white fixed top-0 left-0 right-0 z-50 transition-all duration-300`}>
+      <header className={`${isScrolled ? 'bg-black/80 backdrop-blur-md shadow-lg' : darkMode ? 'bg-gray-900/80 backdrop-blur-md' : 'bg-white/0'} ${darkMode ? 'text-white' : 'text-black'} fixed top-0 left-0 right-0 z-50 transition-all duration-300`}>
         <div className="container mx-auto flex items-center justify-between h-20 px-4">
           {/* Logo */}
           <a href="#" className="flex items-center space-x-3">
@@ -51,31 +51,31 @@ function Navbar() {
           <nav className="hidden md:flex">
             <ul className="flex items-center space-x-8">
               <li>
-                <Link to={'/home'} className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10">
+                <Link to={'/home'} className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'} hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}>
                   <span>Home</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
               <li>
-                <Link to={'/about'} className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10">
+                <Link to={'/about'} className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'} hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}>
                   <span>About</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
               <li>
-                <Link to={'/destination'} className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10">
+                <Link to={'/destination'} className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'} hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}>
                   <span>Destinations</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
               <li>
-                <Link to={'/booking'} className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10">
+                <Link to={'/booking'} className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'} hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}>
                   <span>Booking</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
               {/* <li>
-                <a href="Contact" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300 relative group">
+                <a href="Contact" className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'} hover:text-lime-400 transition-colors duration-300 relative group`}>
                   <span>Contact Us</span>
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                 </a>
