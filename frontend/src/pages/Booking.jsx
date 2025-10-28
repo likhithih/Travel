@@ -2,14 +2,11 @@ import React, { useState, useEffect } from "react";
 import Flowers from "../assets/Bookings/Flowers.avif";
 import IdiDosha from "../assets/Bookings/Idi-dosha.jpg";
 import Meduwada from "../assets/Bookings/Meduwada.jpg";
+import bookingImg from "../assets/Bookings/booking-img.jpg";
 
 const BookingPage = ({ bookingData = {} }) => {
   const [currentImage, setCurrentImage] = useState(0);
-  const images = bookingData.images || [
-    Flowers,
-    IdiDosha,
-    Meduwada,
-  ];
+  const images = bookingData.images || [Flowers, IdiDosha, Meduwada];
 
   const parseDays = (duration) => {
     const match = duration.match(/(\d+)\s*Days?/i);
@@ -41,7 +38,8 @@ const BookingPage = ({ bookingData = {} }) => {
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,12 +48,27 @@ const BookingPage = ({ bookingData = {} }) => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       {/* Top Hero Section */}
-      <div className="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-600 text-white py-24 text-center relative overflow-hidden">
-        <h1 className="text-6xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">Booking</h1>
-        <p className="text-2xl italic mb-4 drop-shadow animate-slide-up">"Your adventure starts here"</p>
-        <div className="w-24 h-1 mx-auto bg-white rounded-full animate-pulse"></div>
+      <div
+        className="w-full text-white py-24 text-center relative overflow-hidden"
+        style={{
+          backgroundImage: `url(${bookingImg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 opacity-80"></div>
+        <div className="relative z-10 h-80 flex flex-col justify-center">
+          <h1 className="text-6xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">
+            Booking
+          </h1>
+          <p className="text-2xl italic mb-4 drop-shadow animate-slide-up">
+            "Your adventure starts here"
+          </p>
+          <div className="w-24 h-1 mx-auto bg-white rounded-full animate-pulse"></div>
+        </div>
       </div>
 
       {/* Main Content */}
@@ -76,10 +89,18 @@ const BookingPage = ({ bookingData = {} }) => {
         </div>
 
         {/* Right Column - Booking Form */}
-        <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 bg-white animate-slide-in-right">
-          <form className="md:w-96 w-80 flex flex-col space-y-6">
-            <h2 className="text-4xl font-bold text-gray-900 text-center">Complete Booking</h2>
-            <p className="text-sm text-gray-500 text-center">Fill in your details to confirm your trip</p>
+        <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 relative">
+          {/* Floating gradient blobs */}
+          <div className="absolute -top-16 -right-16 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+          <div className="absolute -bottom-16 -left-16 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+
+          <form className="md:w-96 w-80 flex flex-col space-y-6 bg-white p-8 rounded-3xl shadow-2xl relative z-10">
+            <h2 className="text-4xl font-bold text-gray-900 text-center">
+              Complete Booking
+            </h2>
+            <p className="text-sm text-gray-500 text-center">
+              Fill in your details to confirm your trip
+            </p>
 
             {/* Name */}
             <div className="flex flex-col">
@@ -91,7 +112,7 @@ const BookingPage = ({ bookingData = {} }) => {
                 onChange={handleChange}
                 placeholder="Your Name"
                 required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition-all duration-300"
+                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
               />
             </div>
 
@@ -105,13 +126,15 @@ const BookingPage = ({ bookingData = {} }) => {
                 onChange={handleChange}
                 placeholder="Your Email"
                 required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition-all duration-300"
+                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
               />
             </div>
 
             {/* Booking Date */}
             <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">Choose Date of Booking</label>
+              <label className="text-gray-600 mb-1">
+                Choose Date of Booking
+              </label>
               <input
                 type="date"
                 name="bookingDate"
@@ -119,7 +142,7 @@ const BookingPage = ({ bookingData = {} }) => {
                 onChange={handleChange}
                 min={new Date().toISOString().split("T")[0]}
                 required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition-all duration-300"
+                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
               />
             </div>
 
@@ -133,7 +156,7 @@ const BookingPage = ({ bookingData = {} }) => {
                 onChange={handleChange}
                 min="1"
                 required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition-all duration-300"
+                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
               />
             </div>
 
@@ -144,7 +167,7 @@ const BookingPage = ({ bookingData = {} }) => {
                 name="packageType"
                 value={formData.packageType}
                 onChange={handleChange}
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none transition-all duration-300"
+                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
               >
                 <option value="Standard">Standard</option>
                 <option value="Premium">Premium</option>
@@ -165,14 +188,14 @@ const BookingPage = ({ bookingData = {} }) => {
             </div>
 
             {/* Total Price */}
-            <div className="w-full bg-indigo-100 text-indigo-800 p-3 rounded-xl text-center font-semibold">
+            <div className="w-full bg-gradient-to-r from-purple-200 via-pink-200 to-indigo-200 p-3 rounded-xl text-center font-semibold text-purple-800 shadow-inner">
               Total Price: ₹{totalPrice}
             </div>
 
             {/* Submit */}
             <button
               type="submit"
-              className="w-full h-12 rounded-xl bg-indigo-500 text-white font-semibold hover:bg-indigo-600 transition-colors"
+              className="w-full h-12 rounded-xl bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-600 text-white font-semibold hover:opacity-90 transition-all"
             >
               Book Now
             </button>
@@ -187,19 +210,16 @@ const BookingPage = ({ bookingData = {} }) => {
             0% { transform: translateX(100%); opacity: 0; }
             100% { transform: translateX(0); opacity: 1; }
           }
-          .animate-slide-in-right {
-            animation: slide-in-right 0.7s ease-out forwards;
-          }
-          @keyframes fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
+          .animate-slide-in-right { animation: slide-in-right 0.7s ease-out forwards; }
+
+          @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
           .animate-fade-in { animation: fade-in 1s ease-out forwards; }
-          @keyframes slide-up {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-          }
+
+          @keyframes slide-up { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
           .animate-slide-up { animation: slide-up 1s ease-out forwards; }
+
+          @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+          .animate-pulse { animation: pulse 2s infinite; }
         `}
       </style>
     </div>
