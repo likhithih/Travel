@@ -65,17 +65,17 @@ export default function BestAgency() {
       {/* Right Images */}
       <div className="md:w-1/2 grid grid-cols-2 gap-4">
         <img
-          src="https://images.unsplash.com/photo-1719165626162-80c5e4135de0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGFyYWdsaWRpbmd8ZW58MHwyfDB8fHww&auto=format&fit=crop&q=60&w=600"
+          src="/Images/Bird.avif"
           alt="Sky adventure"
           className="rounded-2xl shadow-lg w-full h-[200px] object-cover"
         />
         <img
-          src="https://images.unsplash.com/photo-1655802697525-284372199d95?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8c2thdGluZ3xlbnwwfDJ8MHx8fDA%3D&auto=format&fit=crop&q=60&w=600"
+          src="/Images/Temple.avif"
           alt="Skating"
           className="rounded-2xl shadow-lg w-full h-[200px] object-cover"
         />
         <img
-          src="https://images.unsplash.com/photo-1520255870062-bd79d3865de7?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Ym9hdGluZ3xlbnwwfDB8MHx8fDA%3D&auto=format&fit=crop&q=60&w=600"
+          src="/Images/Boating.avif"
           alt="Boating"
           className="rounded-2xl shadow-lg w-full h-[200px] object-cover col-span-2"
         />
