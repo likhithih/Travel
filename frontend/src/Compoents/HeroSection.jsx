@@ -40,7 +40,7 @@ function HeroSection() {
       </AnimatePresence>
 
       {/* Overlay */}
-      <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-black/70 via-black/40 to-black/90' : 'bg-gradient-to-b  via-white/40 '} backdrop-blur-[1px]`}></div>
+      <div className={`absolute inset-0 ${darkMode ? 'bg-linear-to-b from-black/70 via-black/40 to-black/90' : 'bg-linear-to-b  via-white/40 '} backdrop-blur-[1px]`}></div>
 
       {/* Floating glows */}
       <div className="absolute top-10 left-10 w-96 h-96 bg-pink-500/10 blur-[120px] rounded-full animate-pulse"></div>
@@ -55,7 +55,7 @@ function HeroSection() {
           transition={{ duration: 1.3, ease: "easeOut" }}
         >
           Discover{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-pink-500">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-pink-500">
             Karnataka
           </span>
         </motion.h1>
@@ -70,7 +70,7 @@ function HeroSection() {
         </motion.p>
 
         <motion.div
-          className="mx-auto mt-8 w-32 h-1 bg-gradient-to-r from-pink-500 to-blue-600 rounded-full"
+          className="mx-auto mt-8 w-32 h-1 bg-linear-to-r from-pink-500 to-blue-600 rounded-full"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ delay: 1, duration: 1 }}
@@ -86,7 +86,7 @@ function HeroSection() {
           <motion.a
             href="#"
             whileHover={{ scale: 1.1, boxShadow: "0px 0px 20px rgba(0,0,255,0.5)" }}
-            className="px-8 py-3 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold flex items-center gap-2 shadow-md hover:shadow-cyan-400/50 transition-all"
+            className="px-8 py-3 rounded-full bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold flex items-center gap-2 shadow-md hover:shadow-cyan-400/50 transition-all"
           >
             Explore Now <FaArrowRight />
           </motion.a>
@@ -108,7 +108,7 @@ function HeroSection() {
         transition={{ duration: 2, repeat: Infinity }}
       >
         <span className="opacity-80">Scroll Down</span>
-        <div className={`w-[2px] h-8 bg-gradient-to-b rounded-full ${darkMode ? 'from-white/60 to-transparent' : 'from-black/60 to-transparent'}`}></div>
+        <div className={`w-0.5 h-8 bg-linear-to-b rounded-full ${darkMode ? 'from-white/60 to-transparent' : 'from-black/60 to-transparent'}`}></div>
       </motion.div>
     </section>
   );

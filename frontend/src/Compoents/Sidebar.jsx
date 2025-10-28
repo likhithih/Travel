@@ -30,15 +30,15 @@
       <div
         className={`fixed left-0 top-16 h-svh ${
           darkMode
-            ? 'bg-gradient-to-b from-slate-900 via-gray-800 to-slate-900 border-r border-slate-700'
-            : 'bg-gradient-to-b from-white via-gray-50 to-white border-r border-gray-200'
+            ? 'bg-linear-to-b from-slate-900 via-gray-800 to-slate-900 border-r border-slate-700'
+            : 'bg-linear-to-b from-white via-gray-50 to-white border-r border-gray-200'
         } p-6 shadow-2xl transition-all duration-500 ease-in-out overflow-y-auto backdrop-blur-sm w-72`}
       >
         {/* Sidebar Header */}
         <div className="mb-8 text-center">
           <div
             className={`inline-flex items-center justify-center w-12 h-12 rounded-full ${
-              darkMode ? 'bg-gradient-to-br from-indigo-600 to-purple-600' : 'bg-gradient-to-br from-indigo-500 to-blue-500'
+              darkMode ? 'bg-linear-to-br from-indigo-600 to-purple-600' : 'bg-linear-to-br from-indigo-500 to-blue-500'
             } shadow-lg mb-3`}
           >
             <span className="text-xl">🎯</span>
@@ -66,18 +66,18 @@
                 onClick={() => handleMainClick(category)}
                 className={`group w-full px-5 py-4 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-between relative overflow-hidden ${
                   selectedFilters.category === category.name || (category.name !== "All" && selectedFilters[category.name.toLowerCase()])
-                    ? `bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-2xl ring-2 ring-indigo-300`
+                    ? `bg-linear-to-r from-indigo-500 to-purple-600 text-white shadow-2xl ring-2 ring-indigo-300`
                     : `${
                         darkMode
-                          ? 'bg-gradient-to-r from-gray-700 to-gray-800 text-gray-300 hover:from-gray-600 hover:to-gray-700 hover:text-white'
-                          : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 hover:text-gray-900'
+                          ? 'bg-linear-to-r from-gray-700 to-gray-800 text-gray-300 hover:from-gray-600 hover:to-gray-700 hover:text-white'
+                          : 'bg-linear-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300 hover:text-gray-900'
                       }`
                 }`}
               >
                 {/* Background glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
 
-                <div className="flex items-center justify-center gap-4 relative z-10 min-h-[2.5rem]">
+                <div className="flex items-center justify-center gap-4 relative z-10 min-h-10">
                   <div className={`flex items-center justify-center w-10 h-10 rounded-xl ${
                     selectedFilters.category === category.name || (category.name !== "All" && selectedFilters[category.name.toLowerCase()])
                       ? 'bg-white/20'
@@ -108,16 +108,16 @@
                       onClick={() => handleSubClick(category.name, sub)}
                       className={`group w-full px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg relative overflow-hidden ${
                         selectedFilters[category.name.toLowerCase()] === sub
-                          ? "bg-gradient-to-r from-indigo-400 to-blue-500 text-white shadow-xl ring-2 ring-indigo-200"
+                          ? "bg-linear-to-r from-indigo-400 to-blue-500 text-white shadow-xl ring-2 ring-indigo-200"
                           : `${
                               darkMode
-                                ? 'bg-gradient-to-r from-gray-600 to-gray-700 text-gray-300 hover:from-gray-500 hover:to-gray-600 hover:text-white'
-                                : 'bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 hover:from-gray-300 hover:to-gray-400'
+                                ? 'bg-linear-to-r from-gray-600 to-gray-700 text-gray-300 hover:from-gray-500 hover:to-gray-600 hover:text-white'
+                                : 'bg-linear-to-r from-gray-200 to-gray-300 text-gray-700 hover:from-gray-300 hover:to-gray-400'
                             }`
                       }`}
                       style={{ animationDelay: `${subIndex * 50}ms` }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+                      <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
                       <span className="relative z-10">{sub}</span>
                     </button>
                   ))}
@@ -129,7 +129,7 @@
 
         {/* Active Filters Indicator */}
         {isHovered && (
-          <div className="mt-8 p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 border border-indigo-200 dark:border-gray-600">
+          <div className="mt-8 p-4 rounded-xl bg-linear-to-r from-indigo-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 border border-indigo-200 dark:border-gray-600">
             <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Active Filters:</h4>
             <div className="flex flex-wrap gap-2">
               {Object.entries(selectedFilters).map(([key, value]) => (
