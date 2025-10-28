@@ -8,9 +8,10 @@
     { name: "Landscape", icon: "🏞️", sub: ["Beach", "Mountain", "Heritage", "City"] }
   ];
 
-  const Sidebar = ({ isHovered, setIsHovered, selectedFilters, setSelectedFilters }) => {
+  const Sidebar = ({ selectedFilters, setSelectedFilters }) => {
     const { darkMode } = useTheme();
     const [expanded, setExpanded] = useState(null);
+    const isHovered = true;
 
     const handleMainClick = (category) => {
       if (category.name === "All") {
@@ -31,11 +32,7 @@
           darkMode
             ? 'bg-gradient-to-b from-slate-900 via-gray-800 to-slate-900 border-r border-slate-700'
             : 'bg-gradient-to-b from-white via-gray-50 to-white border-r border-gray-200'
-        } p-6 shadow-2xl transition-all duration-500 ease-in-out overflow-y-auto backdrop-blur-sm ${
-          isHovered ? "w-72" : "w-20"
-        }`}
-        onMouseOver={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        } p-6 shadow-2xl transition-all duration-500 ease-in-out overflow-y-auto backdrop-blur-sm w-72`}
       >
         {/* Sidebar Header */}
         <div className="mb-8 text-center">
