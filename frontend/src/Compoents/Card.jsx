@@ -2,7 +2,7 @@
 import { FiMapPin, FiStar } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
-const Card = ({ cardsData }) => {
+const Card = ({ cardsData = [] }) => {
   const navigate = useNavigate();
 
   const handleExploreClick = (card) => {

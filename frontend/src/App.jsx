@@ -21,7 +21,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
 
         {/* Protected Routes */}
-        <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/home" element={<Home />} />
         <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/pre-booking" element={<PreBooking />} />
