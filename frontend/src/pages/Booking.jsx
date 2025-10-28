@@ -1,97 +1,173 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
-const booking = () => {
-  const [tripType, setTripType] = useState("roundtrip");
+export default function Booking() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const cardData = location.state?.bookingData;
+
+  const [people, setPeople] = useState(1);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  useEffect(() => {
+    if (!cardData) {
+      navigate("/destination");
+    }
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    setFormData({
+      name: user.name || "",
+      email: user.email || "",
+      phone: "",
+    });
+  }, [cardData, navigate]);
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  if (!cardData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-lg font-semibold text-gray-600">
+        No package selected. Redirecting...
+      </div>
+    );
+  }
+
+  const basePrice = parseFloat(
+    cardData.price.replace("₹", "").replace(",", "")
+  );
+  const subtotal = basePrice * people;
+  const gst = subtotal * 0.1;
+  const totalPrice = subtotal + gst;
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1471922694854-ff1b63b20054?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8c2VhfGVufDB8MHwwfHx8MA%3D%3D&?auto=format&fit=crop&w=1920&q=80')",
-      }}
+      className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#0a0e2a] via-[#0f1845] to-[#0a0e2a] text-white p-6"
     >
-      <div className="bg-black/70 text-white p-8 rounded-2xl w-[90%] max-w-4xl backdrop-blur-md shadow-lg">
-        {/* Trip Type */}
-        <div className="flex space-x-6 mb-6">
-          {["roundtrip", "oneway", "multicity"].map((type) => (
-            <label key={type} className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="radio"
-                name="tripType"
-                value={type}
-                checked={tripType === type}
-                onChange={(e) => setTripType(e.target.value)}
-                className="accent-red-500"
-              />
-              <span className="capitalize">{type === "oneway" ? "One way" : type === "multicity" ? "Multi-City" : "Roundtrip"}</span>
-            </label>
+      <motion.div
+        className="bg-[#10183a]/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-[#c8a951]/20 w-[90%] max-w-4xl p-10"
+        initial="hidden"
+        animate="visible"
+        variants={{ visible: { transition: { staggerChildren: 0.2 } } }}
+      >
+        {/* Header */}
+        <motion.h2
+          className="text-3xl md:text-4xl font-bold mb-8 text-center text-[#c8a951]"
+          variants={fadeInUp}
+        >
+          Confirm Your Booking
+        </motion.h2>
+
+        {/* Destination Info */}
+        <motion.div
+          className="mb-8 p-5 bg-[#141c3a]/60 rounded-2xl border border-[#c8a951]/20"
+          variants={fadeInUp}
+        >
+          <h3 className="text-2xl font-semibold mb-3 text-[#e5c875]">
+            {cardData.title}
+          </h3>
+          <div className="space-y-1 text-sm text-gray-300">
+            <p>📍 {cardData.location}</p>
+            <p>🕓 Duration: {cardData.duration}</p>
+            <p>💰 Base Price: {cardData.price} per person</p>
+          </div>
+        </motion.div>
+
+        {/* User Details */}
+        <motion.div
+          className="grid md:grid-cols-2 gap-4 mb-8"
+          variants={fadeInUp}
+        >
+          {["name", "email", "phone"].map((field, idx) => (
+            <input
+              key={idx}
+              type={field === "email" ? "email" : field === "phone" ? "tel" : "text"}
+              name={field}
+              value={formData[field]}
+              onChange={handleInputChange}
+              placeholder={
+                field === "name"
+                  ? "Full Name"
+                  : field === "email"
+                  ? "Email Address"
+                  : "Phone Number"
+              }
+              className="p-3 rounded-xl bg-[#1a244d]/60 border border-[#c8a951]/20 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-[#c8a951]/40 transition-all"
+            />
           ))}
-        </div>
-
-        {/* Input Fields */}
-        <div className="grid md:grid-cols-2 gap-4">
-          <input
-            type="text"
-            placeholder="Flying from"
-            className="p-3 rounded-full bg-white/10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
-          />
-          <input
-            type="text"
-            placeholder="Flying to"
-            className="p-3 rounded-full bg-white/10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
-          />
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-4 mt-4">
           <input
             type="date"
-            placeholder="Departing"
-            className="p-3 rounded-full bg-white/10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+            min={new Date().toISOString().split("T")[0]}
+            className="p-3 rounded-xl bg-[#1a244d]/60 border border-[#c8a951]/20 text-white focus:outline-none focus:ring-2 focus:ring-[#c8a951]/40 transition-all"
           />
-          {tripType === "roundtrip" && (
-            <input
-              type="date"
-              placeholder="Returning"
-              className="p-3 rounded-full bg-white/10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
-            />
-          )}
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-4 mt-4">
-          <div className="flex items-center justify-between bg-white/10 rounded-full px-4 py-2">
-            <span>Adults (18+)</span>
+        {/* People */}
+        <motion.div className="mb-8" variants={fadeInUp}>
+          <div className="flex items-center justify-between bg-[#1a244d]/60 rounded-xl px-5 py-3 border border-[#c8a951]/20 w-fit">
+            <span className="font-medium text-[#e5c875]">👥 People</span>
             <input
               type="number"
               min="1"
-              defaultValue="1"
-              className="w-16 bg-transparent text-center outline-none"
+              value={people}
+              onChange={(e) => setPeople(parseInt(e.target.value) || 1)}
+              className="w-16 bg-transparent text-center outline-none text-white ml-4"
             />
           </div>
-          <div className="flex items-center justify-between bg-white/10 rounded-full px-4 py-2">
-            <span>Children (0–17)</span>
-            <input
-              type="number"
-              min="0"
-              defaultValue="0"
-              className="w-16 bg-transparent text-center outline-none"
-            />
-          </div>
-        </div>
+        </motion.div>
 
-        <div className="mt-4 flex items-center justify-between">
-          <select className="p-3 rounded-full bg-white/10 w-1/2 focus:outline-none focus:ring-2 focus:ring-red-500">
-            <option>Economy class</option>
-            <option>Business class</option>
-            <option>First class</option>
-          </select>
-          <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full ml-4 transition">
-            Show Flights
-          </button>
-        </div>
-      </div>
+        {/* Price Summary */}
+        <motion.div
+          className="mt-6 p-5 bg-[#141c3a]/60 rounded-2xl border border-[#c8a951]/20"
+          variants={fadeInUp}
+        >
+          <h4 className="text-lg font-semibold mb-3 text-[#e5c875]">
+            💵 Price Summary
+          </h4>
+          <div className="space-y-2 text-sm text-gray-300">
+            <div className="flex justify-between">
+              <span>Base Price per Person:</span>
+              <span>{cardData.price}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Number of People:</span>
+              <span>{people}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Subtotal:</span>
+              <span>₹{subtotal.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>GST (10%):</span>
+              <span>₹{gst.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between font-semibold text-lg border-t border-[#c8a951]/20 pt-2 text-[#e5c875]">
+              <span>Total Price:</span>
+              <span>₹{totalPrice.toFixed(2)}</span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Button */}
+        <motion.button
+          className="mt-8 w-full py-3 rounded-full font-semibold text-[#0a0e2a] bg-[#c8a951] hover:bg-[#d6b85c] transition-all duration-300 shadow-md"
+          variants={fadeInUp}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
+        >
+          Proceed to Payment
+        </motion.button>
+      </motion.div>
     </div>
   );
-};
-
-export default booking;
+}

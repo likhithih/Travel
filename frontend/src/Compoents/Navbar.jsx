@@ -138,9 +138,9 @@ function Navbar() {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
+                <Link to={'/booking'}className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
                   Booking
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
