@@ -6,6 +6,7 @@ import Users from './pages/Users'
 import Bookings from './pages/Bookings'
 import Destinations from './pages/Destinations'
 import AddDestination from './pages/AddDestination'
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
