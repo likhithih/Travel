@@ -114,7 +114,7 @@ const PackageDetails = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-linear-to-br from-gray-900 via-slate-800 to-black text-white overflow-hidden mt-20">
+      <div className="min-h-screen bg-white text-black overflow-hidden mt-20">
         {/* Hero Section */}
         <motion.section
           className="relative py-20 px-4 text-center overflow-hidden"
@@ -130,13 +130,13 @@ const PackageDetails = () => {
               Karnataka Heritage Tour
             </motion.h1>
             <motion.p
-              className="text-xl md:text-2xl mb-8 text-gray-300"
+              className="text-xl md:text-2xl mb-8 text-gray-700"
               variants={fadeInUp}
             >
               7 Days | 6 Nights | Explore Ancient Wonders & Royal Heritage
             </motion.p>
             <motion.div
-              className="flex justify-center space-x-8 text-gray-300"
+              className="flex justify-center space-x-8 text-gray-700"
               variants={fadeInUp}
             >
               <div className="flex items-center">
@@ -157,7 +157,7 @@ const PackageDetails = () => {
 
         {/* Overview Section */}
         <motion.section
-          className="py-20 px-4 bg-slate-900/50"
+          className="py-20 px-4 bg-gray-50"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -165,7 +165,7 @@ const PackageDetails = () => {
         >
           <div className="max-w-6xl mx-auto">
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-16 text-white"
+              className="text-4xl md:text-5xl font-bold text-center mb-16 text-black"
               variants={fadeInUp}
             >
               Tour Overview
@@ -175,10 +175,10 @@ const PackageDetails = () => {
               variants={fadeInUp}
             >
               <div>
-                <p className="text-lg text-gray-300 leading-relaxed mb-6">
+                <p className="text-lg text-gray-700 leading-relaxed mb-6">
                   Embark on a captivating journey through Karnataka's rich heritage. From the ancient ruins of Hampi to the royal palaces of Mysore and the misty hills of Coorg, this 7-day tour offers an immersive experience of South India's cultural treasures.
                 </p>
-                <p className="text-lg text-gray-300 leading-relaxed">
+                <p className="text-lg text-gray-700 leading-relaxed">
                   Discover UNESCO World Heritage sites, savor authentic cuisine, and create unforgettable memories in one of India's most diverse states.
                 </p>
               </div>
@@ -186,10 +186,10 @@ const PackageDetails = () => {
                 className="relative"
                 variants={scaleIn}
               >
-                <div className="bg-linear-to-br from-cyan-600 to-blue-600 rounded-2xl p-8 text-center shadow-2xl">
-                  <FaGem className="text-6xl text-white mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold text-white mb-2">Heritage & Culture</h3>
-                  <p className="text-gray-200">Immerse yourself in Karnataka's ancient history</p>
+                <div className="bg-blue-100 rounded-2xl p-8 text-center shadow-2xl">
+                  <FaGem className="text-6xl text-black mx-auto mb-4" />
+                  <h3 className="text-2xl font-bold text-black mb-2">Heritage & Culture</h3>
+                  <p className="text-gray-600">Immerse yourself in Karnataka's ancient history</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -198,7 +198,7 @@ const PackageDetails = () => {
 
         {/* Itinerary Section */}
         <motion.section
-          className="py-20 px-4 bg-black"
+          className="py-20 px-4 bg-white"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -206,7 +206,7 @@ const PackageDetails = () => {
         >
           <div className="max-w-6xl mx-auto">
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-16 text-white"
+              className="text-4xl md:text-5xl font-bold text-center mb-16 text-black"
               variants={fadeInUp}
             >
               Detailed Itinerary
@@ -215,21 +215,21 @@ const PackageDetails = () => {
               {itinerary.map((day, index) => (
                 <motion.div
                   key={index}
-                  className="bg-slate-800/60 rounded-2xl p-8 backdrop-blur-lg border border-slate-600/50"
+                  className="bg-gray-100 rounded-2xl p-8 backdrop-blur-lg border border-gray-300"
                   variants={fadeInUp}
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                    <h3 className="text-2xl font-bold text-cyan-400 mb-2 md:mb-0">Day {day.day}: {day.title}</h3>
-                    <div className="flex space-x-4 text-sm text-gray-300">
+                    <h3 className="text-2xl font-bold text-blue-600 mb-2 md:mb-0">Day {day.day}: {day.title}</h3>
+                    <div className="flex space-x-4 text-sm text-gray-700">
                       <span className="flex items-center"><FaUtensils className="mr-1" /> {day.meals}</span>
                       <span className="flex items-center"><FaBed className="mr-1" /> {day.accommodation}</span>
                     </div>
                   </div>
-                  <p className="text-gray-300 mb-4">{day.description}</p>
+                  <p className="text-gray-700 mb-4">{day.description}</p>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <h4 className="font-semibold text-white mb-2">Activities:</h4>
-                      <ul className="text-gray-300 text-sm space-y-1">
+                      <h4 className="font-semibold text-black mb-2">Activities:</h4>
+                      <ul className="text-gray-700 text-sm space-y-1">
                         {day.activities.map((activity, i) => (
                           <li key={i} className="flex items-center">
                             <FaCheck className="text-green-400 mr-2 text-xs" />
@@ -247,7 +247,7 @@ const PackageDetails = () => {
 
         {/* Inclusions & Exclusions */}
         <motion.section
-          className="py-20 px-4 bg-slate-900/50"
+          className="py-20 px-4 bg-gray-50"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -255,14 +255,14 @@ const PackageDetails = () => {
         >
           <div className="max-w-6xl mx-auto">
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-16 text-white"
+              className="text-4xl md:text-5xl font-bold text-center mb-16 text-black"
               variants={fadeInUp}
             >
               Package Details
             </motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <motion.div
-                className="bg-slate-800/60 rounded-2xl p-8 backdrop-blur-lg border border-slate-600/50"
+                className="bg-gray-100 rounded-2xl p-8 backdrop-blur-lg border border-gray-300"
                 variants={fadeInUp}
               >
                 <h3 className="text-3xl font-bold text-green-400 mb-6 flex items-center">
@@ -271,7 +271,7 @@ const PackageDetails = () => {
                 </h3>
                 <ul className="space-y-3">
                   {inclusions.map((item, index) => (
-                    <li key={index} className="flex items-start text-gray-300">
+                    <li key={index} className="flex items-start text-gray-700">
                       <FaCheck className="text-green-400 mr-3 mt-1 flex-shrink-0" />
                       {item}
                     </li>
@@ -279,7 +279,7 @@ const PackageDetails = () => {
                 </ul>
               </motion.div>
               <motion.div
-                className="bg-slate-800/60 rounded-2xl p-8 backdrop-blur-lg border border-slate-600/50"
+                className="bg-gray-100 rounded-2xl p-8 backdrop-blur-lg border border-gray-300"
                 variants={fadeInUp}
               >
                 <h3 className="text-3xl font-bold text-red-400 mb-6 flex items-center">
@@ -288,7 +288,7 @@ const PackageDetails = () => {
                 </h3>
                 <ul className="space-y-3">
                   {exclusions.map((item, index) => (
-                    <li key={index} className="flex items-start text-gray-300">
+                    <li key={index} className="flex items-start text-gray-700">
                       <FaTimes className="text-red-400 mr-3 mt-1 flex-shrink-0" />
                       {item}
                     </li>
@@ -301,7 +301,7 @@ const PackageDetails = () => {
 
         {/* Call to Action */}
         <motion.section
-          className="py-20 px-4 text-center bg-linear-to-br from-slate-900 via-gray-900 to-black"
+          className="py-20 px-4 text-center bg-gray-100"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -315,13 +315,13 @@ const PackageDetails = () => {
               Ready to Book Your Adventure?
             </motion.h2>
             <motion.p
-              className="text-xl mb-8 text-gray-300"
+              className="text-xl mb-8 text-gray-700"
               variants={fadeInUp}
             >
               Secure your spot for this unforgettable journey through Karnataka's heritage.
             </motion.p>
             <motion.button
-              className="bg-linear-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold py-4 px-10 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              className="bg-blue-500 hover:bg-blue-600 text-black font-bold py-4 px-10 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => navigate('/pre-booking', { state: { cardData: { title: 'Karnataka Heritage Tour', price: '₹45,000', location: 'Bengaluru - Hampi - Mysore - Coorg', duration: '7 Days', rating: '4.8', reviews: '(125 reviews)', desc: 'Explore ancient temples, royal palaces, and misty hills in this comprehensive Karnataka tour.', img: hampi } } })}
