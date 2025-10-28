@@ -1,229 +1,97 @@
-import React, { useState, useEffect } from "react";
-import Flowers from "../assets/Bookings/Flowers.avif";
-import IdiDosha from "../assets/Bookings/Idi-dosha.jpg";
-import Meduwada from "../assets/Bookings/Meduwada.jpg";
-import bookingImg from "../assets/Bookings/booking-img.jpg";
+import React, { useState } from "react";
 
-const BookingPage = ({ bookingData = {} }) => {
-  const [currentImage, setCurrentImage] = useState(0);
-  const images = bookingData.images || [Flowers, IdiDosha, Meduwada];
-
-  const parseDays = (duration) => {
-    const match = duration.match(/(\d+)\s*Days?/i);
-    return match ? parseInt(match[1], 10) : 0;
-  };
-
-  const parsePrice = (price) => {
-    const match = price.match(/₹?(\d+(?:\.\d+)?)/);
-    return match ? parseFloat(match[1]) : 0;
-  };
-
-  const [formData, setFormData] = useState({
-    username: bookingData.name || "",
-    email: bookingData.email || "",
-    days: parseDays(bookingData.duration || ""),
-    persons: 1,
-    destination: bookingData.location || "",
-    bookingDate: "",
-    packageType: "Standard",
-  });
-
-  const packagePrice = parsePrice(bookingData.price || "0");
-  const totalPrice = packagePrice * formData.persons;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Booking submitted:", { ...formData, ...bookingData });
-    alert("Booking submitted!");
-  };
+const booking = () => {
+  const [tripType, setTripType] = useState("roundtrip");
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Top Hero Section */}
-      <div
-        className="w-full text-white py-24 text-center relative overflow-hidden"
-        style={{
-          backgroundImage: `url(${bookingImg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 opacity-80"></div>
-        <div className="relative z-10 h-80 flex flex-col justify-center">
-          <h1 className="text-6xl font-extrabold mb-4 drop-shadow-lg animate-fade-in">
-            Booking
-          </h1>
-          <p className="text-2xl italic mb-4 drop-shadow animate-slide-up">
-            "Your adventure starts here"
-          </p>
-          <div className="w-24 h-1 mx-auto bg-white rounded-full animate-pulse"></div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex flex-col md:flex-row flex-1">
-        {/* Left Column - Image Carousel */}
-        <div className="w-full md:w-1/2 relative overflow-hidden">
-          {images.map((img, idx) => (
-            <img
-              key={idx}
-              src={img}
-              alt={`Slide ${idx + 1}`}
-              className={`absolute w-full h-full object-cover transition-opacity duration-1000 ${
-                idx === currentImage ? "opacity-100" : "opacity-0"
-              }`}
-            />
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{
+        backgroundImage:
+          "url('https://images.unsplash.com/photo-1471922694854-ff1b63b20054?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8c2VhfGVufDB8MHwwfHx8MA%3D%3D&?auto=format&fit=crop&w=1920&q=80')",
+      }}
+    >
+      <div className="bg-black/70 text-white p-8 rounded-2xl w-[90%] max-w-4xl backdrop-blur-md shadow-lg">
+        {/* Trip Type */}
+        <div className="flex space-x-6 mb-6">
+          {["roundtrip", "oneway", "multicity"].map((type) => (
+            <label key={type} className="flex items-center space-x-2 cursor-pointer">
+              <input
+                type="radio"
+                name="tripType"
+                value={type}
+                checked={tripType === type}
+                onChange={(e) => setTripType(e.target.value)}
+                className="accent-red-500"
+              />
+              <span className="capitalize">{type === "oneway" ? "One way" : type === "multicity" ? "Multi-City" : "Roundtrip"}</span>
+            </label>
           ))}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30"></div>
         </div>
 
-        {/* Right Column - Booking Form */}
-        <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-8 relative">
-          {/* Floating gradient blobs */}
-          <div className="absolute -top-16 -right-16 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-          <div className="absolute -bottom-16 -left-16 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+        {/* Input Fields */}
+        <div className="grid md:grid-cols-2 gap-4">
+          <input
+            type="text"
+            placeholder="Flying from"
+            className="p-3 rounded-full bg-white/10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+          />
+          <input
+            type="text"
+            placeholder="Flying to"
+            className="p-3 rounded-full bg-white/10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+          />
+        </div>
 
-          <form className="md:w-96 w-80 flex flex-col space-y-6 bg-white p-8 rounded-3xl shadow-2xl relative z-10">
-            <h2 className="text-4xl font-bold text-gray-900 text-center">
-              Complete Booking
-            </h2>
-            <p className="text-sm text-gray-500 text-center">
-              Fill in your details to confirm your trip
-            </p>
+        <div className="grid md:grid-cols-2 gap-4 mt-4">
+          <input
+            type="date"
+            placeholder="Departing"
+            className="p-3 rounded-full bg-white/10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+          />
+          {tripType === "roundtrip" && (
+            <input
+              type="date"
+              placeholder="Returning"
+              className="p-3 rounded-full bg-white/10 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+            />
+          )}
+        </div>
 
-            {/* Name */}
-            <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">Name</label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                placeholder="Your Name"
-                required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
-              />
-            </div>
+        <div className="grid md:grid-cols-2 gap-4 mt-4">
+          <div className="flex items-center justify-between bg-white/10 rounded-full px-4 py-2">
+            <span>Adults (18+)</span>
+            <input
+              type="number"
+              min="1"
+              defaultValue="1"
+              className="w-16 bg-transparent text-center outline-none"
+            />
+          </div>
+          <div className="flex items-center justify-between bg-white/10 rounded-full px-4 py-2">
+            <span>Children (0–17)</span>
+            <input
+              type="number"
+              min="0"
+              defaultValue="0"
+              className="w-16 bg-transparent text-center outline-none"
+            />
+          </div>
+        </div>
 
-            {/* Email */}
-            <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Your Email"
-                required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
-              />
-            </div>
-
-            {/* Booking Date */}
-            <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">
-                Choose Date of Booking
-              </label>
-              <input
-                type="date"
-                name="bookingDate"
-                value={formData.bookingDate}
-                onChange={handleChange}
-                min={new Date().toISOString().split("T")[0]}
-                required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
-              />
-            </div>
-
-            {/* Number of Persons */}
-            <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">Number of Persons</label>
-              <input
-                type="number"
-                name="persons"
-                value={formData.persons}
-                onChange={handleChange}
-                min="1"
-                required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
-              />
-            </div>
-
-            {/* Package Type */}
-            <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">Package Type</label>
-              <select
-                name="packageType"
-                value={formData.packageType}
-                onChange={handleChange}
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
-              >
-                <option value="Standard">Standard</option>
-                <option value="Premium">Premium</option>
-                <option value="Luxury">Luxury</option>
-              </select>
-            </div>
-
-            {/* Destination */}
-            <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">Destination</label>
-              <input
-                type="text"
-                name="destination"
-                value={formData.destination}
-                disabled
-                className="w-full h-12 px-4 rounded-xl border border-gray-200 bg-gray-100 text-gray-500 cursor-not-allowed"
-              />
-            </div>
-
-            {/* Total Price */}
-            <div className="w-full bg-gradient-to-r from-purple-200 via-pink-200 to-indigo-200 p-3 rounded-xl text-center font-semibold text-purple-800 shadow-inner">
-              Total Price: ₹{totalPrice}
-            </div>
-
-            {/* Submit */}
-            <button
-              type="submit"
-              className="w-full h-12 rounded-xl bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-600 text-white font-semibold hover:opacity-90 transition-all"
-            >
-              Book Now
-            </button>
-          </form>
+        <div className="mt-4 flex items-center justify-between">
+          <select className="p-3 rounded-full bg-white/10 w-1/2 focus:outline-none focus:ring-2 focus:ring-red-500">
+            <option>Economy class</option>
+            <option>Business class</option>
+            <option>First class</option>
+          </select>
+          <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full ml-4 transition">
+            Show Flights
+          </button>
         </div>
       </div>
-
-      {/* Tailwind custom animations */}
-      <style>
-        {`
-          @keyframes slide-in-right {
-            0% { transform: translateX(100%); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-          }
-          .animate-slide-in-right { animation: slide-in-right 0.7s ease-out forwards; }
-
-          @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-          .animate-fade-in { animation: fade-in 1s ease-out forwards; }
-
-          @keyframes slide-up { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-          .animate-slide-up { animation: slide-up 1s ease-out forwards; }
-
-          @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-          .animate-pulse { animation: pulse 2s infinite; }
-        `}
-      </style>
     </div>
   );
 };
 
-export default BookingPage;
+export default booking;

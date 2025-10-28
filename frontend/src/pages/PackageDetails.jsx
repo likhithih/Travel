@@ -272,7 +272,7 @@ const PackageDetails = () => {
                 <ul className="space-y-3">
                   {inclusions.map((item, index) => (
                     <li key={index} className="flex items-start text-gray-700">
-                      <FaCheck className="text-green-400 mr-3 mt-1 flex-shrink-0" />
+                      <FaCheck className="text-green-400 mr-3 mt-1 shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -289,7 +289,7 @@ const PackageDetails = () => {
                 <ul className="space-y-3">
                   {exclusions.map((item, index) => (
                     <li key={index} className="flex items-start text-gray-700">
-                      <FaTimes className="text-red-400 mr-3 mt-1 flex-shrink-0" />
+                      <FaTimes className="text-red-400 mr-3 mt-1 shrink-0" />
                       {item}
                     </li>
                   ))}
