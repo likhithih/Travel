@@ -10,9 +10,9 @@ const Card = ({ cardsData = [] }) => {
   };
 
   return (
-    <div>
+    <div className="ml-10" >
 
-      <div className="grid grid-cols-3 gap-4 p-4 mx-auto pl-auto max-w-7xl">
+      <div className="grid grid-cols-3 gap-4 p-4 mx-auto pl-auto max-w-7xl ">
         {cardsData && cardsData.map((card, index) => (
           <div
             key={index}

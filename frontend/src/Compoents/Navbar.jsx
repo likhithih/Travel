@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa'; // For hamburger menu icons
+import { FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa'; // For hamburger menu icons and theme toggle
 import { Link, useNavigate } from 'react-router-dom';
+import { useTheme } from './ThemeContext';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
+  const { darkMode, toggleTheme } = useTheme();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -81,6 +83,15 @@ function Navbar() {
             </ul>
           </nav>
 
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="hidden md:block text-white text-2xl focus:outline-none mr-4"
+            aria-label="Toggle theme"
+          >
+            {darkMode ? <FaSun /> : <FaMoon  />}
+          </button>
+
           {/* Logout Button */}
           {isLoggedIn ? (
             <button
@@ -140,6 +151,17 @@ function Navbar() {
                 <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
                   Contact Us
                 </a>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    toggleTheme();
+                    toggleMenu();
+                  }}
+                  className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300"
+                >
+                  {darkMode ? 'Light Mode' : 'Dark Mode'}
+                </button>
               </li>
               <li>
                 {isLoggedIn ? (
