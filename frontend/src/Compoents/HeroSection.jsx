@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
+import { useTheme } from './ThemeContext';
 
 import hampi from "../assets/Hampi-temple.jpg";
 import kundamundi from "../assets/Kundamundi.jpg";
@@ -11,6 +12,7 @@ import waterfall from "../assets/Waterfall.jpg";
 const images = [hampi, kundamundi, mysore, chariot, waterfall];
 
 function HeroSection() {
+  const { darkMode } = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Change image every 5 seconds
@@ -23,7 +25,7 @@ function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-white">
+    <section className={`relative min-h-screen flex items-center justify-center overflow-hidden ${darkMode ? 'bg-black text-white' : ' text-black'}`}>
       {/* Backgrounds with smooth fade */}
       <AnimatePresence>
         <motion.div
@@ -38,7 +40,7 @@ function HeroSection() {
       </AnimatePresence>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90 backdrop-blur-[1px]"></div>
+      <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-b from-black/70 via-black/40 to-black/90' : 'bg-gradient-to-b  via-white/40 '} backdrop-blur-[1px]`}></div>
 
       {/* Floating glows */}
       <div className="absolute top-10 left-10 w-96 h-96 bg-pink-500/10 blur-[120px] rounded-full animate-pulse"></div>
@@ -59,7 +61,7 @@ function HeroSection() {
         </motion.h1>
 
         <motion.p
-          className="text-xl md:text-3xl mt-6 font-light text-gray-200 tracking-wide"
+          className={`text-xl md:text-3xl mt-6 font-light tracking-wide ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 1 }}
@@ -101,12 +103,12 @@ function HeroSection() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white text-sm tracking-wider flex flex-col items-center gap-2"
+        className={`absolute bottom-10 left-1/2 -translate-x-1/2 text-sm tracking-wider flex flex-col items-center gap-2 ${darkMode ? 'text-white' : 'text-black'}`}
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
         <span className="opacity-80">Scroll Down</span>
-        <div className="w-[2px] h-8 bg-gradient-to-b from-white/60 to-transparent rounded-full"></div>
+        <div className={`w-[2px] h-8 bg-gradient-to-b rounded-full ${darkMode ? 'from-white/60 to-transparent' : 'from-black/60 to-transparent'}`}></div>
       </motion.div>
     </section>
   );

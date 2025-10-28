@@ -3,12 +3,15 @@ import Footer from '../Compoents/Footer.jsx'
 import BestAgency from '../Compoents/BestAgency.jsx'
 import Card from '../Compoents/Card.jsx'
 import HeroSection from '../Compoents/HeroSection.jsx'
+import { useTheme } from '../Compoents/ThemeContext'
 import hampi from '../assets/Hampi-temple.jpg'
 import mysore from '../assets/Mysore-place.jpg'
 import kundamundi from '../assets/Kundamundi.jpg'
 import waterfall from '../assets/Waterfall.jpg'
 
 const Home = () => {
+  const { darkMode } = useTheme();
+
   const sampleCards = [
     {
       img: hampi,
@@ -47,8 +50,8 @@ const Home = () => {
       <Navbar />
       <HeroSection />
       <BestAgency />
-      <div className="py-12 px-4">
-        <h2 className="text-4xl font-bold text-center mb-8 text-gray-800">Top Pick Packages</h2>
+      <div className={`py-12 px-4 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+        <h2 className={`text-4xl font-bold text-center mb-8 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Top Pick Packages</h2>
         <Card cardsData={sampleCards} />
       </div>
       <Footer />
