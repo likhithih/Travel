@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUtensils, FaCamera, FaBed, FaPlane, FaCheck, FaTimes,FaGem } from 'react-icons/fa';
 import { useTheme } from '../Compoents/ThemeContext';
 import Navbar from '../Compoents/Navbar';
@@ -12,6 +12,8 @@ import waterfall from '../assets/Waterfall.jpg';
 
 const PackageDetails = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const cardData = location.state?.cardData || {};
   const { darkMode } = useTheme();
 
   // Animation variants
@@ -129,13 +131,13 @@ const PackageDetails = () => {
               className="text-5xl md:text-7xl font-bold mb-6 bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
               variants={fadeInUp}
             >
-              Karnataka Heritage Tour
+              {cardData.title}
             </motion.h1>
             <motion.p
               className={`text-xl md:text-2xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
               variants={fadeInUp}
             >
-              7 Days | 6 Nights | Explore Ancient Wonders & Royal Heritage
+              {cardData.duration} | Explore Ancient Wonders & Royal Heritage
             </motion.p>
             <motion.div
               className={`flex justify-center space-x-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
@@ -143,11 +145,11 @@ const PackageDetails = () => {
             >
               <div className="flex items-center">
                 <FaCalendarAlt className="mr-2 text-cyan-400" />
-                <span>7 Days</span>
+                <span>{cardData.duration}</span>
               </div>
               <div className="flex items-center">
                 <FaMapMarkerAlt className="mr-2 text-cyan-400" />
-                <span>Bengaluru - Hampi - Mysore - Coorg</span>
+                <span>{cardData.location}</span>
               </div>
               <div className="flex items-center">
                 <FaClock className="mr-2 text-cyan-400" />
@@ -326,9 +328,9 @@ const PackageDetails = () => {
               className="bg-blue-500 hover:bg-blue-600 text-black font-bold py-4 px-10 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/pre-booking', { state: { cardData: { title: 'Karnataka Heritage Tour', price: '₹8,000', location: 'Bengaluru - Hampi - Mysore - Coorg', duration: '7 Days', rating: '4.8', reviews: '(125 reviews)', desc: 'Explore ancient temples, royal palaces, and misty hills in this comprehensive Karnataka tour.', img: hampi } } })}
+              onClick={() => navigate('/booking', { state: { bookingData: cardData } })}
             >
-              Book Now - ₹8,000 per person
+              Book Now - {cardData.price} per person
             </motion.button>
           </div>
         </motion.section>

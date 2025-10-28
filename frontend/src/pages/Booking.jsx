@@ -52,7 +52,7 @@ export default function Booking() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#0a0e2a] via-[#0f1845] to-[#0a0e2a] text-white p-6"
+      className="min-h-screen flex items-center justify-center bg-linear-to-b from-[#0a0e2a] via-[#0f1845] to-[#0a0e2a] text-white p-6"
     >
       <motion.div
         className="bg-[#10183a]/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-[#c8a951]/20 w-[90%] max-w-4xl p-10"

@@ -5,7 +5,6 @@ import LandingPage from "./pages/LandingPage";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Booking from "./pages/Booking";
-import PreBooking from "./pages/PreBooking";
 import ProtectedRoute from "./Compoents/ProtectedRoute";
 import { Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,7 +26,6 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
         <Route path="/booking" element={<Booking />} />
-        <Route path="/pre-booking" element={<PreBooking />} />
         <Route path="/destination" element={<Destination />} />
         <Route path="/package-details" element={<PackageDetails />} />
       </Routes>
