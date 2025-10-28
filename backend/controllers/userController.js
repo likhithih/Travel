@@ -144,7 +144,29 @@ export const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Find user by email
+        // Simple hardcoded admin credentials for demo purposes
+        if (email === 'admin@admin.com' && password === 'admin123') {
+            // Generate JWT token for admin
+            const token = jwt.sign({
+                userId: 'admin-123',
+                email: email,
+                role: 'admin'
+            }, process.env.JWT_SECRET || 'fallback-secret', { expiresIn: '24h' });
+
+            res.status(200).json({
+                message: 'Admin login successful',
+                token,
+                user: {
+                    id: 'admin-123',
+                    username: 'Admin',
+                    email: email,
+                    role: 'admin'
+                }
+            });
+            return;
+        }
+
+        // Fallback to database check for other admin users (if any)
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ message: 'Invalid email or password' });
