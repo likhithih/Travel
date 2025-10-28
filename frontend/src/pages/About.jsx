@@ -183,7 +183,7 @@ const About = () => {
                 <Counter end={30} label="Yearly tour arrange" />
               </motion.div>
               <motion.div variants={scaleIn}>
-                <Counter end={2263} label="Happy Clients" />
+                <Counter end={800} label="Happy Clients" />
               </motion.div>
             </div>
           </div>
