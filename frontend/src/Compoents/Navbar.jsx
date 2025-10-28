@@ -5,11 +5,20 @@ import { Link, useNavigate } from 'react-router-dom';
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const toggleMenu = () => {
@@ -24,7 +33,7 @@ function Navbar() {
 
   return (
     <div>
-      <header className="bg-white/10 backdrop-blur-md text-white shadow-lg fixed top-0 left-0 right-0 z-50">
+      <header className={`${isScrolled ? 'bg-black/80 backdrop-blur-md shadow-lg' : 'bg-white/0'} text-white fixed top-0 left-0 right-0 z-50 transition-all duration-300`}>
         <div className="container mx-auto flex items-center justify-between h-20 px-4">
           {/* Logo */}
           <a href="#" className="flex items-center space-x-3">

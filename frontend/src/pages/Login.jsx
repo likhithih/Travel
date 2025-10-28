@@ -141,7 +141,7 @@ export default function Login() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            Explore the World 🌎
+            Explore the Beauty of Karnataka
           </motion.h2>
 
           {/* Email Input */}

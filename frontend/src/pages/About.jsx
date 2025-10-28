@@ -58,10 +58,10 @@ const About = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-linear-to-br from-gray-900 via-slate-800 to-black text-white overflow-hidden mt-20">
+      <div className="min-h-screen bg-linear-to-br from-gray-900 via-slate-800 to-black text-white overflow-hidden mt-0 pt-15">
         {/* Hero Section */}
         <motion.section
-          className="relative py-20 px-4 text-center overflow-hidden"
+          className="relative py-20 px-4 text-center overflow-hidden "
           initial="hidden"
           animate="visible"
           variants={fadeInUp}
