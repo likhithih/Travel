@@ -5,7 +5,7 @@ import path from 'path';
 import connectDB from './db/connectDB.js';
 import userRoutes from './routes/routes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
-
+import bookingRoutes from './routes/bookingRoutes.js';
 
 // Initialize Express app
 const app = express();
@@ -25,6 +25,7 @@ app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use('/', userRoutes);
 app.use('/', dashboardRoutes);
+app.use('/',bookingRoutes)
 
 // Connect to the database
 connectDB(process.env.CONNECTDB);
