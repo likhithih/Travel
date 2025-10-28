@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaUsers, FaGlobe, FaHeart, FaAward, FaMapMarkerAlt, FaCamera, FaStar, FaMountain, FaUtensils, FaCalendarAlt, FaHiking, FaLeaf, FaGem } from 'react-icons/fa';
+import { useTheme } from '../Compoents/ThemeContext';
 import Navbar from '../Compoents/Navbar';
 import Footer from '../Compoents/Footer';
 import hampi from '../assets/Hampi-temple.jpg';
@@ -34,6 +35,8 @@ const Counter = ({ end, label }) => {
 };
 
 const About = () => {
+  const { darkMode } = useTheme();
+
   // Animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 50 },
@@ -58,7 +61,7 @@ const About = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-linear-to-br from-gray-900 via-slate-800 to-black text-white overflow-hidden mt-0 pt-15">
+      <div className={`min-h-screen overflow-hidden mt-0 pt-15 ${darkMode ? 'bg-linear-to-br from-gray-900 via-slate-800 to-black text-white' : 'bg-linear-to-br from-gray-100 via-slate-200 to-white text-gray-900'}`}>
         {/* Hero Section */}
         <motion.section
           className="relative py-20 px-4 text-center overflow-hidden "
@@ -74,7 +77,7 @@ const About = () => {
               About Travels Karnataka
             </motion.h1>
             <motion.p
-              className="text-xl md:text-2xl mb-8 text-gray-300"
+              className={`text-xl md:text-2xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
               variants={fadeInUp}
             >
               Your gateway to the enchanting world of Karnataka - where heritage meets adventure, and every journey tells a story.
@@ -84,7 +87,7 @@ const About = () => {
 
         {/* About Us Section */}
         <motion.section
-          className="py-20 px-4 bg-slate-900/50"
+          className={`py-20 px-4 ${darkMode ? 'bg-slate-900/50' : 'bg-gray-200/50'}`}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -92,17 +95,17 @@ const About = () => {
         >
           <div className="max-w-6xl mx-auto">
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-16 text-white"
+              className={`text-4xl md:text-5xl font-bold text-center mb-16 ${darkMode ? 'text-white' : 'text-gray-900'}`}
               variants={fadeInUp}
             >
               Who We Are
             </motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <motion.div variants={fadeInUp}>
-                <p className="text-lg text-gray-300 leading-relaxed mb-6">
+                <p className={`text-lg leading-relaxed mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Travels Karnataka is a premier travel company dedicated to showcasing the rich cultural heritage, breathtaking landscapes, and vibrant traditions of Karnataka. Founded with a passion for exploration, we curate unforgettable experiences that connect travelers with the soul of this diverse state.
                 </p>
-                <p className="text-lg text-gray-300 leading-relaxed">
+                <p className={`text-lg leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   From the ancient temples of Hampi to the serene backwaters of Kerala-inspired regions, our expert guides and personalized itineraries ensure every trip is a seamless blend of adventure, culture, and relaxation.
                 </p>
               </motion.div>
@@ -112,8 +115,8 @@ const About = () => {
               >
                 <div className="bg-linear-to-br from-cyan-600 to-blue-600 rounded-2xl p-8 text-center shadow-2xl">
                   <FaGlobe className="text-6xl text-white mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold text-white mb-2">Global Reach</h3>
-                  <p className="text-gray-200">Serving travelers from around the world</p>
+                  <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Global Reach</h3>
+                  <p className={` ${darkMode ? 'text-gray-200' : 'text-gray-700'}`}>Serving travelers from around the world</p>
                 </div>
               </motion.div>
             </div>
@@ -122,7 +125,7 @@ const About = () => {
 
         {/* Mission & Vision */}
         <motion.section
-          className="py-20 px-4 bg-black"
+          className={`py-20 px-4 ${darkMode ? 'bg-black' : 'bg-gray-100'}`}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -130,29 +133,29 @@ const About = () => {
         >
           <div className="max-w-6xl mx-auto">
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-16 text-white"
+              className={`text-4xl md:text-5xl font-bold text-center mb-16 ${darkMode ? 'text-white' : 'text-gray-900'}`}
               variants={fadeInUp}
             >
               Our Mission & Vision
             </motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <motion.div
-                className="bg-slate-800/60 rounded-2xl p-8 backdrop-blur-lg border border-slate-600/50"
+                className={`rounded-2xl p-8 backdrop-blur-lg border ${darkMode ? 'bg-slate-800/60 border-slate-600/50' : 'bg-white border-gray-300'}`}
                 variants={fadeInUp}
               >
                 <FaHeart className="text-5xl text-pink-400 mb-6" />
-                <h3 className="text-3xl font-bold text-white mb-4">Our Mission</h3>
-                <p className="text-gray-300 leading-relaxed">
+                <h3 className={`text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Our Mission</h3>
+                <p className={`leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   To provide authentic, sustainable travel experiences that celebrate Karnataka's heritage while promoting responsible tourism and cultural preservation.
                 </p>
               </motion.div>
               <motion.div
-                className="bg-slate-800/60 rounded-2xl p-8 backdrop-blur-lg border border-slate-600/50"
+                className={`rounded-2xl p-8 backdrop-blur-lg border ${darkMode ? 'bg-slate-800/60 border-slate-600/50' : 'bg-white border-gray-300'}`}
                 variants={fadeInUp}
               >
                 <FaAward className="text-5xl text-yellow-400 mb-6" />
-                <h3 className="text-3xl font-bold text-white mb-4">Our Vision</h3>
-                <p className="text-gray-300 leading-relaxed">
+                <h3 className={`text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Our Vision</h3>
+                <p className={`leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   To be Karnataka's leading travel brand, inspiring global travelers to explore and appreciate the state's unique blend of history, nature, and culture.
                 </p>
               </motion.div>
@@ -162,7 +165,7 @@ const About = () => {
 
         {/* Counter Section */}
         <motion.section
-          className="py-20 px-4 bg-black"
+          className={`py-20 px-4 ${darkMode ? 'bg-black' : 'bg-gray-100'}`}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -170,7 +173,7 @@ const About = () => {
         >
           <div className="max-w-6xl mx-auto">
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-16 text-white"
+              className={`text-4xl md:text-5xl font-bold text-center mb-16 ${darkMode ? 'text-white' : 'text-gray-900'}`}
               variants={fadeInUp}
             >
               Our Achievements
@@ -191,7 +194,7 @@ const About = () => {
 
         {/* Team Section */}
         <motion.section
-          className="py-20 px-4 bg-black"
+          className={`py-20 px-4 ${darkMode ? 'bg-black' : 'bg-gray-100'}`}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -199,7 +202,7 @@ const About = () => {
         >
           <div className="max-w-6xl mx-auto">
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-16 text-white"
+              className={`text-4xl md:text-5xl font-bold text-center mb-16 ${darkMode ? 'text-white' : 'text-gray-900'}`}
               variants={fadeInUp}
             >
               Meet Our Team
@@ -227,16 +230,16 @@ const About = () => {
               ].map((member, index) => (
                 <motion.div
                   key={index}
-                  className="bg-slate-800/60 rounded-2xl p-8 text-center backdrop-blur-lg border border-slate-600/50"
+                  className={`rounded-2xl p-8 text-center backdrop-blur-lg border ${darkMode ? 'bg-slate-800/60 border-slate-600/50' : 'bg-white border-gray-300'}`}
                   variants={scaleIn}
                   whileHover={{ scale: 1.05 }}
                 >
                   <div className="w-24 h-24 rounded-full mx-auto mb-6 overflow-hidden">
                     <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-2">{member.name}</h3>
+                  <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>{member.name}</h3>
                   <p className="text-cyan-400 mb-4">{member.role}</p>
-                  <p className="text-gray-300">{member.desc}</p>
+                  <p className={` ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{member.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -245,7 +248,7 @@ const About = () => {
 
         {/* Popular Places Section */}
         <motion.section
-          className="py-20 px-4 bg-black"
+          className={`py-20 px-4 ${darkMode ? 'bg-black' : 'bg-gray-100'}`}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -253,7 +256,7 @@ const About = () => {
         >
           <div className="max-w-6xl mx-auto">
             <motion.h2
-              className="text-4xl md:text-5xl font-bold text-center mb-16 text-white"
+              className={`text-4xl md:text-5xl font-bold text-center mb-16 ${darkMode ? 'text-white' : 'text-gray-900'}`}
               variants={fadeInUp}
             >
               Popular Places in Karnataka
@@ -290,7 +293,7 @@ const About = () => {
 
         {/* Call to Action */}
         <motion.section
-          className="py-20 px-4 text-center bg-linear-to-br from-slate-900 via-gray-900 to-black"
+          className={`py-20 px-4 text-center ${darkMode ? 'bg-linear-to-br from-slate-900 via-gray-900 to-black' : 'bg-linear-to-br from-gray-200 via-slate-300 to-white'}`}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -304,7 +307,7 @@ const About = () => {
               Ready to Discover Karnataka?
             </motion.h2>
             <motion.p
-              className="text-xl mb-8 text-gray-300"
+              className={`text-xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
               variants={fadeInUp}
             >
               Join us on a journey of a lifetime. Explore, experience, and create memories that last forever.

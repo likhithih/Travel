@@ -3,8 +3,10 @@ import Flowers from "../assets/Bookings/Flowers.avif";
 import IdiDosha from "../assets/Bookings/Idi-dosha.jpg";
 import Meduwada from "../assets/Bookings/Meduwada.jpg";
 import bookingImg from "../assets/Bookings/booking-img.jpg";
+import { useTheme } from '../Compoents/ThemeContext';
 
 const BookingPage = ({ bookingData = {} }) => {
+  const { darkMode } = useTheme();
   const [currentImage, setCurrentImage] = useState(0);
   const images = bookingData.images || [Flowers, IdiDosha, Meduwada];
 
@@ -48,7 +50,7 @@ const BookingPage = ({ bookingData = {} }) => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className={`flex flex-col min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Top Hero Section */}
       <div
         className="w-full text-white py-24 text-center relative overflow-hidden"
@@ -94,17 +96,17 @@ const BookingPage = ({ bookingData = {} }) => {
           <div className="absolute -top-16 -right-16 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
           <div className="absolute -bottom-16 -left-16 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
 
-          <form className="md:w-96 w-80 flex flex-col space-y-6 bg-white p-8 rounded-3xl shadow-2xl relative z-10">
-            <h2 className="text-4xl font-bold text-gray-900 text-center">
+          <form className={`md:w-96 w-80 flex flex-col space-y-6 ${darkMode ? 'bg-gray-800' : 'bg-white'} p-8 rounded-3xl shadow-2xl relative z-10`}>
+            <h2 className={`text-4xl font-bold text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Complete Booking
             </h2>
-            <p className="text-sm text-gray-500 text-center">
+            <p className={`text-sm text-center ${darkMode ? 'text-gray-300' : 'text-gray-500'}`}>
               Fill in your details to confirm your trip
             </p>
 
             {/* Name */}
             <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">Name</label>
+              <label className={`mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Name</label>
               <input
                 type="text"
                 name="username"
@@ -112,13 +114,13 @@ const BookingPage = ({ bookingData = {} }) => {
                 onChange={handleChange}
                 placeholder="Your Name"
                 required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
+                className={`w-full h-12 px-4 rounded-xl border outline-none transition-all duration-300 ${darkMode ? 'border-gray-600 bg-gray-700 text-white hover:bg-gray-600' : 'border-gray-300 focus:ring-2 focus:ring-purple-400 hover:bg-gray-50'}`}
               />
             </div>
 
             {/* Email */}
             <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">Email</label>
+              <label className={`mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Email</label>
               <input
                 type="email"
                 name="email"
@@ -126,13 +128,13 @@ const BookingPage = ({ bookingData = {} }) => {
                 onChange={handleChange}
                 placeholder="Your Email"
                 required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
+                className={`w-full h-12 px-4 rounded-xl border outline-none transition-all duration-300 ${darkMode ? 'border-gray-600 bg-gray-700 text-white hover:bg-gray-600' : 'border-gray-300 focus:ring-2 focus:ring-purple-400 hover:bg-gray-50'}`}
               />
             </div>
 
             {/* Booking Date */}
             <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">
+              <label className={`mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                 Choose Date of Booking
               </label>
               <input
@@ -142,13 +144,13 @@ const BookingPage = ({ bookingData = {} }) => {
                 onChange={handleChange}
                 min={new Date().toISOString().split("T")[0]}
                 required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
+                className={`w-full h-12 px-4 rounded-xl border outline-none transition-all duration-300 ${darkMode ? 'border-gray-600 bg-gray-700 text-white hover:bg-gray-600' : 'border-gray-300 focus:ring-2 focus:ring-purple-400 hover:bg-gray-50'}`}
               />
             </div>
 
             {/* Number of Persons */}
             <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">Number of Persons</label>
+              <label className={`mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Number of Persons</label>
               <input
                 type="number"
                 name="persons"
@@ -156,18 +158,18 @@ const BookingPage = ({ bookingData = {} }) => {
                 onChange={handleChange}
                 min="1"
                 required
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
+                className={`w-full h-12 px-4 rounded-xl border outline-none transition-all duration-300 ${darkMode ? 'border-gray-600 bg-gray-700 text-white hover:bg-gray-600' : 'border-gray-300 focus:ring-2 focus:ring-purple-400 hover:bg-gray-50'}`}
               />
             </div>
 
             {/* Package Type */}
             <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">Package Type</label>
+              <label className={`mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Package Type</label>
               <select
                 name="packageType"
                 value={formData.packageType}
                 onChange={handleChange}
-                className="w-full h-12 px-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-400 outline-none transition-all duration-300 hover:bg-gray-50"
+                className={`w-full h-12 px-4 rounded-xl border outline-none transition-all duration-300 ${darkMode ? 'border-gray-600 bg-gray-700 text-white hover:bg-gray-600' : 'border-gray-300 focus:ring-2 focus:ring-purple-400 hover:bg-gray-50'}`}
               >
                 <option value="Standard">Standard</option>
                 <option value="Premium">Premium</option>
@@ -177,13 +179,13 @@ const BookingPage = ({ bookingData = {} }) => {
 
             {/* Destination */}
             <div className="flex flex-col">
-              <label className="text-gray-600 mb-1">Destination</label>
+              <label className={`mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Destination</label>
               <input
                 type="text"
                 name="destination"
                 value={formData.destination}
                 disabled
-                className="w-full h-12 px-4 rounded-xl border border-gray-200 bg-gray-100 text-gray-500 cursor-not-allowed"
+                className={`w-full h-12 px-4 rounded-xl border cursor-not-allowed ${darkMode ? 'border-gray-600 bg-gray-800 text-gray-400' : 'border-gray-200 bg-gray-100 text-gray-500'}`}
               />
             </div>
 
