@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaSave, FaTimes, FaUpload } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import { Editor } from '@tinymce/tinymce-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const AddDestination = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { editMode, destination } = location.state || {};
+
   const [formData, setFormData] = useState({
     name: '',
     landscape: '',
@@ -23,6 +26,26 @@ const AddDestination = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [existingImage, setExistingImage] = useState('');
+
+  useEffect(() => {
+    if (editMode && destination) {
+      setFormData({
+        name: destination.name || '',
+        landscape: destination.landscape || '',
+        description: destination.description || '',
+        image: null,
+        rating: destination.rating || '',
+        price: destination.price || '',
+        duration: destination.duration || '',
+        popular: destination.popular || false
+      });
+      if (destination.image) {
+        setExistingImage(`http://localhost:4000${destination.image}`);
+        setPreviewUrl(`http://localhost:4000${destination.image}`);
+      }
+    }
+  }, [editMode, destination]);
 
 
   const landscapes = ["Beach", "Mountain", "Heritage", "City"];
@@ -85,7 +108,7 @@ const AddDestination = () => {
     if (!formData.name.trim()) newErrors.name = 'Destination name is required';
     if (!formData.landscape) newErrors.landscape = 'Landscape is required';
     if (!formData.description.trim()) newErrors.description = 'Description is required';
-    if (!selectedFile) newErrors.image = 'Please select an image file';
+    if (!editMode && !selectedFile) newErrors.image = 'Please select an image file';
     if (!formData.rating || formData.rating < 0 || formData.rating > 5) {
       newErrors.rating = 'Rating must be between 0 and 5';
     }
@@ -113,13 +136,18 @@ const AddDestination = () => {
       formDataToSend.append('price', formData.price);
       formDataToSend.append('duration', formData.duration);
       formDataToSend.append('popular', formData.popular);
-      formDataToSend.append('image', selectedFile);
+      if (selectedFile) {
+        formDataToSend.append('image', selectedFile);
+      }
 
       // Get token from localStorage (assuming it's stored there)
       const token = localStorage.getItem('adminToken');
 
-      const response = await fetch('http://localhost:4000/admin/destinations', {
-        method: 'POST',
+      const url = editMode ? `http://localhost:4000/admin/destinations/${destination._id}` : 'http://localhost:4000/admin/destinations';
+      const method = editMode ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
         headers: {
           'Authorization': `Bearer ${token}`
         },
@@ -129,28 +157,29 @@ const AddDestination = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to add destination');
+        throw new Error(data.message || `Failed to ${editMode ? 'update' : 'add'} destination`);
       }
 
-
-      // Reset form
-      setFormData({
-        name: '',
-        landscape: '',
-        description: '',
-        image: null,
-        rating: '',
-        price: '',
-        duration: '',
-        popular: false
-      });
-      setSelectedFile(null);
-      setPreviewUrl('');
-      setErrors({});
-      toast.success('Destination added successfully!');
+      if (!editMode) {
+        // Reset form only for add mode
+        setFormData({
+          name: '',
+          landscape: '',
+          description: '',
+          image: null,
+          rating: '',
+          price: '',
+          duration: '',
+          popular: false
+        });
+        setSelectedFile(null);
+        setPreviewUrl('');
+        setErrors({});
+      }
+      toast.success(`Destination ${editMode ? 'updated' : 'added'} successfully!`);
       setTimeout(() => { navigate('/destinations') }, 2000)
     } catch (error) {
-      toast.error(error.message || 'Failed to add destination. Please try again.');
+      toast.error(error.message || `Failed to ${editMode ? 'update' : 'add'} destination. Please try again.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -192,8 +221,8 @@ const AddDestination = () => {
           <div className="px-6 py-4">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Add New Destination</h1>
-                <p className="text-gray-600 dark:text-gray-400">Create a new travel destination package</p>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{editMode ? 'Edit Destination' : 'Add New Destination'}</h1>
+                <p className="text-gray-600 dark:text-gray-400">{editMode ? 'Update the travel destination package' : 'Create a new travel destination package'}</p>
               </div>
             </div>
           </div>
@@ -301,7 +330,7 @@ const AddDestination = () => {
                 {/* Image Upload */}
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Destination Image *
+                    Destination Image {editMode ? '' : '*'}
                   </label>
                   <div
                     className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${previewUrl

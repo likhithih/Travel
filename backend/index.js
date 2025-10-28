@@ -4,6 +4,7 @@ import cors from 'cors';
 import path from 'path';
 import connectDB from './db/connectDB.js';
 import userRoutes from './routes/routes.js';
+import dashboardRoutes from './routes/dashboardRoutes.js';
 
 
 // Initialize Express app
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use('/', userRoutes);
-
+app.use('/', dashboardRoutes);
 
 // Connect to the database
 connectDB(process.env.CONNECTDB);

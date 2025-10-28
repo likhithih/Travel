@@ -10,10 +10,11 @@ import {
   FaEye,
   FaFilter
 } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
 const Destinations = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMainCategory, setSelectedMainCategory] = useState('All');
   const [selectedSubCategory, setSelectedSubCategory] = useState('');
@@ -91,8 +92,8 @@ const Destinations = () => {
   };
 
   const handleEditDestination = (destination) => {
-    // Handle edit functionality
-    console.log('Edit destination:', destination);
+    // Navigate to add destination page with edit mode and destination data
+    navigate('/add-destination', { state: { editMode: true, destination } });
   };
 
   const handleDeleteDestination = (destination) => {
@@ -304,159 +305,106 @@ const Destinations = () => {
 
       {/* Destination Details Modal */}
       {showModal && selectedDestination && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl w-full max-w-5xl max-h-[95vh] overflow-hidden border border-white/20 dark:border-gray-700/50">
-            {/* Close Button */}
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute top-6 right-6 z-10 w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-200"
-            >
-              ✕
-            </button>
-
-            {/* Hero Section */}
-            <div className="relative h-80 md:h-96 overflow-hidden">
-              <img
-                src={selectedDestination.image ? `http://localhost:4000${selectedDestination.image}` : 'https://via.placeholder.com/400x300?text=No+Image'}
-                alt={selectedDestination.name}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/400x300?text=No+Image';
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-
-              {/* Floating Badges */}
-              <div className="absolute top-6 left-6 flex flex-col gap-3">
-                {selectedDestination.popular && (
-                  <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm">
-                    🔥 Popular Destination
-                  </div>
-                )}
-                <div className="bg-black/30 backdrop-blur-md text-white px-4 py-2 rounded-full text-sm font-medium flex items-center shadow-lg">
-                  <FaStar className="text-yellow-400 mr-2" size={14} />
-                  {selectedDestination.rating} Rating
-                </div>
-              </div>
-
-              {/* Price Badge */}
-              <div className="absolute bottom-6 right-6 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-2xl font-bold text-lg shadow-lg backdrop-blur-sm">
-                ₹{selectedDestination.price}
-              </div>
-
-              {/* Title Section */}
-              <div className="absolute bottom-6 left-6 text-white">
-                <h1 className="text-4xl md:text-5xl font-bold mb-2 drop-shadow-lg">{selectedDestination.name}</h1>
-                <div className="flex items-center gap-4 text-lg">
-                  <div className="flex items-center gap-2">
-                    <FaMapMarkerAlt className="text-blue-400" />
-                    <span>{selectedDestination.landscape}</span>
-                  </div>
-                  <div className="w-1 h-1 bg-white/60 rounded-full"></div>
-                  <span>{selectedDestination.duration}</span>
-                </div>
-              </div>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Destination Details</h2>
+              <button
+                onClick={() => setShowModal(false)}
+                className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              >
+                ✕
+              </button>
             </div>
 
-            {/* Content Section */}
-            <div className="overflow-y-auto max-h-[calc(95vh-384px)]">
-              <div className="p-8">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                  {/* Stats Cards */}
-                  <div className="lg:col-span-1 space-y-4">
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Key Details</h3>
+            {/* Content */}
+            <div className="overflow-y-auto max-h-[calc(90vh-140px)]">
+              <div className="p-6">
+                {/* Image */}
+                <div className="mb-6">
+                  <img
+                    src={selectedDestination.image ? `http://localhost:4000${selectedDestination.image}` : 'https://via.placeholder.com/400x300?text=No+Image'}
+                    alt={selectedDestination.name}
+                    className="w-full h-64 object-cover rounded-xl"
+                    onError={(e) => {
+                      e.target.src = 'https://via.placeholder.com/400x300?text=No+Image';
+                    }}
+                  />
+                </div>
 
-                    <div className="grid grid-cols-1 gap-4">
-                      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-6 rounded-2xl border border-blue-100 dark:border-blue-800/30">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-sm font-medium text-blue-600 dark:text-blue-400 mb-1">Landscape</p>
-                            <p className="text-xl font-bold text-gray-900 dark:text-white">{selectedDestination.landscape}</p>
-                          </div>
-                          <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
-                            <FaMapMarkerAlt className="text-white" size={20} />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 p-6 rounded-2xl border border-purple-100 dark:border-purple-800/30">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-sm font-medium text-purple-600 dark:text-purple-400 mb-1">Duration</p>
-                            <p className="text-xl font-bold text-gray-900 dark:text-white">{selectedDestination.duration}</p>
-                          </div>
-                          <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center">
-                            <span className="text-white font-bold">⏱️</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 p-6 rounded-2xl border border-amber-100 dark:border-amber-800/30">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-sm font-medium text-amber-600 dark:text-amber-400 mb-1">Rating</p>
-                            <p className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
-                              {selectedDestination.rating}
-                              <FaStar className="text-yellow-500 ml-1" size={16} />
-                            </p>
-                          </div>
-                          <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center">
-                            <FaStar className="text-white" size={20} />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 p-6 rounded-2xl border border-emerald-100 dark:border-emerald-800/30">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-1">Status</p>
-                            <p className={`text-xl font-bold ${selectedDestination.popular ? 'text-green-600 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
-                              {selectedDestination.popular ? 'Popular' : 'Standard'}
-                            </p>
-                          </div>
-                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${selectedDestination.popular ? 'bg-green-500' : 'bg-gray-500'}`}>
-                            <span className="text-white text-lg">{selectedDestination.popular ? '⭐' : '📍'}</span>
-                          </div>
-                        </div>
-                      </div>
+                {/* Title and Basic Info */}
+                <div className="mb-6">
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{selectedDestination.name}</h1>
+                  <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400">
+                    <div className="flex items-center gap-1">
+                      <FaMapMarkerAlt size={16} />
+                      <span>{selectedDestination.landscape}</span>
+                    </div>
+                    <span>•</span>
+                    <span>{selectedDestination.duration}</span>
+                    <span>•</span>
+                    <div className="flex items-center gap-1">
+                      <FaStar className="text-yellow-500" size={16} />
+                      <span>{selectedDestination.rating}</span>
                     </div>
                   </div>
+                </div>
 
-                  {/* Description */}
-                  <div className="lg:col-span-2">
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">About This Destination</h3>
-                    <div className="bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-800 dark:to-slate-800 p-8 rounded-3xl border border-gray-200 dark:border-gray-700">
-                      <div
-                        className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg prose prose-lg max-w-none dark:prose-invert"
-                        dangerouslySetInnerHTML={{ __html: selectedDestination.description }}
-                      />
+                {/* Key Details */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                    <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Price</div>
+                    <div className="text-xl font-bold text-green-600 dark:text-green-400">₹{selectedDestination.price}</div>
+                  </div>
+                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                    <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Landscape</div>
+                    <div className="text-lg font-semibold text-gray-900 dark:text-white">{selectedDestination.landscape}</div>
+                  </div>
+                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                    <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Duration</div>
+                    <div className="text-lg font-semibold text-gray-900 dark:text-white">{selectedDestination.duration}</div>
+                  </div>
+                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                    <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Status</div>
+                    <div className={`text-lg font-semibold ${selectedDestination.popular ? 'text-green-600 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
+                      {selectedDestination.popular ? 'Popular' : 'Standard'}
                     </div>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Description</h3>
+                  <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                    <div
+                      className="text-gray-700 dark:text-gray-300 leading-relaxed prose max-w-none dark:prose-invert"
+                      dangerouslySetInnerHTML={{ __html: selectedDestination.description }}
+                    />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Action Footer */}
-            <div className="p-8 bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-800 dark:to-slate-800 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-500 dark:text-gray-400">
-                  Last updated: {new Date().toLocaleDateString()}
-                </div>
-                <div className="flex gap-4">
-                  <button
-                    onClick={() => setShowModal(false)}
-                    className="px-8 py-3 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-200 font-semibold border border-gray-200 dark:border-gray-600"
-                  >
-                    Close
-                  </button>
-                  <button
-                    onClick={() => handleEditDestination(selectedDestination)}
-                    className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-2xl transition-all duration-200 font-semibold flex items-center shadow-lg hover:shadow-xl"
-                  >
-                    <FaEdit className="mr-2" size={16} />
-                    Edit Destination
-                  </button>
-                </div>
+            {/* Footer */}
+            <div className="flex items-center justify-between p-2 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                Last updated: {new Date().toLocaleDateString()}
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="px-6 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors font-medium"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => handleEditDestination(selectedDestination)}
+                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium flex items-center gap-2"
+                >
+                  <FaEdit size={16} />
+                  Edit
+                </button>
               </div>
             </div>
           </div>
