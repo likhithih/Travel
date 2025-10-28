@@ -222,6 +222,17 @@ const Destinations = () => {
             <div className="flex justify-center items-center h-64">
               <div className="text-red-600 dark:text-red-400">Error: {error}</div>
             </div>
+          ) : filteredDestinations.length === 0 ? (
+            <div className="flex flex-col justify-center items-center h-64 text-center">
+              <div className="text-6xl mb-4">🏖️</div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No Destinations Found</h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                {destinations.length === 0
+                  ? "No destinations have been added yet. Click 'Add Destination' to get started."
+                  : "No destinations match your current search or filter criteria. Try adjusting your filters."
+                }
+              </p>
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredDestinations.map((destination, index) => (
@@ -229,7 +240,7 @@ const Destinations = () => {
                   {/* Image */}
                   <div className="relative h-48">
                     <img
-                      src={destination.image ? `http://localhost:4000${destination.image}` : 'https://via.placeholder.com/400x300?text=No+Image'}
+                      src={destination.image || 'https://via.placeholder.com/400x300?text=No+Image'}
                       alt={destination.name}
                       className="w-full h-full object-cover"
                       onError={(e) => {
@@ -324,7 +335,7 @@ const Destinations = () => {
                 {/* Image */}
                 <div className="mb-6">
                   <img
-                    src={selectedDestination.image ? `http://localhost:4000${selectedDestination.image}` : 'https://via.placeholder.com/400x300?text=No+Image'}
+                    src={selectedDestination.image || 'https://via.placeholder.com/400x300?text=No+Image'}
                     alt={selectedDestination.name}
                     className="w-full h-64 object-cover rounded-xl"
                     onError={(e) => {
@@ -428,7 +439,7 @@ const Destinations = () => {
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
                 <img
-                  src={destinationToDelete.image ? `http://localhost:4000${destinationToDelete.image}` : 'https://via.placeholder.com/400x300?text=No+Image'}
+                  src={destinationToDelete.image || 'https://via.placeholder.com/400x300?text=No+Image'}
                   alt={destinationToDelete.name}
                   className="w-16 h-16 object-cover rounded-lg"
                   onError={(e) => {
