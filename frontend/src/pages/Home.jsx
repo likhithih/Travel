@@ -66,8 +66,8 @@ const Home = () => {
     img: dest.image,
     location: `${dest.name}, Karnataka - ${dest.landscape}`,
     title: dest.name,
-    desc: dest.description.replace(/<[^>]*>/g, ''), // Strip HTML tags
-    rating: dest.rating.toString(),
+    desc: dest.description ? dest.description.replace(/<[^>]*>/g, '') : '', // Strip HTML tags and handle undefined
+    rating: dest.rating ? dest.rating.toString() : '0',
     reviews: '(0 reviews)', // Assuming no reviews field in model
     duration: dest.duration,
     price: `₹${dest.price}`
