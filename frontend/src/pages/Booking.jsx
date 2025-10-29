@@ -4,6 +4,17 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+// Load Razorpay script
+const loadRazorpay = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
+
 export default function Booking() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -59,45 +70,107 @@ export default function Booking() {
     }
 
     setIsLoading(true);
+
     try {
+      // Load Razorpay script
+      const res = await loadRazorpay();
+      if (!res) {
+        toast.error("Razorpay SDK failed to load. Are you online?");
+        setIsLoading(false);
+        return;
+      }
+
       const token = localStorage.getItem("token");
       if (!token) {
         toast.error("Please login to continue");
         navigate("/login");
+        setIsLoading(false);
         return;
       }
 
-      const bookingData = {
-        destinationId: cardData._id,
-        packageName: cardData.title,
-        travelDate,
-        travelers: people,
-        totalAmount: Math.round(totalPrice),
-        specialRequests: specialRequests || ""
-      };
-
-      const response = await axios.post("http://localhost:4000/bookings", bookingData, {
+      // Create order on backend
+      const orderResponse = await axios.post("http://localhost:4000/create-order", {
+        amount: Math.round(totalPrice * 100), // Razorpay expects amount in paisa
+        currency: "INR",
+        receipt: `receipt_${Date.now()}`
+      }, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
         }
       });
 
-      if (response.status === 201) {
-        toast.success("Booking created successfully! Status: Pending");
-        navigate("/booking-status");
-      }
+      const { order } = orderResponse.data;
+
+      // Razorpay options
+      const options = {
+        key: "rzp_test_RZFtFrM5rQaGcN", // Your Razorpay Key ID
+        amount: order.amount,
+        currency: order.currency,
+        name: "Travel Booking",
+        description: `Booking for ${cardData.title}`,
+        order_id: order.id,
+        handler: async function (response) {
+          try {
+            // Verify payment on backend
+            const verifyResponse = await axios.post("http://localhost:4000/verify-payment", {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              bookingData: {
+                destinationId: cardData._id,
+                packageName: cardData.title,
+                travelDate,
+                travelers: people,
+                totalAmount: Math.round(totalPrice),
+                specialRequests: specialRequests || ""
+              }
+            }, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+              }
+            });
+
+            if (verifyResponse.data.success) {
+              toast.success("Payment successful! Booking confirmed.");
+              navigate("/booking-status");
+            } else {
+              toast.error("Payment verification failed");
+            }
+          } catch (error) {
+            console.error("Payment verification error:", error);
+            toast.error("Payment verification failed");
+          }
+        },
+        prefill: {
+          name: formData.name,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        theme: {
+          color: "#c8a951",
+        },
+        modal: {
+          ondismiss: function() {
+            setIsLoading(false);
+          }
+        }
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+
     } catch (error) {
-      console.error("Booking error:", error);
+      console.error("Payment error:", error);
       if (error.response?.status === 401) {
         toast.error("Session expired. Please login again.");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         navigate("/login");
-        return;
+      } else {
+        toast.error(error.response?.data?.message || "Failed to initiate payment");
       }
-      toast.error(error.response?.data?.message || "Failed to create booking");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -253,7 +326,7 @@ export default function Booking() {
           disabled={isLoading}
           onClick={handlePayment}
         >
-          {isLoading ? "Processing..." : "Confirm Booking"}
+          {isLoading ? "Processing Payment..." : "Pay Now"}
         </motion.button>
       </motion.div>
     </div>

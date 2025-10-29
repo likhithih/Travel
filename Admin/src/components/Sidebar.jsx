@@ -87,7 +87,7 @@ const Sidebar = () => {
       {/* Sidebar */}
       <div className={`
         fixed top-0 left-0 h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white z-50 transition-all duration-300 ease-in-out shadow-2xl border-r border-gray-200 dark:border-gray-700
-        ${isOpen ? 'w-60' : 'w-0 lg:w-20'}
+        ${isOpen ? 'w-57' : 'w-0 lg:w-20'}
         lg:relative lg:z-auto
       `}>
         {/* Header */}

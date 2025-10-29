@@ -244,12 +244,12 @@ export const updateBookingStatus = async (req, res) => {
     }
 };
 
-// Delete booking (User can delete their own booking)
+// Delete booking (Admin can delete any booking)
 export const deleteBooking = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const booking = await Booking.findOneAndDelete({ _id: id, user: req.user._id || req.user.userId });
+        const booking = await Booking.findByIdAndDelete(id);
 
         if (!booking) {
             return res.status(404).json({ message: 'Booking not found' });

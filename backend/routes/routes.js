@@ -10,6 +10,8 @@ import {
     upload
 } from '../controllers/destinationController.js';
 import { authenticateToken, requireAdmin } from '../middleware/auth.js';
+import Razorpay from 'razorpay';
+import crypto from 'crypto';
 
 const router = Router();
 
@@ -37,5 +39,78 @@ router.get('/destinations/:id', getDestinationById); // Public route for fronten
 router.post('/admin/destinations', authenticateToken, requireAdmin, upload.single('image'), createDestination);
 router.put('/admin/destinations/:id', authenticateToken, requireAdmin, upload.single('image'), updateDestination);
 router.delete('/admin/destinations/:id', authenticateToken, requireAdmin, deleteDestination);
+
+// Create order
+router.post('/create-order', authenticateToken, async (req, res) => {
+  try {
+    const razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+
+    const { amount, currency = 'INR', receipt } = req.body;
+
+    const options = {
+      amount: amount, // amount in paisa
+      currency,
+      receipt,
+    };
+
+    const order = await razorpay.orders.create(options);
+    res.json({ order });
+  } catch (error) {
+    console.error('Error creating order:', error);
+    res.status(500).json({ message: 'Failed to create order' });
+  }
+});
+
+// Verify payment
+router.post('/verify-payment', authenticateToken, async (req, res) => {
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, bookingData } = req.body;
+
+    // Verify signature
+    const sign = razorpay_order_id + '|' + razorpay_payment_id;
+    const expectedSign = crypto
+      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+      .update(sign.toString())
+      .digest('hex');
+
+    if (razorpay_signature === expectedSign) {
+      // Payment verified, now create the booking
+      const Booking = (await import('../models/Booking.js')).default;
+      const Destination = (await import('../models/Destination.js')).default;
+
+      // Check if destination exists
+      const destination = await Destination.findById(bookingData.destinationId);
+      if (!destination) {
+        return res.status(404).json({ message: 'Destination not found' });
+      }
+
+      // Create booking
+      const newBooking = new Booking({
+        user: req.user.id, // from auth middleware
+        destination: bookingData.destinationId,
+        packageName: bookingData.packageName,
+        travelDate: new Date(bookingData.travelDate),
+        travelers: bookingData.travelers,
+        totalAmount: bookingData.totalAmount,
+        specialRequests: bookingData.specialRequests,
+        status: 'Pending',
+        paymentStatus: 'Paid',
+        paymentId: razorpay_payment_id,
+      });
+
+      await newBooking.save();
+
+      res.json({ success: true, message: 'Payment verified and booking created' });
+    } else {
+      res.status(400).json({ success: false, message: 'Payment verification failed' });
+    }
+  } catch (error) {
+    console.error('Error verifying payment:', error);
+    res.status(500).json({ message: 'Failed to verify payment' });
+  }
+});
 
 export default router;
