@@ -35,7 +35,7 @@ function Navbar() {
 
   return (
     <div>
-      <header className={`${isScrolled ? (darkMode ? 'bg-black/80 backdrop-blur-md shadow-lg' : 'bg-green-50/80 backdrop-blur-md shadow-lg') : darkMode ? 'bg-gray-900/80 backdrop-blur-md' : 'bg-green-50'} ${darkMode ? 'text-white' : 'text-black'} fixed top-0 left-0 right-0 z-50 transition-all duration-300`}>
+      <header className={`${isScrolled ? (darkMode ? 'bg-black/80 backdrop-blur-md shadow-lg' : 'bg-green-50/80 backdrop-blur-md shadow-lg') : 'bg-transparent'} ${darkMode ? 'text-white' : 'text-black'} fixed top-0 left-0 right-0 z-50 transition-all duration-300`}>
         <div className="container mx-auto flex items-center justify-between h-20 px-4">
           {/* Logo */}
           <a href="#" className="flex items-center space-x-3">
