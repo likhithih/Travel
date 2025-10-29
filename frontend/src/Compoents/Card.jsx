@@ -3,7 +3,7 @@ import { FiMapPin, FiStar } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from './ThemeContext';
 
-const Card = ({ cardsData = [] }) => {
+const Card = ({ cardsData = [], cardClassName = '' }) => {
   const navigate = useNavigate();
   const { darkMode } = useTheme();
 
@@ -18,7 +18,7 @@ const Card = ({ cardsData = [] }) => {
         {cardsData && cardsData.map((card, index) => (
           <div
             key={index}
-            className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-green-50 border-gray-100'} rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-xs mx-auto`}
+            className={`${cardClassName} ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-green-50 border-gray-100'} rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-xs mx-auto`}
           >
             {/* Image */}
             <img
@@ -52,9 +52,9 @@ const Card = ({ cardsData = [] }) => {
                   <span className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
                     {card.rating}
                   </span>
-                  <span className="ml-1 text-gray-400">{card.reviews}</span>
+                  {/* <span className="ml-1 text-gray-400">{card.reviews}</span> */}
                 </div>
-                <span>{card.duration}</span>
+                <span>{card.duration} days</span>
               </div>
 
               {/* Price + Button */}
