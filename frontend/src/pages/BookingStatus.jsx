@@ -153,7 +153,7 @@ const BookingStatus = () => {
                 }`}
               >
                 {/* Header */}
-                <div className={`p-6 ${darkMode ? 'bg-gray-700' : 'bg-gradient-to-r from-lime-500 to-green-600'} text-white`}>
+                <div className={`p-6 ${darkMode ? 'bg-gray-700' : 'bg-linear-to-r from-lime-500 to-green-600'} text-white`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       {getStatusIcon(booking.status)}
