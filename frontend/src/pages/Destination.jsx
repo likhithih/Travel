@@ -42,6 +42,7 @@ function Destination() {
           const cleanDesc = dest.description.replace(/<[^>]*>/g, ''); // Strip HTML tags
 
           return {
+            _id: dest._id,
             img: dest.image,
             location: `${dest.name}, India`,
             title: dest.name,

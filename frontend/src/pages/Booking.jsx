@@ -89,6 +89,13 @@ export default function Booking() {
       }
     } catch (error) {
       console.error("Booking error:", error);
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/login");
+        return;
+      }
       toast.error(error.response?.data?.message || "Failed to create booking");
     } finally {
       setIsLoading(false);
