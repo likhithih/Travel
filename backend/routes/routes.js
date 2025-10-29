@@ -12,6 +12,7 @@ import {
 import { authenticateToken, requireAdmin } from '../middleware/auth.js';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
+import { sendPaymentSuccessEmail } from '../utils/mailer.js';
 
 const router = Router();
 
@@ -80,11 +81,18 @@ router.post('/verify-payment', authenticateToken, async (req, res) => {
       // Payment verified, now create the booking
       const Booking = (await import('../models/Booking.js')).default;
       const Destination = (await import('../models/Destination.js')).default;
+      const User = (await import('../models/User.js')).default;
 
       // Check if destination exists
       const destination = await Destination.findById(bookingData.destinationId);
       if (!destination) {
         return res.status(404).json({ message: 'Destination not found' });
+      }
+
+      // Get user details for email
+      const user = await User.findById(req.user.id);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
       }
 
       // Create booking
@@ -96,14 +104,28 @@ router.post('/verify-payment', authenticateToken, async (req, res) => {
         travelers: bookingData.travelers,
         totalAmount: bookingData.totalAmount,
         specialRequests: bookingData.specialRequests,
-        status: 'Pending',
+        status: 'Confirmed', // Set to Confirmed since payment is successful
         paymentStatus: 'Paid',
         paymentId: razorpay_payment_id,
       });
 
       await newBooking.save();
 
-      res.json({ success: true, message: 'Payment verified and booking created' });
+      // Send payment success email
+      try {
+        await sendPaymentSuccessEmail(user.email, {
+          packageName: bookingData.packageName,
+          destination: destination.name,
+          travelDate: new Date(bookingData.travelDate).toISOString().split('T')[0],
+          travelers: bookingData.travelers,
+          totalAmount: bookingData.totalAmount
+        });
+      } catch (emailError) {
+        console.error('Failed to send payment success email:', emailError);
+        // Don't fail the booking creation if email fails
+      }
+
+      res.json({ success: true, message: 'Payment verified, booking created, and confirmation email sent' });
     } else {
       res.status(400).json({ success: false, message: 'Payment verification failed' });
     }

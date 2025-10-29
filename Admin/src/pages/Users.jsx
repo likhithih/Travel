@@ -5,7 +5,6 @@ import {
   FaSearch,
   FaEdit,
   FaTrash,
-  FaUserPlus,
   FaEye,
   FaBan,
   FaCheck,
@@ -204,10 +203,6 @@ const Users = () => {
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">User Management</h1>
                 <p className="text-gray-600 dark:text-gray-400">Manage user accounts and permissions</p>
               </div>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors">
-                <FaUserPlus className="mr-2" />
-                Add User
-              </button>
             </div>
           </div>
         </header>
