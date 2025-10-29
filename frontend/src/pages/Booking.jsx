@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Booking() {
   const location = useLocation();
@@ -8,11 +10,14 @@ export default function Booking() {
   const cardData = location.state?.bookingData;
 
   const [people, setPeople] = useState(1);
+  const [travelDate, setTravelDate] = useState("");
+  const [specialRequests, setSpecialRequests] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!cardData) {
@@ -28,6 +33,66 @@ export default function Booking() {
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handlePayment = async () => {
+    // Validate required fields
+    if (!formData.name.trim()) {
+      toast.error("Please enter your full name");
+      return;
+    }
+    if (!formData.email.trim()) {
+      toast.error("Please enter your email address");
+      return;
+    }
+    if (!formData.phone.trim()) {
+      toast.error("Please enter your phone number");
+      return;
+    }
+    if (!travelDate) {
+      toast.error("Please select a travel date");
+      return;
+    }
+    if (people < 1) {
+      toast.error("Please select at least 1 traveler");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login to continue");
+        navigate("/login");
+        return;
+      }
+
+      const bookingData = {
+        destinationId: cardData._id,
+        packageName: cardData.title,
+        travelDate,
+        travelers: people,
+        totalAmount: totalPrice,
+        specialRequests: specialRequests || ""
+      };
+
+      const response = await axios.post("http://localhost:4000/bookings", bookingData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (response.status === 201) {
+        toast.success("Booking created successfully! Status: Pending");
+        navigate("/booking-status");
+      }
+    } catch (error) {
+      console.error("Booking error:", error);
+      toast.error(error.response?.data?.message || "Failed to create booking");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (!cardData) {
@@ -108,6 +173,8 @@ export default function Booking() {
           <input
             type="date"
             min={new Date().toISOString().split("T")[0]}
+            value={travelDate}
+            onChange={(e) => setTravelDate(e.target.value)}
             className="p-3 rounded-xl bg-[#1a244d]/60 border border-[#c8a951]/20 text-white focus:outline-none focus:ring-2 focus:ring-[#c8a951]/40 transition-all"
           />
         </motion.div>
@@ -124,6 +191,18 @@ export default function Booking() {
               className="w-16 bg-transparent text-center outline-none text-white ml-4"
             />
           </div>
+        </motion.div>
+
+        {/* Special Requests */}
+        <motion.div className="mb-8" variants={fadeInUp}>
+          <label className="block text-sm font-medium mb-2 text-[#e5c875]">Special Requests (Optional)</label>
+          <textarea
+            value={specialRequests}
+            onChange={(e) => setSpecialRequests(e.target.value)}
+            placeholder="Any special requirements or requests..."
+            className="w-full p-3 rounded-xl bg-[#1a244d]/60 border border-[#c8a951]/20 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-[#c8a951]/40 transition-all resize-none"
+            rows="3"
+          />
         </motion.div>
 
         {/* Price Summary */}
@@ -164,8 +243,10 @@ export default function Booking() {
           variants={fadeInUp}
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.96 }}
+          disabled={isLoading}
+          onClick={handlePayment}
         >
-          Proceed to Payment
+          {isLoading ? "Processing..." : "Confirm Booking"}
         </motion.button>
       </motion.div>
     </div>

@@ -66,14 +66,19 @@ function Navbar() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex">
             <ul className="flex items-center space-x-8">
-              {['home', 'about', 'destination', 'booking'].map((page) => (
-                <li key={page}>
+              {[
+                { name: 'Home', path: 'home' },
+                { name: 'About', path: 'about' },
+                { name: 'Destination', path: 'destination' },
+                { name: 'Booking Status', path: 'booking-status' }
+              ].map((item) => (
+                <li key={item.path}>
                   <Link
-                    to={`/${page}`}
+                    to={`/${item.path}`}
                     className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'}
                       hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}
                   >
-                    <span>{page.charAt(0).toUpperCase() + page.slice(1)}</span>
+                    <span>{item.name}</span>
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                   </Link>
                 </li>
@@ -100,15 +105,15 @@ function Navbar() {
                 }}
                 className={`flex items-center space-x-2 ${
                   darkMode
-                    ? 'bg-gradient-to-r from-gray-800 to-gray-900 text-white'
-                    : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800'
+                    ? 'bg-linear-to-r from-gray-800 to-gray-900 text-white'
+                    : 'bg-linear-to-r from-gray-100 to-gray-200 text-gray-800'
                 } font-semibold px-4 py-2 rounded-full shadow-md hover:scale-105 transition-all duration-300`}
               >
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
                     darkMode
-                      ? 'bg-gradient-to-r from-lime-400 to-green-500 text-black'
-                      : 'bg-gradient-to-r from-lime-500 to-green-600 text-white'
+                      ? 'bg-linear-to-r from-lime-400 to-green-500 text-black'
+                      : 'bg-linear-to-r from-lime-500 to-green-600 text-white'
                   }`}
                 >
                   {user?.name ? user.name.charAt(0).toUpperCase() : <FaUser />}
