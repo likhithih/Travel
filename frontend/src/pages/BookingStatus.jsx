@@ -4,6 +4,7 @@ import { FaCalendarAlt, FaMapMarkerAlt, FaUsers, FaRupeeSign, FaEdit, FaTrash, F
 import { useTheme } from '../Compoents/ThemeContext';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import Navbar from '../Compoents/Navbar';
 
 const BookingStatus = () => {
   const { darkMode } = useTheme();
@@ -117,6 +118,8 @@ const BookingStatus = () => {
   }
 
   return (
+    <>
+    <Navbar/>
     <div className={`min-h-screen pt-24 pb-12 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
       <ToastContainer />
       <div className="container mx-auto px-4">
@@ -280,6 +283,7 @@ const BookingStatus = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 
