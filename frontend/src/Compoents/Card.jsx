@@ -42,7 +42,10 @@ const Card = ({ cardsData = [], cardClassName = '' }) => {
 
               {/* Description */}
               <p className={`text-sm leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                {card.desc}
+                {(() => {
+                  const words = card.desc.split(' ');
+                  return words.length > 20 ? words.slice(0, 20).join(' ') + '...' : card.desc;
+                })()}
               </p>
 
               {/* Rating + Duration */}

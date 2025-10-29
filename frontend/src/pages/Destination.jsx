@@ -39,11 +39,13 @@ function Destination() {
             daysRange = "11+ Days";
           }
 
+          const cleanDesc = dest.description.replace(/<[^>]*>/g, ''); // Strip HTML tags
+
           return {
             img: dest.image,
             location: `${dest.name}, India`,
             title: dest.name,
-            desc: dest.description,
+            desc: cleanDesc,
             rating: dest.rating.toString(),
             reviews: "(0)",
             duration: dest.duration,
