@@ -1,7 +1,7 @@
 import Booking from '../models/Booking.js';
 import User from '../models/User.js';
 import Destination from '../models/Destination.js';
-import { sendBookingPendingEmail, sendBookingConfirmationEmail } from '../utils/mailer.js';
+import { sendBookingPendingEmail, sendBookingConfirmationEmail, sendBookingCancelledEmail } from '../utils/mailer.js';
 
 // Create a new booking
 export const createBooking = async (req, res) => {
@@ -213,9 +213,9 @@ export const updateBookingStatus = async (req, res) => {
             return res.status(404).json({ message: 'Booking not found' });
         }
 
-        // Send confirmation email if status is confirmed
-        if (status === 'confirmed') {
-            try {
+        // Send email based on status change
+        try {
+            if (status === 'confirmed') {
                 await sendBookingConfirmationEmail(booking.user.email, {
                     packageName: booking.packageName,
                     destination: booking.destination.name,
@@ -223,10 +223,18 @@ export const updateBookingStatus = async (req, res) => {
                     travelers: booking.travelers,
                     totalAmount: booking.totalAmount
                 });
-            } catch (emailError) {
-                console.error('Failed to send confirmation email:', emailError);
-                // Don't fail the status update if email fails
+            } else if (status === 'cancelled') {
+                await sendBookingCancelledEmail(booking.user.email, {
+                    packageName: booking.packageName,
+                    destination: booking.destination.name,
+                    travelDate: booking.travelDate.toISOString().split('T')[0],
+                    travelers: booking.travelers,
+                    totalAmount: booking.totalAmount
+                });
             }
+        } catch (emailError) {
+            console.error(`Failed to send ${status} email:`, emailError);
+            // Don't fail the status update if email fails
         }
 
         res.status(200).json({

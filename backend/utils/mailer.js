@@ -6,7 +6,9 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-    }
+    },
+    secure: true, // Use SSL
+    port: 465 // Gmail SMTP port
 });
 
 // Send booking confirmation email
@@ -76,6 +78,42 @@ export const sendBookingPendingEmail = async (userEmail, bookingDetails) => {
         console.log('Booking pending email sent successfully');
     } catch (error) {
         console.error('Error sending booking pending email:', error);
+        throw error;
+    }
+};
+
+// Send booking cancelled email
+export const sendBookingCancelledEmail = async (userEmail, bookingDetails) => {
+    try {
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: userEmail,
+            subject: 'Booking Cancelled - Trippy Travels',
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2 style="color: #F44336;">Booking Cancelled</h2>
+                    <p>Dear Customer,</p>
+                    <p>We regret to inform you that your booking has been cancelled. Here are the details:</p>
+                    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0;">
+                        <h3>Booking Details:</h3>
+                        <p><strong>Package:</strong> ${bookingDetails.packageName}</p>
+                        <p><strong>Destination:</strong> ${bookingDetails.destination}</p>
+                        <p><strong>Travel Date:</strong> ${bookingDetails.travelDate}</p>
+                        <p><strong>Travelers:</strong> ${bookingDetails.travelers}</p>
+                        <p><strong>Total Amount:</strong> ₹${bookingDetails.totalAmount}</p>
+                        <p><strong>Status:</strong> Cancelled</p>
+                    </div>
+                    <p>If you have any questions or would like to rebook, please contact our support team.</p>
+                    <p>Thank you for considering Trippy Travels!</p>
+                    <p>Best regards,<br>Trippy Travels Team</p>
+                </div>
+            `
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log('Booking cancelled email sent successfully');
+    } catch (error) {
+        console.error('Error sending booking cancelled email:', error);
         throw error;
     }
 };
