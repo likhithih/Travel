@@ -72,7 +72,7 @@ export default function Booking() {
         packageName: cardData.title,
         travelDate,
         travelers: people,
-        totalAmount: totalPrice,
+        totalAmount: Math.round(totalPrice),
         specialRequests: specialRequests || ""
       };
 

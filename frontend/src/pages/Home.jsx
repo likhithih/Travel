@@ -24,6 +24,7 @@ const Home = () => {
         // Fallback to hardcoded data if API fails
         setDestinations([
           {
+            _id: 'fallback-1',
             img: '/assets/Hampi-temple.jpg',
             location: 'Hampi, Karnataka',
             title: 'Ancient Hampi Ruins',
@@ -34,6 +35,7 @@ const Home = () => {
             price: '₹8,500'
           },
           {
+            _id: 'fallback-2',
             img: '/assets/Mysore-place.jpg',
             location: 'Mysore, Karnataka',
             title: 'Royal Mysore Tour',
@@ -44,6 +46,7 @@ const Home = () => {
             price: '₹12,000'
           },
           {
+            _id: 'fallback-3',
             img: '/assets/Kundamundi.jpg',
             location: 'Kundamundi, Karnataka',
             title: 'Hill Station Retreat',
