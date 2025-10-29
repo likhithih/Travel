@@ -1,6 +1,7 @@
 import Booking from '../models/Booking.js';
 import User from '../models/User.js';
 import Destination from '../models/Destination.js';
+import { sendBookingPendingEmail, sendBookingConfirmationEmail } from '../utils/mailer.js';
 
 // Create a new booking
 export const createBooking = async (req, res) => {
@@ -41,6 +42,20 @@ export const createBooking = async (req, res) => {
         // Populate the booking with user and destination details
         await booking.populate('user', 'username email googleDisplayName');
         await booking.populate('destination', 'name');
+
+        // Send pending email to user
+        try {
+            await sendBookingPendingEmail(booking.user.email, {
+                packageName: booking.packageName,
+                destination: booking.destination.name,
+                travelDate: booking.travelDate.toISOString().split('T')[0],
+                travelers: booking.travelers,
+                totalAmount: booking.totalAmount
+            });
+        } catch (emailError) {
+            console.error('Failed to send pending email:', emailError);
+            // Don't fail the booking creation if email fails
+        }
 
         res.status(201).json({
             message: 'Booking created successfully',
@@ -196,6 +211,22 @@ export const updateBookingStatus = async (req, res) => {
 
         if (!booking) {
             return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // Send confirmation email if status is confirmed
+        if (status === 'confirmed') {
+            try {
+                await sendBookingConfirmationEmail(booking.user.email, {
+                    packageName: booking.packageName,
+                    destination: booking.destination.name,
+                    travelDate: booking.travelDate.toISOString().split('T')[0],
+                    travelers: booking.travelers,
+                    totalAmount: booking.totalAmount
+                });
+            } catch (emailError) {
+                console.error('Failed to send confirmation email:', emailError);
+                // Don't fail the status update if email fails
+            }
         }
 
         res.status(200).json({
