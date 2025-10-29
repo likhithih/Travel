@@ -30,7 +30,8 @@ router.put('/admin/users/:userId/status', authenticateToken, requireAdmin, updat
 router.put('/admin/users/:userId', authenticateToken, requireAdmin, updateUser);
 router.delete('/admin/users/:userId', authenticateToken, requireAdmin, deleteUser);
 
-// Destination routes (Admin only for now)
+// Destination routes
+router.get('/destinations', getAllDestinations); // Public route for frontend to get all destinations
 router.get('/admin/destinations', authenticateToken, requireAdmin, getAllDestinations);
 router.get('/destinations/:id', getDestinationById); // Public route for frontend
 router.post('/admin/destinations', authenticateToken, requireAdmin, upload.single('image'), createDestination);
