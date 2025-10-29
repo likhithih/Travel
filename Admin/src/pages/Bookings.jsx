@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
+import axios from 'axios';
 import {
   FaSearch,
   FaEdit,
@@ -17,54 +18,37 @@ const Bookings = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Mock booking data
-  const [bookings, setBookings] = useState([
-    {
-      id: 1,
-      user: 'John Doe',
-      destination: 'Paris, France',
-      bookingDate: '2024-01-15',
-      travelDate: '2024-02-01',
-      status: 'confirmed',
-      travelers: 2,
-      totalAmount: 2500,
-      paymentStatus: 'paid'
-    },
-    {
-      id: 2,
-      user: 'Jane Smith',
-      destination: 'Tokyo, Japan',
-      bookingDate: '2024-01-14',
-      travelDate: '2024-02-15',
-      status: 'pending',
-      travelers: 1,
-      totalAmount: 1800,
-      paymentStatus: 'pending'
-    },
-    {
-      id: 3,
-      user: 'Mike Johnson',
-      destination: 'New York, USA',
-      bookingDate: '2024-01-13',
-      travelDate: '2024-01-20',
-      status: 'cancelled',
-      travelers: 3,
-      totalAmount: 3200,
-      paymentStatus: 'refunded'
-    },
-    {
-      id: 4,
-      user: 'Sarah Wilson',
-      destination: 'London, UK',
-      bookingDate: '2024-01-12',
-      travelDate: '2024-03-01',
-      status: 'confirmed',
-      travelers: 2,
-      totalAmount: 2100,
-      paymentStatus: 'paid'
-    }
-  ]);
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const token = localStorage.getItem('adminToken') || localStorage.getItem('token');
+        if (!token) {
+          setError('No authentication token found');
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get('http://localhost:4000/api/admin/bookings', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        setBookings(response.data.bookings);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching bookings:', err);
+        setError('Failed to load bookings');
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, []);
 
   const filteredBookings = bookings.filter(booking => {
     const matchesSearch = booking.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -164,97 +148,107 @@ const Bookings = () => {
 
         {/* Bookings Table */}
         <main className="flex-1 overflow-y-auto p-6">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50 dark:bg-gray-700">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Booking</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Customer</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Destination</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Travel Date</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {filteredBookings.map((booking) => (
-                    <tr key={booking.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div>
-                          <div className="text-sm font-medium text-gray-900 dark:text-white">#{booking.id}</div>
-                          <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
-                            <FaCalendarAlt className="mr-1" size={12} />
-                            {booking.bookingDate}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">{booking.user}</div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
-                          <FaUsers className="mr-1" size={12} />
-                          {booking.travelers} traveler{booking.travelers > 1 ? 's' : ''}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <FaMapMarkerAlt className="text-gray-400 mr-2" size={14} />
-                          <span className="text-sm text-gray-900 dark:text-white">{booking.destination}</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                        {booking.travelDate}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="space-y-1">
-                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(booking.status)}`}>
-                            {booking.status}
-                          </span>
-                          <div>
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPaymentStatusColor(booking.paymentStatus)}`}>
-                              {booking.paymentStatus}
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
-                          <span className="text-green-500 mr-1">₹</span>
-                          {booking.totalAmount.toLocaleString()}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex items-center space-x-2">
-                          <button
-                            onClick={() => handleViewBooking(booking)}
-                            className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
-                            title="View Details"
-                          >
-                            <FaEye size={16} />
-                          </button>
-                          <button
-                            onClick={() => handleEditBooking(booking)}
-                            className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
-                            title="Edit Booking"
-                          >
-                            <FaEdit size={16} />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteBooking(booking.id)}
-                            className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                            title="Delete Booking"
-                          >
-                            <FaTrash size={16} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          {loading ? (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-gray-600 dark:text-gray-400">Loading bookings...</div>
             </div>
-          </div>
+          ) : error ? (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-red-600 dark:text-red-400">{error}</div>
+            </div>
+          ) : (
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Booking</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Customer</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Destination</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Travel Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    {filteredBookings.map((booking) => (
+                      <tr key={booking.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div>
+                            <div className="text-sm font-medium text-gray-900 dark:text-white">#{booking.id}</div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                              <FaCalendarAlt className="mr-1" size={12} />
+                              {booking.bookingDate}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">{booking.user}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                            <FaUsers className="mr-1" size={12} />
+                            {booking.travelers} traveler{booking.travelers > 1 ? 's' : ''}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <FaMapMarkerAlt className="text-gray-400 mr-2" size={14} />
+                            <span className="text-sm text-gray-900 dark:text-white">{booking.destination}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                          {booking.travelDate}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="space-y-1">
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(booking.status)}`}>
+                              {booking.status}
+                            </span>
+                            <div>
+                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPaymentStatusColor('paid')}`}>
+                                paid
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                            <span className="text-green-500 mr-1">₹</span>
+                            {booking.totalAmount.toLocaleString()}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <div className="flex items-center space-x-2">
+                            <button
+                              onClick={() => handleViewBooking(booking)}
+                              className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                              title="View Details"
+                            >
+                              <FaEye size={16} />
+                            </button>
+                            <button
+                              onClick={() => handleEditBooking(booking)}
+                              className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
+                              title="Edit Booking"
+                            >
+                              <FaEdit size={16} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteBooking(booking.id)}
+                              className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                              title="Delete Booking"
+                            >
+                              <FaTrash size={16} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </main>
       </div>
 
@@ -278,10 +272,14 @@ const Bookings = () => {
                 <div className="space-y-2">
                   <p><span className="font-medium">Booking ID:</span> #{selectedBooking.id}</p>
                   <p><span className="font-medium">Customer:</span> {selectedBooking.user}</p>
+                  <p><span className="font-medium">Package:</span> {selectedBooking.packageName}</p>
                   <p><span className="font-medium">Destination:</span> {selectedBooking.destination}</p>
                   <p><span className="font-medium">Travelers:</span> {selectedBooking.travelers}</p>
                   <p><span className="font-medium">Booking Date:</span> {selectedBooking.bookingDate}</p>
                   <p><span className="font-medium">Travel Date:</span> {selectedBooking.travelDate}</p>
+                  {selectedBooking.specialRequests && (
+                    <p><span className="font-medium">Special Requests:</span> {selectedBooking.specialRequests}</p>
+                  )}
                 </div>
               </div>
 
@@ -290,8 +288,8 @@ const Bookings = () => {
                 <div className="space-y-2">
                   <p><span className="font-medium">Total Amount:</span> ₹{selectedBooking.totalAmount.toLocaleString()}</p>
                   <p><span className="font-medium">Payment Status:</span>
-                    <span className={`ml-2 px-2 py-1 text-xs rounded-full ${getPaymentStatusColor(selectedBooking.paymentStatus)}`}>
-                      {selectedBooking.paymentStatus}
+                    <span className={`ml-2 px-2 py-1 text-xs rounded-full ${getPaymentStatusColor('paid')}`}>
+                      paid
                     </span>
                   </p>
                   <p><span className="font-medium">Booking Status:</span>

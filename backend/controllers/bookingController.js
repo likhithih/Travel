@@ -5,10 +5,11 @@ import Destination from '../models/Destination.js';
 // Create a new booking
 export const createBooking = async (req, res) => {
     try {
-        const { userId, destinationId, travelDate, numberOfPeople, totalAmount } = req.body;
+        const { destinationId, packageName, travelDate, travelers, totalAmount, specialRequests } = req.body;
+        const userId = req.user._id || req.user.userId;
 
         // Validate required fields
-        if (!userId || !destinationId || !travelDate || !numberOfPeople || !totalAmount) {
+        if (!userId || !destinationId || !packageName || !travelDate || !travelers || !totalAmount) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
@@ -28,10 +29,11 @@ export const createBooking = async (req, res) => {
         const booking = new Booking({
             user: userId,
             destination: destinationId,
+            packageName,
             travelDate,
-            numberOfPeople,
+            travelers,
             totalAmount,
-            status: 'Pending'
+            specialRequests: specialRequests || ""
         });
 
         await booking.save();
@@ -46,11 +48,13 @@ export const createBooking = async (req, res) => {
                 id: booking._id,
                 user: booking.user.username || booking.user.googleDisplayName || booking.user.email,
                 destination: booking.destination.name,
+                packageName: booking.packageName,
                 travelDate: booking.travelDate,
-                numberOfPeople: booking.numberOfPeople,
+                travelers: booking.travelers,
                 totalAmount: booking.totalAmount,
                 status: booking.status,
-                bookingDate: booking.bookingDate
+                bookingDate: booking.bookingDate,
+                specialRequests: booking.specialRequests
             }
         });
     } catch (error) {
@@ -82,11 +86,13 @@ export const getAllBookings = async (req, res) => {
             user: booking.user.username || booking.user.googleDisplayName || booking.user.email,
             userEmail: booking.user.email,
             destination: booking.destination.name,
+            packageName: booking.packageName,
             travelDate: booking.travelDate.toISOString().split('T')[0],
-            numberOfPeople: booking.numberOfPeople,
+            travelers: booking.travelers,
             totalAmount: booking.totalAmount,
             status: booking.status,
-            bookingDate: booking.bookingDate.toISOString().split('T')[0]
+            bookingDate: booking.bookingDate.toISOString().split('T')[0],
+            specialRequests: booking.specialRequests
         }));
 
         res.status(200).json({
@@ -108,27 +114,66 @@ export const getAllBookings = async (req, res) => {
 // Get user's bookings
 export const getUserBookings = async (req, res) => {
     try {
-        const userId = req.user.id; // From auth middleware
+        const userId = req.user._id || req.user.userId; // From auth middleware
 
         const bookings = await Booking.find({ user: userId })
             .populate('destination', 'name image price')
             .sort({ createdAt: -1 });
 
         const formattedBookings = bookings.map(booking => ({
-            id: booking._id,
+            _id: booking._id,
+            packageName: booking.packageName,
             destination: booking.destination.name,
             destinationImage: booking.destination.image,
-            travelDate: booking.travelDate.toISOString().split('T')[0],
-            numberOfPeople: booking.numberOfPeople,
+            travelDate: booking.travelDate,
+            travelers: booking.travelers,
             totalAmount: booking.totalAmount,
             status: booking.status,
-            bookingDate: booking.bookingDate.toISOString().split('T')[0]
+            bookingDate: booking.bookingDate,
+            specialRequests: booking.specialRequests
         }));
 
-        res.status(200).json({ bookings: formattedBookings });
+        res.status(200).json(formattedBookings);
     } catch (error) {
         console.error('Get user bookings error:', error);
         res.status(500).json({ message: 'Server error retrieving user bookings' });
+    }
+};
+
+// Update booking (User can update their own booking)
+export const updateBooking = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { travelers, specialRequests } = req.body;
+
+        const booking = await Booking.findOne({ _id: id, user: req.user._id || req.user.userId });
+
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // Update fields
+        if (travelers !== undefined) booking.travelers = travelers;
+        if (specialRequests !== undefined) booking.specialRequests = specialRequests;
+
+        await booking.save();
+
+        res.status(200).json({
+            message: 'Booking updated successfully',
+            booking: {
+                _id: booking._id,
+                packageName: booking.packageName,
+                destination: booking.destination,
+                travelDate: booking.travelDate,
+                travelers: booking.travelers,
+                totalAmount: booking.totalAmount,
+                status: booking.status,
+                specialRequests: booking.specialRequests
+            }
+        });
+    } catch (error) {
+        console.error('Update booking error:', error);
+        res.status(500).json({ message: 'Server error updating booking' });
     }
 };
 
@@ -138,7 +183,7 @@ export const updateBookingStatus = async (req, res) => {
         const { id } = req.params;
         const { status } = req.body;
 
-        if (!['Pending', 'Confirmed', 'Cancelled'].includes(status)) {
+        if (!['pending', 'confirmed', 'cancelled'].includes(status)) {
             return res.status(400).json({ message: 'Invalid status' });
         }
 
@@ -168,12 +213,12 @@ export const updateBookingStatus = async (req, res) => {
     }
 };
 
-// Delete booking (Admin only)
+// Delete booking (User can delete their own booking)
 export const deleteBooking = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const booking = await Booking.findByIdAndDelete(id);
+        const booking = await Booking.findOneAndDelete({ _id: id, user: req.user._id || req.user.userId });
 
         if (!booking) {
             return res.status(404).json({ message: 'Booking not found' });

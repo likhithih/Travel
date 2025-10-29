@@ -11,6 +11,10 @@ const bookingSchema = new mongoose.Schema({
         ref: 'Destination',
         required: true
     },
+    packageName: {
+        type: String,
+        required: true
+    },
     bookingDate: {
         type: Date,
         default: Date.now
@@ -21,18 +25,22 @@ const bookingSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'Confirmed', 'Cancelled'],
-        default: 'Pending'
+        enum: ['pending', 'confirmed', 'cancelled'],
+        default: 'pending'
     },
     totalAmount: {
         type: Number,
         required: true,
         min: 0
     },
-    numberOfPeople: {
+    travelers: {
         type: Number,
         required: true,
         min: 1
+    },
+    specialRequests: {
+        type: String,
+        trim: true
     },
     createdAt: {
         type: Date,

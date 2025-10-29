@@ -66,14 +66,19 @@ function Navbar() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex">
             <ul className="flex items-center space-x-8">
-              {['home', 'about', 'destination', 'booking'].map((page) => (
-                <li key={page}>
+              {[
+                { name: 'Home', path: 'home' },
+                { name: 'About', path: 'about' },
+                { name: 'Destination', path: 'destination' },
+                { name: 'Booking Status', path: 'booking-status' }
+              ].map((item) => (
+                <li key={item.path}>
                   <Link
-                    to={`/${page}`}
+                    to={`/${item.path}`}
                     className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'}
                       hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}
                   >
-                    <span>{page.charAt(0).toUpperCase() + page.slice(1)}</span>
+                    <span>{item.name}</span>
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
                   </Link>
                 </li>
