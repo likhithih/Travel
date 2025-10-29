@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { v2 as cloudinary } from 'cloudinary';
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -87,15 +88,19 @@ export const createDestination = async (req, res) => {
             return res.status(400).json({ message: 'Image is required' });
         }
 
-        // Create image URL/path
-        const imageUrl = `/uploads/destinations/${req.file.filename}`;
+        // Upload image to Cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: 'destinations',
+            use_filename: true,
+            unique_filename: false,
+        });
 
         // Create new destination
         const newDestination = new Destination({
             name: name.trim(),
             landscape,
             description,
-            image: imageUrl,
+            image: result.secure_url,
             rating: parseFloat(rating),
             price: parseInt(price),
             duration: duration.trim(),
@@ -103,6 +108,9 @@ export const createDestination = async (req, res) => {
         });
 
         await newDestination.save();
+
+        // Delete the temporary file from local storage
+        fs.unlinkSync(req.file.path);
 
         res.status(201).json({
             message: 'Destination created successfully',
@@ -131,15 +139,22 @@ export const updateDestination = async (req, res) => {
 
         // Handle image update
         if (req.file) {
-            updateData.image = `/uploads/destinations/${req.file.filename}`;
+            // Upload new image to Cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'destinations',
+                use_filename: true,
+                unique_filename: false,
+            });
+            updateData.image = result.secure_url;
 
-            // Optionally delete old image file
+            // Delete the temporary file from local storage
+            fs.unlinkSync(req.file.path);
+
+            // Optionally delete old image from Cloudinary if it's a Cloudinary URL
             const oldDestination = await Destination.findById(id);
-            if (oldDestination && oldDestination.image) {
-                const oldImagePath = path.join(process.cwd(), oldDestination.image);
-                if (fs.existsSync(oldImagePath)) {
-                    fs.unlinkSync(oldImagePath);
-                }
+            if (oldDestination && oldDestination.image && oldDestination.image.includes('cloudinary')) {
+                const publicId = oldDestination.image.split('/').pop().split('.')[0];
+                await cloudinary.uploader.destroy(`destinations/${publicId}`);
             }
         }
 
@@ -179,8 +194,12 @@ export const deleteDestination = async (req, res) => {
             return res.status(404).json({ message: 'Destination not found' });
         }
 
-        // Delete associated image file
-        if (destination.image) {
+        // Delete associated image from Cloudinary if it's a Cloudinary URL
+        if (destination.image && destination.image.includes('cloudinary')) {
+            const publicId = destination.image.split('/').pop().split('.')[0];
+            await cloudinary.uploader.destroy(`destinations/${publicId}`);
+        } else if (destination.image) {
+            // Fallback to local file deletion
             const imagePath = path.join(process.cwd(), destination.image);
             if (fs.existsSync(imagePath)) {
                 fs.unlinkSync(imagePath);

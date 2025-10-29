@@ -41,8 +41,8 @@ const AddDestination = () => {
         popular: destination.popular || false
       });
       if (destination.image) {
-        setExistingImage(`http://localhost:4000${destination.image}`);
-        setPreviewUrl(`http://localhost:4000${destination.image}`);
+        setExistingImage(destination.image);
+        setPreviewUrl(destination.image);
       }
     }
   }, [editMode, destination]);
@@ -399,7 +399,7 @@ const AddDestination = () => {
                     }
                   }}
                   init={{
-                    height: 400,
+                    height: 600,
                     selector: 'textarea',
                     skin: 'oxide-dark',
                     menubar: true,
