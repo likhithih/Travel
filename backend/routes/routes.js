@@ -1,5 +1,5 @@
 import Router from 'express';
-import { registerUser, loginUser, adminLogin, googleSignIn } from '../controllers/userController.js';
+import { registerUser, loginUser, adminLogin, googleSignIn, getProfile } from '../controllers/userController.js';
 import { getAllUsers, updateUserStatus, deleteUser, updateUser } from '../controllers/adminController.js';
 import {
     getAllDestinations,
@@ -21,6 +21,8 @@ router.post('/login', loginUser);
 router.post('/admin-login', adminLogin);
 // Google sign-in route
 router.post('/google-signin', googleSignIn);
+// Profile route
+router.get('/profile', authenticateToken, getProfile);
 
 // Admin routes
 router.get('/admin/users', authenticateToken, requireAdmin, getAllUsers);
