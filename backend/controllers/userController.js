@@ -2,6 +2,29 @@ import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+// Get user profile
+export const getProfile = async (req, res) => {
+    try {
+        // For admin (hardcoded)
+        if (req.user._id === 'admin-123') {
+            return res.status(200).json({
+                name: req.user.username,
+                email: req.user.email
+            });
+        }
+
+        // For regular users, req.user is already the user object from middleware
+        const user = req.user;
+        res.status(200).json({
+            name: user.username || user.googleDisplayName || 'User',
+            email: user.email
+        });
+    } catch (error) {
+        console.error('Profile fetch error:', error);
+        res.status(500).json({ message: 'Server error during profile fetch' });
+    }
+};
+
 // Google Sign-In registration/login
 export const googleSignIn = async (req, res) => {
     try {

@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { auth, provider, signInWithPopup } from "../firebaseConfig";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,6 +21,7 @@ export default function Login() {
     email: '',
     password: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   // Change carousel image every 2 seconds
   useEffect(() => {
@@ -168,14 +170,21 @@ export default function Login() {
             transition={{ type: "spring", stiffness: 300 }}
           >
             <input
-              className="w-full outline-none py-2.5 text-gray-900 placeholder-gray-800"
-              type="password"
+              className="flex-1 outline-none py-2.5 text-gray-900 placeholder-gray-800"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={formData.password}
               onChange={handleInputChange}
               placeholder="Password"
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="ml-2 text-gray-600 hover:text-gray-800"
+            >
+              {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+            </button>
           </motion.div>
 
           {/* Remember + Forgot */}

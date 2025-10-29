@@ -1,32 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa'; // For hamburger menu icons and theme toggle
+import {
+  FaBars, FaTimes, FaSun, FaMoon,
+  FaUser, FaChevronDown, FaSignOutAlt
+} from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from './ThemeContext';
+import axios from 'axios';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const { darkMode, toggleTheme } = useTheme();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
+    if (token) {
+      axios
+        .get('http://localhost:4000/profile', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => setUser(response.data))
+        .catch((error) => console.error('Error fetching user data:', error));
+    }
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 0);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
+  const toggleMenu = () => setIsOpen(!isOpen);
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
@@ -35,66 +45,143 @@ function Navbar() {
 
   return (
     <div>
-      <header className={`${isScrolled ? (darkMode ? 'bg-black/80 backdrop-blur-md shadow-lg' : 'bg-green-50/80 backdrop-blur-md shadow-lg') : 'bg-transparent'} ${darkMode ? 'text-white' : 'text-black'} fixed top-0 left-0 right-0 z-50 transition-all duration-300`}>
-        <div className="container mx-auto flex items-center justify-between h-20 px-4">
+      <header
+        className={`${isScrolled
+            ? darkMode
+              ? 'bg-black/80 backdrop-blur-md shadow-lg'
+              : 'bg-green-50/80 backdrop-blur-md shadow-lg'
+            : 'bg-transparent'}
+          ${darkMode ? 'text-white' : 'text-black'}
+          fixed top-0 left-0 right-0 z-50 transition-all duration-300`}
+      >
+        <div
+          className="container mx-auto flex items-center justify-between h-20 px-4"
+          onClick={() => setIsDropdownOpen(false)}
+        >
           {/* Logo */}
           <a href="#" className="flex items-center space-x-3">
-            <img
-              className="h-12 w-auto"
-              src="/Navbar-bg-logo.png"
-              alt="logo"
-            />
-            
+            <img className="h-12 w-auto" src="/Navbar-bg-logo.png" alt="logo" />
           </a>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex">
             <ul className="flex items-center space-x-8">
-              <li>
-                <Link to={'/home'} className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'} hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}>
-                  <span>Home</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link to={'/about'} className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'} hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}>
-                  <span>About</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link to={'/destination'} className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'} hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}>
-                  <span>Destinations</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-              <li>
-                <Link to={'/booking'} className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'} hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}>
-                  <span>Booking</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </li>
-             
+              {['home', 'about', 'destination', 'booking'].map((page) => (
+                <li key={page}>
+                  <Link
+                    to={`/${page}`}
+                    className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'}
+                      hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}
+                  >
+                    <span>{page.charAt(0).toUpperCase() + page.slice(1)}</span>
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
 
-          {/* Theme Toggle Button */}
+          {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
             className="hidden md:block text-yellow-400 text-2xl focus:outline-none mr-4"
             aria-label="Toggle theme"
           >
-            {darkMode ? <FaSun /> : <FaMoon  />}
+            {darkMode ? <FaSun /> : <FaMoon />}
           </button>
 
-          {/* Logout Button */}
+          {/* Profile Dropdown */}
           {isLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              className="hidden md:block bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold px-6 py-2 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-            >
-              Logout
-            </button>
+            <div className="hidden md:block relative">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsDropdownOpen(!isDropdownOpen);
+                }}
+                className={`flex items-center space-x-2 ${
+                  darkMode
+                    ? 'bg-gradient-to-r from-gray-800 to-gray-900 text-white'
+                    : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800'
+                } font-semibold px-4 py-2 rounded-full shadow-md hover:scale-105 transition-all duration-300`}
+              >
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
+                    darkMode
+                      ? 'bg-gradient-to-r from-lime-400 to-green-500 text-black'
+                      : 'bg-gradient-to-r from-lime-500 to-green-600 text-white'
+                  }`}
+                >
+                  {user?.name ? user.name.charAt(0).toUpperCase() : <FaUser />}
+                </div>
+                <FaChevronDown
+                  className={`transform transition-transform duration-300 ${
+                    isDropdownOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              <AnimatePresence>
+                {isDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                    className="absolute right-0 mt-3 w-64 z-50"
+                  >
+                    {/* Arrow Pointer */}
+                    <div
+                      className={`absolute right-6 -top-2 w-4 h-4 rotate-45 ${
+                        darkMode
+                          ? 'bg-gray-900 border-t border-l border-gray-700'
+                          : 'bg-white border-t border-l border-gray-200'
+                      }`}
+                    ></div>
+
+                    {/* Dropdown Box */}
+                    <div
+                      className={`rounded-2xl shadow-2xl py- border backdrop-blur-xl ${
+                        darkMode
+                          ? 'bg-gray-900/90 border-gray-700 text-white'
+                          : 'bg-white/90 border-gray-200 text-gray-800'
+                      }`}
+                    >
+                      <div
+                        className={`px-5 py-3 rounded-t-2xl ${
+                          darkMode
+                            ? 'bg-gray-800/70 border-b border-gray-700'
+                            : 'bg-gray-100/70 border-b border-gray-200'
+                        }`}
+                      >
+                        <p className="text-sm font-semibold">
+                          {user?.name || 'Guest User'}
+                        </p>
+                        <p
+                          className={`text-xs mt-1 px-2 py-1 inline-block rounded ${
+                            darkMode
+                              ? 'bg-gray-700 text-gray-300'
+                              : 'bg-gray-200 text-gray-700'
+                          }`}
+                        >
+                          {user?.email || 'user@example.com'}
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={handleLogout}
+                        className={`w-full text-left flex items-center gap-2 px-5 py-3 text-sm transition-all duration-300 rounded-b-2xl ${
+                          darkMode
+                            ? 'text-red-400 hover:bg-gray-800 hover:text-red-500'
+                            : 'text-red-500 hover:bg-gray-100'
+                        }`}
+                      >
+                        <FaSignOutAlt /> Logout
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           ) : (
             <button
               onClick={() => navigate('/login')}
@@ -112,69 +199,6 @@ function Navbar() {
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
-
-        {/* Mobile Nav */}
-        {isOpen && (
-          <div className="md:hidden bg-white/20 backdrop-blur-md">
-            <ul className="flex flex-col items-center space-y-4 py-6">
-              <li>
-                <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
-                  Destination
-                </a>
-              </li>
-              <li>
-                <Link to={'/about'} className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
-                  About
-                </Link>
-              </li>
-              <li>
-                <a href="#" className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
-                  Hotels
-                </a>
-              </li>
-              <li>
-                <Link to={'/booking'}className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300" onClick={toggleMenu}>
-                  Booking
-                </Link>
-              </li>
-              
-              <li>
-                <button
-                  onClick={() => {
-                    toggleTheme();
-                    toggleMenu();
-                  }}
-                  className="text-lg font-medium text-gray-200 hover:text-lime-400 transition-colors duration-300"
-                >
-                  {darkMode ? 'Light Mode' : 'Dark Mode'}
-                </button>
-              </li>
-              <li>
-                {isLoggedIn ? (
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      toggleMenu();
-                    }}
-                    className="bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold px-6 py-2 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-                  >
-                    Logout
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      navigate('/login');
-                      toggleMenu();
-                    }}
-                    className="bg-linear-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold px-6 py-2 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-                  >
-                    Login
-                  </button>
-                )}
-              </li>
-            </ul>
-          </div>
-        )}
       </header>
     </div>
   );
