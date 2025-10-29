@@ -26,6 +26,10 @@
       setSelectedFilters({ ...selectedFilters, [main.toLowerCase()]: sub });
     };
 
+    const handleRemoveFilter = (key) => {
+      setSelectedFilters({ ...selectedFilters, [key]: null });
+    };
+
     return (
       <div
         className={`fixed left-0 top-16 h-svh ${
@@ -134,12 +138,14 @@
             <div className="flex flex-wrap gap-2">
               {Object.entries(selectedFilters).map(([key, value]) => (
                 value && key !== 'category' && (
-                  <span
+                  <div
                     key={key}
-                    className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-xs font-medium"
+                    onClick={() => handleRemoveFilter(key)}
+                    className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-xs font-medium cursor-pointer hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors flex items-center gap-1"
                   >
                     {key}: {value}
-                  </span>
+                    <span className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200">×</span>
+                  </div>
                 )
               ))}
               {Object.values(selectedFilters).every(v => !v || v === 'All') && (
