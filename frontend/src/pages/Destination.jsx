@@ -14,7 +14,7 @@ function Destination() {
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/destinations');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/destinations`);
         const fetchedDestinations = response.data.destinations.map(dest => {
           // Compute costRange based on price
           let costRange;

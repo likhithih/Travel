@@ -89,7 +89,7 @@ export default function Booking() {
       }
 
       // Create order on backend
-      const orderResponse = await axios.post("http://localhost:4000/create-order", {
+      const orderResponse = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/create-order`, {
         amount: Math.round(totalPrice * 100), // Razorpay expects amount in paisa
         currency: "INR",
         receipt: `receipt_${Date.now()}`
@@ -113,7 +113,7 @@ export default function Booking() {
         handler: async function (response) {
           try {
             // Verify payment on backend
-            const verifyResponse = await axios.post("http://localhost:4000/verify-payment", {
+            const verifyResponse = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/verify-payment`, {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,

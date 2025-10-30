@@ -25,7 +25,7 @@ const Dashboard = () => {
         }
 
         // Fetch stats
-        const statsResponse = await fetch('http://localhost:4000/admin/stats', {
+        const statsResponse = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/stats`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -72,7 +72,7 @@ const Dashboard = () => {
         setStats(mappedStats);
 
         // Fetch recent bookings
-        const bookingsResponse = await fetch('http://localhost:4000/admin/bookings/recent', {
+        const bookingsResponse = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/bookings/recent`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

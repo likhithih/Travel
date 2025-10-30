@@ -23,7 +23,7 @@ const BookingStatus = () => {
   const fetchBookings = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:4000/bookings/user', {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/bookings/user`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setBookings(response.data);
@@ -39,7 +39,7 @@ const BookingStatus = () => {
     if (window.confirm('Are you sure you want to delete this booking?')) {
       try {
         const token = localStorage.getItem('token');
-        await axios.delete(`http://localhost:4000/bookings/${bookingId}`, {
+        await axios.delete(`${import.meta.env.VITE_BACKEND_BASEURL}/bookings/${bookingId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setBookings(bookings.filter(booking => booking._id !== bookingId));
@@ -62,7 +62,7 @@ const BookingStatus = () => {
   const handleUpdate = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:4000/bookings/${editingBooking}`, editForm, {
+      await axios.put(`${import.meta.env.VITE_BACKEND_BASEURL}/bookings/${editingBooking}`, editForm, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

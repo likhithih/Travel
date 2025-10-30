@@ -35,14 +35,14 @@ const Destinations = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchDestinations = async () => {
-      try {
-        const token = localStorage.getItem('adminToken');
-        const response = await fetch('http://localhost:4000/admin/destinations', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+  const fetchDestinations = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/destinations`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
         if (!response.ok) {
           throw new Error('Failed to fetch destinations');
@@ -106,7 +106,7 @@ const Destinations = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:4000/admin/destinations/${destinationToDelete._id}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/destinations/${destinationToDelete._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

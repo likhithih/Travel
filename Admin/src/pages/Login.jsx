@@ -22,7 +22,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/admin-login', formData);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/admin-login`, formData);
 
       toast.success('Admin Login successful!');
       localStorage.setItem('adminToken', response.data.token);
