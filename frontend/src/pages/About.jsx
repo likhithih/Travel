@@ -11,6 +11,7 @@ import waterfall from '../assets/Waterfall.jpg';
 import Bijay from '../assets/avatar/Bijay.jpeg';
 import Likhth from '../assets/avatar/Likhth.jpeg';
 import Ronit from '../assets/avatar/Ronit.jpeg';
+import { Link } from 'react-router-dom';
 
 const Counter = ({ end, label }) => {
   const [count, setCount] = useState(0);
@@ -320,7 +321,7 @@ const About = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Start Your Adventure
+              <Link to="/destination">Start Your Adventure</Link>
             </motion.button>
           </div>
         </motion.section>

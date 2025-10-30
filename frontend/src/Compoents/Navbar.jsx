@@ -3,7 +3,7 @@ import {
   FaBars, FaTimes, FaSun, FaMoon,
   FaUser, FaChevronDown, FaSignOutAlt
 } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from './ThemeContext';
 import axios from 'axios';
@@ -73,14 +73,19 @@ function Navbar() {
                 { name: 'Booking Status', path: 'booking-status' }
               ].map((item) => (
                 <li key={item.path}>
-                  <Link
+                  <NavLink
                     to={`/${item.path}`}
-                    className={`text-lg font-medium ${darkMode ? 'text-gray-200' : 'text-gray-800'}
-                      hover:text-lime-400 transition-colors duration-300 relative group px-3 py-2 rounded-md hover:bg-lime-400/10`}
+                    className={({ isActive }) =>
+                      `text-lg font-medium transition-colors duration-300 relative group px-3 py-2  hover:bg-lime-400/10 ${
+                        isActive
+                          ? 'text-lime-400 border-b-2 border-lime-400'
+                          : darkMode ? 'text-gray-200 hover:text-lime-400' : 'text-gray-800 hover:text-lime-400'
+                      }`
+                    }
                   >
                     <span>{item.name}</span>
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
