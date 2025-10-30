@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 import Destination from "./pages/Destination";
 import About from "./pages/About";
 import PackageDetails from "./pages/PackageDetails";
+import UserRequest from "./pages/UserRequest";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/booking-status" element={<ProtectedRoute><BookingStatus /></ProtectedRoute>} />
         <Route path="/destination" element={<Destination />} />
         <Route path="/package-details" element={<PackageDetails />} />
+        <Route path="/user-request" element={<UserRequest />} />
       </Routes>
       <ToastContainer />
     </>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { useTheme } from './ThemeContext';
 
 import hampi from "../assets/Hampi-temple.jpg";
@@ -91,13 +92,14 @@ function HeroSection() {
             Explore Now <FaArrowRight />
           </motion.a>
 
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.1, boxShadow: "0px 0px 20px rgba(255,255,255,0.3)" }}
-            className="px-8 py-3 rounded-full border border-gray-300/40 backdrop-blur-md bg-white/10 text-white font-semibold hover:bg-white/20 transition-all"
-          >
-            Plan Your Trip
-          </motion.a>
+          <Link to="/user-request">
+            <motion.a
+              whileHover={{ scale: 1.1, boxShadow: "0px 0px 20px rgba(255,255,255,0.3)" }}
+              className="px-8 py-3 rounded-full border border-gray-300/40 backdrop-blur-md bg-white/10 text-white font-semibold hover:bg-white/20 transition-all"
+            >
+              Plan Your Trip
+            </motion.a>
+          </Link>
         </motion.div>
       </div>
 
