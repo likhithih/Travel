@@ -36,8 +36,8 @@ export default function Booking() {
     }
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     setFormData({
-      name: user.name || "",
-      email: user.email || "",
+      name: user.name || user.googleDisplayName || "",
+      email: user.email || user.googleDisplayName || "",
       phone: "",
     });
   }, [cardData, navigate]);
@@ -240,14 +240,15 @@ export default function Booking() {
               name={field}
               value={formData[field]}
               onChange={handleInputChange}
+              readOnly={field === "email"}
               placeholder={
                 field === "name"
                   ? "Full Name"
-                  : field === "email"
-                  ? "Email Address"
-                  : "Phone Number"
+                  : field === "phone"
+                  ? "Phone Number"
+                  : ""
               }
-              className="p-3 rounded-xl bg-[#1a244d]/60 border border-[#c8a951]/20 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-[#c8a951]/40 transition-all"
+              className={`p-3 rounded-xl bg-[#1a244d]/60 border border-[#c8a951]/20 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-[#c8a951]/40 transition-all ${field === "email" ? "cursor-not-allowed opacity-75" : ""}`}
             />
           ))}
           <input

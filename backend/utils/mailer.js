@@ -1,18 +1,21 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+
+dotenv.config({quiet: true});
 
 // Create transporter
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   secure: true, // true for 465, false for other ports
   auth: {
-    user: "bjsah3277@gmail.com",
-    pass: "bqteamgewivhgabt"
+    user: process.env.EMAIL_USER ,
+    pass: process.env.EMAIL_PASS ,
   }
 });
 // Send booking confirmation email
 export const sendBookingConfirmationEmail = async (to, bookingDetails) => {
   const mailOptions = {
-    from: "bjsah3277@gmail.com",
+    from: process.env.EMAIL_USER,
     to,
     subject: 'Booking Confirmed - Travel Agency',
     html: `
@@ -40,7 +43,7 @@ export const sendBookingConfirmationEmail = async (to, bookingDetails) => {
 // Send booking pending email
 export const sendBookingPendingEmail = async (to, bookingDetails) => {
   const mailOptions = {
-    from: "bjsah3277@gmail.com",
+    from: process.env.EMAIL_USER,
     to,
     subject: 'Booking Received - Travel Agency',
     html: `
@@ -68,7 +71,7 @@ export const sendBookingPendingEmail = async (to, bookingDetails) => {
 // Send booking cancelled email
 export const sendBookingCancelledEmail = async (to, bookingDetails) => {
   const mailOptions = {
-    from: "bjsah3277@gmail.com",
+    from: process.env.EMAIL_USER,
     to,
     subject: 'Booking Cancelled - Travel Agency',
     html: `
@@ -96,14 +99,14 @@ export const sendBookingCancelledEmail = async (to, bookingDetails) => {
 // Send payment success email
 export const sendPaymentSuccessEmail = async (to, bookingDetails) => {
   const mailOptions = {
-    from: "bjsah3277@gmail",
+    from: process.env.EMAIL_USER,
     to,
-    subject: 'Payment Successful - Booking Confirmed',
+    subject: 'Payment Successful - Booking Pending Confirmation',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #4CAF50;">Payment Successful!</h2>
         <p>Dear Customer,</p>
-        <p>Your payment has been successfully processed and your booking is now confirmed. Here are the details:</p>
+        <p>Your payment has been successfully processed. Your booking is now pending confirmation by our admin team. Here are the details:</p>
         <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0;">
           <h3>Booking Details:</h3>
           <p><strong>Package:</strong> ${bookingDetails.packageName}</p>
@@ -112,8 +115,9 @@ export const sendPaymentSuccessEmail = async (to, bookingDetails) => {
           <p><strong>Travelers:</strong> ${bookingDetails.travelers}</p>
           <p><strong>Total Amount:</strong> ₹${bookingDetails.totalAmount}</p>
           <p><strong>Payment Status:</strong> Paid</p>
+          <p><strong>Booking Status:</strong> Pending Confirmation</p>
         </div>
-        <p>Thank you for your payment. Your booking is now confirmed and we look forward to serving you!</p>
+        <p>You will receive a confirmation email once your booking is reviewed and approved by our team. We appreciate your patience.</p>
         <p>Best regards,<br>Travel Agency Team</p>
       </div>
     `
