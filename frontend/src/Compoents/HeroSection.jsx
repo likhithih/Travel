@@ -93,12 +93,12 @@ function HeroSection() {
           </motion.a>
 
           <Link to="/user-request">
-            <motion.a
+            <motion.div
               whileHover={{ scale: 1.1, boxShadow: "0px 0px 20px rgba(255,255,255,0.3)" }}
               className="px-8 py-3 rounded-full border border-gray-300/40 backdrop-blur-md bg-white/10 text-white font-semibold hover:bg-white/20 transition-all"
             >
               Plan Your Trip
-            </motion.a>
+            </motion.div>
           </Link>
         </motion.div>
       </div>

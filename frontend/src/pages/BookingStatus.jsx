@@ -110,7 +110,7 @@ const BookingStatus = () => {
     return (
       <div className={`min-h-screen flex items-center justify-center ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-lime-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
           <p className="mt-4">Loading your bookings...</p>
         </div>
       </div>
@@ -156,7 +156,7 @@ const BookingStatus = () => {
                 }`}
               >
                 {/* Header */}
-                <div className={`p-6 ${darkMode ? 'bg-gray-700' : 'bg-linear-to-r from-lime-500 to-green-600'} text-white`}>
+                <div className={`p-6 ${darkMode ? 'bg-gray-700' : 'bg-linear-to-r from-blue-500 to-indigo-600'} text-white`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       {getStatusIcon(booking.status)}
@@ -175,7 +175,7 @@ const BookingStatus = () => {
                 <div className="p-6">
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
-                      <FaCalendarAlt className="text-lime-500" />
+                      <FaCalendarAlt className="text-blue-500" />
                       <div>
                         <p className="text-sm opacity-70">Travel Date</p>
                         <p className="font-medium">{new Date(booking.travelDate).toLocaleDateString()}</p>
@@ -183,7 +183,7 @@ const BookingStatus = () => {
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <FaMapMarkerAlt className="text-lime-500" />
+                      <FaMapMarkerAlt className="text-blue-500" />
                       <div>
                         <p className="text-sm opacity-70">Destination</p>
                         <p className="font-medium">{booking.destination}</p>
@@ -191,7 +191,7 @@ const BookingStatus = () => {
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <FaUsers className="text-lime-500" />
+                      <FaUsers className="text-blue-500" />
                       <div>
                         <p className="text-sm opacity-70">Travelers</p>
                         <p className="font-medium">{booking.travelers} {booking.travelers === 1 ? 'person' : 'people'}</p>
@@ -199,7 +199,7 @@ const BookingStatus = () => {
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <FaRupeeSign className="text-lime-500" />
+                      <FaRupeeSign className="text-blue-500" />
                       <div>
                         <p className="text-sm opacity-70">Total Amount</p>
                         <p className="font-medium">₹{booking.totalAmount?.toLocaleString() || 'N/A'}</p>
@@ -220,33 +220,33 @@ const BookingStatus = () => {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="mt-4 p-4 border rounded-lg bg-gray-50 dark:bg-gray-700"
+                      className="mt-4 p-4 border rounded-lg bg-gray-50 dark:bg-blue-900 border-gray-200 dark:border-blue-700 text-gray-800 dark:text-blue-200"
                     >
                       <h4 className="font-semibold mb-3">Edit Booking</h4>
                       <div className="space-y-3">
                         <div>
-                          <label className="block text-sm font-medium mb-1">Number of Travelers</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-blue-300">Number of Travelers</label>
                           <input
                             type="number"
                             value={editForm.travelers}
                             onChange={(e) => setEditForm({...editForm, travelers: e.target.value})}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border border-gray-300 dark:border-blue-600 rounded focus:ring-2 focus:ring-blue-500 bg-white dark:bg-blue-800 text-gray-900 dark:text-white"
                             min="1"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium mb-1">Special Requests</label>
+                          <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-blue-300">Special Requests</label>
                           <textarea
                             value={editForm.specialRequests}
                             onChange={(e) => setEditForm({...editForm, specialRequests: e.target.value})}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border border-gray-300 dark:border-blue-600 rounded focus:ring-2 focus:ring-blue-500 bg-white dark:bg-blue-800 text-gray-900 dark:text-white"
                             rows="3"
                           />
                         </div>
                         <div className="flex gap-2">
                           <button
                             onClick={handleUpdate}
-                            className="bg-lime-500 text-white px-4 py-2 rounded hover:bg-lime-600"
+                            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                           >
                             Update
                           </button>

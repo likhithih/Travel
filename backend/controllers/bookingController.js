@@ -98,12 +98,21 @@ export const getAllBookings = async (req, res) => {
         if (status) query.status = status;
         if (userId) query.user = userId;
 
-        const bookings = await Booking.find(query)
-            .populate('user', 'username email googleDisplayName')
-            .populate('destination', 'name')
-            .sort({ createdAt: -1 })
-            .limit(limit * 1)
-            .skip((page - 1) * limit);
+        let bookings;
+        const limitNum = limit ? parseInt(limit) : 10;
+        if (limitNum > 0) {
+            bookings = await Booking.find(query)
+                .populate('user', 'username email googleDisplayName')
+                .populate('destination', 'name')
+                .sort({ createdAt: -1 })
+                .limit(limitNum)
+                .skip((page - 1) * limitNum);
+        } else {
+            bookings = await Booking.find(query)
+                .populate('user', 'username email googleDisplayName')
+                .populate('destination', 'name')
+                .sort({ createdAt: -1 });
+        }
 
         const total = await Booking.countDocuments(query);
 
@@ -121,14 +130,25 @@ export const getAllBookings = async (req, res) => {
             specialRequests: booking.specialRequests
         }));
 
+        let totalPages, hasNext, hasPrev;
+        if (limitNum > 0) {
+            totalPages = Math.ceil(total / limitNum);
+            hasNext = page * limitNum < total;
+            hasPrev = page > 1;
+        } else {
+            totalPages = 1;
+            hasNext = false;
+            hasPrev = false;
+        }
+
         res.status(200).json({
             bookings: formattedBookings,
             pagination: {
                 currentPage: parseInt(page),
-                totalPages: Math.ceil(total / limit),
+                totalPages,
                 totalBookings: total,
-                hasNext: page * limit < total,
-                hasPrev: page > 1
+                hasNext,
+                hasPrev
             }
         });
     } catch (error) {

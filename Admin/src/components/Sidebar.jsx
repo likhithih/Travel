@@ -8,7 +8,8 @@ import {
   FaPlus,
   FaSignOutAlt,
   FaBars,
-  FaTimes
+  FaTimes,
+  FaUser
 } from 'react-icons/fa';
 
 const Sidebar = () => {
@@ -94,7 +95,7 @@ const Sidebar = () => {
         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <div className={`flex items-center space-x-3 ${!isOpen && 'lg:justify-center'}`}>
             <div className="w-10 h-10 bg-linear-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg">T</span>
+              <FaUser className="text-white" size={20} />
             </div>
             {isOpen && (
               <div>

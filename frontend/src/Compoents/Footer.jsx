@@ -10,6 +10,7 @@ import { FiMapPin } from 'react-icons/fi';
 import { IoLogoGooglePlaystore } from 'react-icons/io5';
 import { FaAppStore } from 'react-icons/fa';
 import { useTheme } from './ThemeContext';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const { darkMode } = useTheme();
@@ -21,29 +22,36 @@ export default function Footer() {
           {/* LEFT SECTION */}
           <div className="md:w-[316px]">
             <h1 className="text-white font-extrabold text-[24px]">
-              <span className="text-rose-600"><img src="Navbar-bg-logo.png" alt="CompanyLogo" /></span>
+              {/* Logo */}
+              {darkMode ?
+                <Link to="/home" className="flex items-center space-x-3">
+                  <img className="h-30 w-auto" src="/logo_white.png" alt="logo" />
+                </Link> :
+                <Link to="/home" className="flex items-center space-x-3">
+                  <img className="h-30 w-auto" src="/logo_black.png" alt="logo" />
+                </Link>}
             </h1>
             <p className="mt-[18px] text-[15px] font-normal text-white/80">
-            Discover and book your dream trips effortlessly with Travels Karnataka — flights, hotels, and adventures all in one place.
-            Your journey to unforgettable experiences starts here! ✈️🌍
+              Discover and book your dream trips effortlessly with Travels Karnataka — flights, hotels, and adventures all in one place.
+              Your journey to unforgettable experiences starts here! ✈️🌍
             </p>
 
             {/* SOCIAL ICONS */}
-            <div className="mt-[18px] flex gap-4 text-2xl">
-                <FaFacebook/>
-                <FaInstagram/>
-                <FaLinkedinIn/>
-                <FaXTwitter/>
-                <AiOutlineYoutube/>
+            <div className="mt-[18px] flex gap-4 text-2xl text-white">
+              <FaFacebook />
+              <FaInstagram />
+              <FaLinkedinIn />
+              <FaXTwitter />
+              <AiOutlineYoutube />
             </div>
           </div>
 
           {/* MIDDLE SECTION - CONTACT INFO */}
-          <div className="md:w-[316px] mt-6 md:mt-0 text-2xl">
+          <div className="md:w-[316px] mt-6 md:mt-0 text-2xl text-white">
             {/* Phone */}
             <div className="mt-[23px] flex">
               <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full">
-               <FiPhoneCall/>
+                <FiPhoneCall />
               </div>
               <div className="ml-[18px]">
                 <a
@@ -61,7 +69,7 @@ export default function Footer() {
             {/* Email */}
             <div className="mt-[23px] flex">
               <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full ">
-              <AiOutlineMail/>
+                <AiOutlineMail />
               </div>
               <div className="ml-[18px]">
                 <a
@@ -79,7 +87,7 @@ export default function Footer() {
             {/* Address */}
             <div className="mt-[23px] flex">
               <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full">
-               <FiMapPin/>
+                <FiMapPin />
               </div>
               <div className="ml-[18px]">
                 <p className="text-[14px] font-medium text-white">
@@ -124,14 +132,14 @@ export default function Footer() {
                   rel="playstore"
                   href="https://play.google.com/store"
                 >
-               <span> <IoLogoGooglePlaystore/><p>Play Store</p></span>
+                  <span> <IoLogoGooglePlaystore /><p>Play Store</p></span>
                 </a>
                 <a
                   target="_blank"
                   rel="Appstore"
                   href="https://www.apple.com/app-store/"
                 >
-                 <span><FaAppStore/>App Store</span>
+                  <span><FaAppStore />App Store</span>
                 </a>
               </div>
             </div>
