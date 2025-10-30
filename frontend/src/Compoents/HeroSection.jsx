@@ -9,7 +9,7 @@ import kundamundi from "../assets/Kundamundi.jpg";
 import mysore from "../assets/Mysore-place.jpg";
 import chariot from "../assets/Stone-Chariot-Hampi-heritage-land.jpg";
 import waterfall from "../assets/Waterfall.jpg";
-import { Link } from "react-router-dom";
+
 
 const images = [hampi, kundamundi, mysore, chariot, waterfall];
 

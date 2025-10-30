@@ -120,7 +120,7 @@ const UserRequest = () => {
         formDataToSend.append('image', selectedFile);
       }
 
-      const response = await fetch('http://localhost:4000/user-request', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/user-request`, {
         method: 'POST',
         body: formDataToSend
       });

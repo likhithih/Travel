@@ -16,7 +16,7 @@ const Requests = () => {
   const fetchRequests = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:4000/admin/requests', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/requests`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -44,7 +44,7 @@ const Requests = () => {
   const handleApproveRequest = async (requestId) => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:4000/admin/requests/${requestId}/approve`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/requests/${requestId}/approve`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -66,7 +66,7 @@ const Requests = () => {
   const handleRejectRequest = async (requestId) => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:4000/admin/requests/${requestId}/reject`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/requests/${requestId}/reject`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -296,7 +296,7 @@ const Requests = () => {
                     Image
                   </label>
                   <img
-                    src={`http://localhost:4000${selectedRequest.image}`}
+                    src={`${import.meta.env.VITE_BACKEND_BASEURL}${selectedRequest.image}`}
                     alt={selectedRequest.name}
                     className="w-full max-w-md h-48 object-cover rounded-lg"
                   />

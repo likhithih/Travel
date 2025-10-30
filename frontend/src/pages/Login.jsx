@@ -42,7 +42,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/login', formData);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/login`, formData);
       toast.success('Login successful!');
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
@@ -66,7 +66,7 @@ export default function Login() {
         photoURL: result.user.photoURL
       };
 
-      const response = await axios.post('http://localhost:4000/google-signin', googleUserData);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/google-signin`, googleUserData);
 
       if (response.status === 200) {
         toast.success(`Welcome ${result.user.displayName}!`);

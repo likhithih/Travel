@@ -33,7 +33,7 @@ const Bookings = () => {
           return;
         }
 
-        const response = await axios.get('http://localhost:4000/admin/bookings', {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/bookings`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -72,7 +72,7 @@ const Bookings = () => {
     if (window.confirm('Are you sure you want to delete this booking?')) {
       try {
         const token = localStorage.getItem('adminToken') || localStorage.getItem('token');
-        await axios.delete(`http://localhost:4000/admin/bookings/${bookingId}`, {
+        await axios.delete(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/bookings/${bookingId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -89,7 +89,7 @@ const Bookings = () => {
     setUpdatingStatus(bookingId);
     try {
       const token = localStorage.getItem('adminToken') || localStorage.getItem('token');
-      await axios.put(`http://localhost:4000/admin/bookings/${bookingId}/status`, {
+      await axios.put(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/bookings/${bookingId}/status`, {
         status: newStatus
       }, {
         headers: {

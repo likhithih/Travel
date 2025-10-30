@@ -36,7 +36,7 @@ const Users = () => {
         }
 
         // Fetch users
-        const usersResponse = await fetch('http://localhost:4000/admin/users', {
+        const usersResponse = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/users`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ const Users = () => {
         const usersData = await usersResponse.json();
 
         // Fetch bookings to calculate booking counts
-        const bookingsResponse = await fetch('http://localhost:4000/admin/bookings', {
+        const bookingsResponse = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/bookings`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ const Users = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:4000/admin/users/${userToDelete.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/users/${userToDelete.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -136,7 +136,7 @@ const Users = () => {
       const user = users.find(u => u.id === userId);
       const newStatus = user.status === 'active' ? 'inactive' : 'active';
 
-      const response = await fetch(`http://localhost:4000/admin/users/${userId}/status`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/users/${userId}/status`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -162,7 +162,7 @@ const Users = () => {
   const handleSaveUser = async (updatedUser) => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:4000/admin/users/${updatedUser.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/users/${updatedUser.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -22,7 +22,7 @@ function Navbar() {
     setIsLoggedIn(!!token);
     if (token) {
       axios
-        .get('http://localhost:4000/profile', {
+        .get(`${import.meta.env.VITE_BACKEND_BASEURL}/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => setUser(response.data))

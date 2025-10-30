@@ -15,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/destinations');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/destinations`);
         // Assuming the API returns destinations with popular flag
         const popularDestinations = response.data.destinations.filter(dest => dest.popular);
         setDestinations(popularDestinations);

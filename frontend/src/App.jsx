@@ -13,6 +13,8 @@ import Destination from "./pages/Destination";
 import About from "./pages/About";
 import PackageDetails from "./pages/PackageDetails";
 import UserRequest from "./pages/UserRequest";
+import Lottie from "lottie-react";
+import  ERROR from "./ERROR.json";
 
 function App() {
   return (
@@ -31,6 +33,7 @@ function App() {
         <Route path="/destination" element={<Destination />} />
         <Route path="/package-details" element={<PackageDetails />} />
         <Route path="/user-request" element={<UserRequest />} />
+        <Route path="*" element={<Lottie animationData={ERROR} loop={true} autoplay={true} className="w-screen h-screen bg-orange-400/40" />} />
       </Routes>
       <ToastContainer />
     </>
