@@ -3,13 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useTheme } from './ThemeContext';
-
 import hampi from "../assets/Hampi-temple.jpg";
 import kundamundi from "../assets/Kundamundi.jpg";
 import mysore from "../assets/Mysore-place.jpg";
 import chariot from "../assets/Stone-Chariot-Hampi-heritage-land.jpg";
 import waterfall from "../assets/Waterfall.jpg";
-import { Link } from "react-router-dom";
 
 const images = [hampi, kundamundi, mysore, chariot, waterfall];
 
