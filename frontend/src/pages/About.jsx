@@ -8,6 +8,7 @@ import hampi from '../assets/Hampi-temple.jpg';
 import mysore from '../assets/Mysore-place.jpg';
 import kundamundi from '../assets/Kundamundi.jpg';
 import waterfall from '../assets/Waterfall.jpg';
+import { Link } from 'react-router-dom';
 
 const Counter = ({ end, label }) => {
   const [count, setCount] = useState(0);
@@ -317,7 +318,7 @@ const About = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Start Your Adventure
+              <Link to="/destination">Start Your Adventure</Link>
             </motion.button>
           </div>
         </motion.section>
