@@ -9,6 +9,7 @@ import kundamundi from "../assets/Kundamundi.jpg";
 import mysore from "../assets/Mysore-place.jpg";
 import chariot from "../assets/Stone-Chariot-Hampi-heritage-land.jpg";
 import waterfall from "../assets/Waterfall.jpg";
+import { Link } from "react-router-dom";
 
 const images = [hampi, kundamundi, mysore, chariot, waterfall];
 
@@ -84,8 +85,9 @@ function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 1 }}
         >
+
           <motion.a
-            href="#"
+            href="/destination"
             whileHover={{ scale: 1.1, boxShadow: "0px 0px 20px rgba(0,0,255,0.5)" }}
             className="px-8 py-3 rounded-full bg-linear-to-r from-blue-600 to-cyan-500 text-white font-semibold flex items-center gap-2 shadow-md hover:shadow-cyan-400/50 transition-all"
           >
