@@ -6,6 +6,7 @@ import { useTheme } from '../Compoents/ThemeContext';
 import Navbar from '../Compoents/Navbar';
 import Footer from '../Compoents/Footer';
 import ImagesBar from '../Compoents/ImagesBar';
+import hampi from '../assets/Hampi-temple.jpg';
 
 const PackageDetails = () => {
   const navigate = useNavigate();
