@@ -8,6 +8,9 @@ import hampi from '../assets/Hampi-temple.jpg';
 import mysore from '../assets/Mysore-place.jpg';
 import kundamundi from '../assets/Kundamundi.jpg';
 import waterfall from '../assets/Waterfall.jpg';
+import Bijay from '../assets/avatar/Bijay.jpeg';
+import Likhth from '../assets/avatar/Likhth.jpeg';
+import Ronit from '../assets/avatar/Ronit.jpeg';
 
 const Counter = ({ end, label }) => {
   const [count, setCount] = useState(0);
@@ -211,21 +214,21 @@ const About = () => {
               {[
                 {
                   name: 'Ronit Raj',
-                  role: 'Founder & CEO',
-                  desc: 'Passionate explorer with 15+ years in Karnataka tourism.',
-                  avatar: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww&auto=format&fit=crop&w=150&q=80'
+                  role: 'CEO & Founder',
+                  desc: 'Visionary leader driving Karnataka\'s tourism innovation.',
+                  avatar: Ronit
                 },
                 {
                   name: 'Bijay Shah',
-                  role: 'Head of Operations',
-                  desc: 'Expert in crafting seamless travel experiences.',
-                  avatar: 'https://images.unsplash.com/photo-1654110455429-cf322b40a906?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZSUyMHBpY3R1cmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=600&fit=crop&w=150&q=80'
+                  role: 'Operations Manager',
+                  desc: 'Ensures smooth and efficient travel operations.',
+                  avatar: Bijay
                 },
                 {
                   name: 'Likhith ih',
-                  role: 'Lead Guide',
-                  desc: 'Cultural historian specializing in Karnataka heritage.',
-                  avatar: 'https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZSUyMHBpY3R1cmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=150&q=80'
+                  role: 'Senior Tour Guide',
+                  desc: 'Expert in Karnataka\'s history and culture.',
+                  avatar: Likhth
                 }
               ].map((member, index) => (
                 <motion.div
