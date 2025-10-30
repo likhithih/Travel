@@ -3,14 +3,14 @@ import Sidebar from '../components/Sidebar';
 import axios from 'axios';
 import {
   FaSearch,
-  FaEdit,
   FaTrash,
   FaEye,
   FaFilter,
   FaCalendarAlt,
   FaMapMarkerAlt,
   FaUsers,
-  FaDollarSign
+  FaDollarSign,
+  FaSpinner
 } from 'react-icons/fa';
 
 const Bookings = () => {
@@ -21,6 +21,7 @@ const Bookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [updatingStatus, setUpdatingStatus] = useState(null);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -32,7 +33,7 @@ const Bookings = () => {
           return;
         }
 
-        const response = await axios.get('http://localhost:4000/api/admin/bookings', {
+        const response = await axios.get('http://localhost:4000/admin/bookings', {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -67,9 +68,44 @@ const Bookings = () => {
     console.log('Edit booking:', booking);
   };
 
-  const handleDeleteBooking = (bookingId) => {
+  const handleDeleteBooking = async (bookingId) => {
     if (window.confirm('Are you sure you want to delete this booking?')) {
-      setBookings(bookings.filter(booking => booking.id !== bookingId));
+      try {
+        const token = localStorage.getItem('adminToken') || localStorage.getItem('token');
+        await axios.delete(`http://localhost:4000/admin/bookings/${bookingId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setBookings(bookings.filter(booking => booking.id !== bookingId));
+      } catch (err) {
+        console.error('Error deleting booking:', err);
+        alert('Failed to delete booking');
+      }
+    }
+  };
+
+  const handleStatusUpdate = async (bookingId, newStatus) => {
+    setUpdatingStatus(bookingId);
+    try {
+      const token = localStorage.getItem('adminToken') || localStorage.getItem('token');
+      await axios.put(`http://localhost:4000/admin/bookings/${bookingId}/status`, {
+        status: newStatus
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      // Update local state
+      setBookings(bookings.map(booking =>
+        booking.id === bookingId ? { ...booking, status: newStatus } : booking
+      ));
+    } catch (err) {
+      console.error('Error updating booking status:', err);
+      alert('Failed to update booking status');
+    } finally {
+      setUpdatingStatus(null);
     }
   };
 
@@ -106,7 +142,7 @@ const Bookings = () => {
                 <p className="text-gray-600 dark:text-gray-400">Manage travel bookings and reservations</p>
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
-                Total Revenue: <span className="font-semibold text-green-600">₹9,600</span>
+                Total Revenue: <span className="font-semibold text-green-600">₹{bookings.reduce((total, booking) => total + booking.totalAmount, 0).toLocaleString()}</span>
               </div>
             </div>
           </div>
@@ -147,28 +183,29 @@ const Bookings = () => {
         </div>
 
         {/* Bookings Table */}
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto">
           {loading ? (
             <div className="flex items-center justify-center h-full">
-              <div className="text-gray-600 dark:text-gray-400">Loading bookings...</div>
+              <FaSpinner className="animate-spin text-4xl text-blue-500" />
+              <span className="ml-2 text-gray-600 dark:text-gray-400">Loading bookings...</span>
             </div>
           ) : error ? (
             <div className="flex items-center justify-center h-full">
               <div className="text-red-600 dark:text-red-400">{error}</div>
             </div>
           ) : (
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div className="bg-white dark:bg-gray-800  shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Booking</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Customer</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Destination</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Travel Date</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Customer</th>
+                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Booking</th>
+                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Destination</th>
+                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Travel Date</th>
+                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount</th>
+                      <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -200,14 +237,26 @@ const Bookings = () => {
                           {booking.travelDate}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="space-y-1">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(booking.status)}`}>
-                              {booking.status}
-                            </span>
-                            <div>
+                          <div className="flex items-center space-x-2">
+                            <div className="flex flex-col items-center space-y-1">
+                              <select
+                                value={booking.status}
+                                onChange={(e) => handleStatusUpdate(booking.id, e.target.value)}
+                                disabled={updatingStatus === booking.id}
+                                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full border-0 ${getStatusColor(booking.status)}`}
+                              >
+                                <option value="pending">pending</option>
+                                <option value="confirmed">confirmed</option>
+                                <option value="cancelled">cancelled</option>
+                              </select>
+                              <span className="text-xs text-gray-500 dark:text-gray-400">Status</span>
+                            </div>
+                            <div className="h-8 w-px bg-gray-300 dark:bg-gray-600"></div>
+                            <div className="flex flex-col items-center space-y-1">
                               <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPaymentStatusColor('paid')}`}>
                                 paid
                               </span>
+                              <span className="text-xs text-gray-500 dark:text-gray-400">Payment</span>
                             </div>
                           </div>
                         </td>
@@ -225,13 +274,6 @@ const Bookings = () => {
                               title="View Details"
                             >
                               <FaEye size={16} />
-                            </button>
-                            <button
-                              onClick={() => handleEditBooking(booking)}
-                              className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
-                              title="Edit Booking"
-                            >
-                              <FaEdit size={16} />
                             </button>
                             <button
                               onClick={() => handleDeleteBooking(booking.id)}

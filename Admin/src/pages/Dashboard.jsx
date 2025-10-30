@@ -4,7 +4,7 @@ import {
   FaUsers,
   FaClipboardList,
   FaMapMarkedAlt,
-  FaDollarSign,
+  FaRupeeSign,
   FaChartLine,
   FaCalendarAlt,
   FaSpinner
@@ -63,7 +63,7 @@ const Dashboard = () => {
           {
             title: 'Revenue',
             value: `₹${statsData.totalRevenue?.toString() || '0'}`,
-            icon: FaDollarSign,
+            icon: FaRupeeSign,
             color: 'bg-yellow-500',
             change: statsData.revenueChange || '+0%'
           }
@@ -166,8 +166,8 @@ const Dashboard = () => {
                             </div>
                             <div className="text-right">
                               <p className="text-sm text-gray-600 dark:text-gray-400">{booking.date}</p>
-                              <span className={`inline-block px-2 py-1 text-xs rounded-full ${booking.status === 'Confirmed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
-                                  booking.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' :
+                              <span className={`inline-block px-2 py-1 text-xs rounded-full ${booking.status === 'confirmed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+                                  booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' :
                                     'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
                                 }`}>
                                 {booking.status}

@@ -43,6 +43,37 @@ This project is a comprehensive fullstack website for Travel Tourism, featuring 
   - createdAt: Date, default Date.now
 - **Purpose**: Stores user information for authentication, profile management, and supports both email/password and Google OAuth login.
 
+### Booking Model (backend/models/Booking.js)
+- **Fields**:
+  - user: ObjectId, ref 'User', required
+  - destination: ObjectId, ref 'Destination', required
+  - packageName: String, required
+  - travelDate: Date, required
+  - travelers: Number, required, min 1
+  - totalAmount: Number, required
+  - specialRequests: String
+  - status: String, enum ['Pending', 'Confirmed', 'Cancelled'], default 'Pending'
+  - paymentStatus: String, enum ['Pending', 'Paid', 'Failed'], default 'Pending'
+  - paymentId: String
+  - bookingDate: Date, default Date.now
+  - createdAt: Date, default Date.now
+  - updatedAt: Date, default Date.now
+- **Purpose**: Stores booking information including payment details and status tracking.
+
+### Destination Model (backend/models/Destination.js)
+- **Fields**:
+  - name: String, required
+  - landscape: String, enum ['Beach', 'Mountain', 'Heritage', 'City'], required
+  - description: String, required
+  - image: String, required
+  - rating: Number, required, min 0, max 5
+  - price: Number, required
+  - duration: String, required
+  - popular: Boolean, default false
+  - createdAt: Date, default Date.now
+  - updatedAt: Date, default Date.now
+- **Purpose**: Stores destination information for travel packages.
+
 ## Controllers
 ### User Controller (backend/controllers/userController.js)
 - **registerUser**: Handles user registration
@@ -63,11 +94,68 @@ This project is a comprehensive fullstack website for Travel Tourism, featuring 
   - Generates JWT token
   - Returns success response with token and user data
 
+### Booking Controller (backend/controllers/bookingController.js)
+- **createBooking**: Creates new booking (user)
+  - Validates required fields and user/destination existence
+  - Creates booking with default status 'Pending'
+  - Sends pending confirmation email
+  - Returns formatted booking data
+- **getAllBookings**: Retrieves all bookings (admin)
+  - Supports pagination, filtering by status/user
+  - Populates user and destination data
+  - Returns formatted booking list with pagination info
+- **getUserBookings**: Retrieves user's own bookings
+  - Filters by authenticated user
+  - Populates destination data
+  - Returns formatted booking list
+- **updateBooking**: Updates booking details (user)
+  - Allows updating travelers and special requests
+  - Only user who created booking can update
+- **updateBookingStatus**: Updates booking status (admin)
+  - Changes status: Pending → Confirmed/Cancelled
+  - Sends confirmation email when status becomes 'Confirmed'
+- **deleteBooking**: Deletes booking (admin)
+  - Removes booking from database
+
+### Destination Controller (backend/controllers/destinationController.js)
+- **getAllDestinations**: Retrieves all destinations
+  - Public endpoint for frontend
+  - Returns formatted destination data
+- **getDestinationById**: Retrieves single destination by ID
+  - Includes full destination details
+- **createDestination**: Creates new destination (admin)
+  - Handles image upload via multer
+  - Validates required fields
+- **updateDestination**: Updates destination (admin)
+  - Handles image upload for updates
+- **deleteDestination**: Deletes destination (admin)
+
 ## Routes
 ### User Routes (backend/routes/routes.js)
 - **POST /register**: Calls registerUser controller
 - **POST /login**: Calls loginUser controller
 - **POST /google-signin**: Calls googleSignIn controller
+- **POST /admin-login**: Admin login endpoint
+
+### Booking Routes (backend/routes/bookingRoutes.js)
+- **POST /bookings**: Create new booking (user)
+- **GET /bookings/user**: Get user's bookings (user)
+- **PUT /bookings/:id**: Update booking (user)
+- **DELETE /bookings/:id**: Delete booking (user)
+- **GET /admin/bookings**: Get all bookings (admin)
+- **PUT /admin/bookings/:id/status**: Update booking status (admin)
+- **DELETE /admin/bookings/:id**: Delete booking (admin)
+
+### Destination Routes (backend/routes/routes.js)
+- **GET /destinations**: Get all destinations (public)
+- **GET /destinations/:id**: Get destination by ID (public)
+- **POST /admin/destinations**: Create destination (admin)
+- **PUT /admin/destinations/:id**: Update destination (admin)
+- **DELETE /admin/destinations/:id**: Delete destination (admin)
+
+### Payment Routes (backend/routes/routes.js)
+- **POST /create-order**: Create Razorpay order (authenticated)
+- **POST /verify-payment**: Verify payment and create booking (authenticated)
 
 ## Server Entry Point (backend/index.js)
 - Loads environment variables
@@ -105,9 +193,12 @@ This project is a comprehensive fullstack website for Travel Tourism, featuring 
   - Home.jsx: Protected home page with navbar, hero section, components
   - Signup.jsx: Signup page (assumed, not detailed in current implementation)
   - LandingPage.jsx: Public landing page
+  - Destination.jsx: Destination listing page with search and filters
+  - Booking.jsx: Booking form with Razorpay payment integration
 - **src/Compoents/**:
   - Navbar.jsx: Modern navbar with backdrop blur, mobile menu, logout logic, dynamic login/logout buttons
   - ProtectedRoute.jsx: Route guard component that checks for JWT token and redirects to /login if not authenticated
+  - Card.jsx: Destination card component with booking navigation
   - Other components: HeroSection, BestAgency, Card, Footer (for Home page)
 
 ### Key Frontend Features
@@ -154,6 +245,19 @@ This project is a comprehensive fullstack website for Travel Tourism, featuring 
 - Database connection and server setup complete.
 - Basic testing performed on frontend components; backend endpoints tested via Postman.
 - UI improvements: Adjusted feature cards on the landing page (LandingPage.jsx) to be smaller by reducing icon sizes from text-6xl to text-5xl and padding from p-8 to p-6 for better visual balance and less bulky appearance.
+- **Booking System**: Complete booking flow with Razorpay payment integration
+  - Destination listing with search and filters
+  - Booking form with validation
+  - Razorpay payment gateway integration
+  - Booking status management (Pending → Confirmed by admin)
+  - Email notifications for booking updates
+- **Admin Panel**: Full administrative dashboard
+  - User management with status controls
+  - Booking management with status updates
+  - Destination management (CRUD operations)
+  - Separate admin authentication
+- **Payment Integration**: Razorpay gateway with proper verification and booking creation
+- **Email System**: Automated emails for booking confirmations and status updates
 
 ## API Testing with Postman
 
@@ -212,13 +316,9 @@ This project is a comprehensive fullstack website for Travel Tourism, featuring 
 ```
 
 ## Next Steps
-- Implement signup page with form and backend integration.
-- Add JWT middleware for protected backend routes.
-- Create additional models for travel features (destinations, hotels, bookings).
-- Implement CRUD operations for travel-related data.
 - Add user profile management and password reset functionality.
 - Enhance error handling and input validation across frontend and backend.
 - Perform comprehensive testing: unit tests for components, integration tests for API, end-to-end testing for user flows.
 - Add loading states, better UX feedback, and accessibility features.
 - Deploy the application (frontend to Vercel/Netlify, backend to Heroku/Render).
-- Implement additional features like search, filters, booking system.
+- Implement additional features like advanced search, filters, and user reviews.

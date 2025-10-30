@@ -16,7 +16,7 @@ export const getDashboardStats = async (req, res) => {
 
         // Calculate total revenue from confirmed bookings
         const revenueResult = await Booking.aggregate([
-            { $match: { status: 'Confirmed' } },
+            { $match: { status: 'confirmed' } },
             { $group: { _id: null, total: { $sum: '$totalAmount' } } }
         ]);
         const totalRevenue = revenueResult.length > 0 ? revenueResult[0].total : 0;
@@ -40,7 +40,7 @@ export const getDashboardStats = async (req, res) => {
         });
 
         const lastMonthRevenueResult = await Booking.aggregate([
-            { $match: { status: 'Confirmed', createdAt: { $lt: thisMonth, $gte: lastMonth } } },
+            { $match: { status: 'confirmed', createdAt: { $lt: thisMonth, $gte: lastMonth } } },
             { $group: { _id: null, total: { $sum: '$totalAmount' } } }
         ]);
         const lastMonthRevenue = lastMonthRevenueResult.length > 0 ? lastMonthRevenueResult[0].total : 0;

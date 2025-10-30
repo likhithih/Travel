@@ -5,7 +5,6 @@ import {
   FaSearch,
   FaEdit,
   FaTrash,
-  FaUserPlus,
   FaEye,
   FaBan,
   FaCheck,
@@ -20,12 +19,13 @@ const Users = () => {
   const [userToDelete, setUserToDelete] = useState(null);
   const [filterStatus, setFilterStatus] = useState('all');
   const [users, setUsers] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch users from backend
+  // Fetch users and bookings from backend
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchData = async () => {
       try {
         const token = localStorage.getItem('adminToken');
         if (!token) {
@@ -34,19 +34,48 @@ const Users = () => {
           return;
         }
 
-        const response = await fetch('http://localhost:4000/admin/users', {
+        // Fetch users
+        const usersResponse = await fetch('http://localhost:4000/admin/users', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         });
 
-        if (!response.ok) {
+        if (!usersResponse.ok) {
           throw new Error('Failed to fetch users');
         }
 
-        const data = await response.json();
-        setUsers(data.users);
+        const usersData = await usersResponse.json();
+
+        // Fetch bookings to calculate booking counts
+        const bookingsResponse = await fetch('http://localhost:4000/admin/bookings', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!bookingsResponse.ok) {
+          throw new Error('Failed to fetch bookings');
+        }
+
+        const bookingsData = await bookingsResponse.json();
+
+        // Calculate booking counts per user
+        const bookingCounts = {};
+        bookingsData.bookings.forEach(booking => {
+          bookingCounts[booking.user] = (bookingCounts[booking.user] || 0) + 1;
+        });
+
+        // Update users with booking counts
+        const usersWithBookings = usersData.users.map(user => ({
+          ...user,
+          bookings: bookingCounts[user.name] || 0
+        }));
+
+        setUsers(usersWithBookings);
+        setBookings(bookingsData.bookings);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -54,7 +83,7 @@ const Users = () => {
       }
     };
 
-    fetchUsers();
+    fetchData();
   }, []);
 
   const filteredUsers = users.filter(user => {
@@ -174,10 +203,6 @@ const Users = () => {
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">User Management</h1>
                 <p className="text-gray-600 dark:text-gray-400">Manage user accounts and permissions</p>
               </div>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors">
-                <FaUserPlus className="mr-2" />
-                Add User
-              </button>
             </div>
           </div>
         </header>
