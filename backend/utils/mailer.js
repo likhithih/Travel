@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
-    secure: false, // Use TLS
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
@@ -51,6 +51,7 @@ export const sendBookingConfirmationEmail = async (userEmail, bookingDetails) =>
 // Send booking pending email
 export const sendBookingPendingEmail = async (userEmail, bookingDetails) => {
     try {
+        console.log('Sending booking pending email to:', userEmail);
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: userEmail,

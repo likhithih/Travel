@@ -6,7 +6,7 @@ import { sendBookingPendingEmail, sendBookingConfirmationEmail, sendBookingCance
 // Create a new booking
 export const createBooking = async (req, res) => {
     try {
-        const { destinationId, packageName, travelDate, travelers, totalAmount, specialRequests } = req.body;
+        const { destinationId, packageName, travelDate, travelers, totalAmount, specialRequests, userEmail } = req.body;
         const userId = req.user._id || req.user.userId;
 
         // Validate required fields
@@ -45,15 +45,26 @@ export const createBooking = async (req, res) => {
 
         // Send pending email to user
         try {
-            await sendBookingPendingEmail(booking.user.email, {
+            const emailToSend = userEmail || booking.user.email;
+            console.log('Attempting to send email to:', emailToSend);
+            console.log('Booking details:', {
                 packageName: booking.packageName,
                 destination: booking.destination.name,
                 travelDate: booking.travelDate.toISOString().split('T')[0],
                 travelers: booking.travelers,
                 totalAmount: booking.totalAmount
             });
+            await sendBookingPendingEmail(emailToSend, {
+                packageName: booking.packageName,
+                destination: booking.destination.name,
+                travelDate: booking.travelDate.toISOString().split('T')[0],
+                travelers: booking.travelers,
+                totalAmount: booking.totalAmount
+            });
+            console.log('Email sent successfully to:', emailToSend);
         } catch (emailError) {
             console.error('Failed to send pending email:', emailError);
+            console.error('Email error details:', emailError.message);
             // Don't fail the booking creation if email fails
         }
 
