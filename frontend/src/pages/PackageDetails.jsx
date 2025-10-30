@@ -1,15 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUtensils, FaCamera, FaBed, FaPlane, FaCheck, FaTimes,FaGem } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaUtensils, FaCamera, FaBed, FaPlane, FaCheck, FaTimes, FaGem } from 'react-icons/fa';
 import { useTheme } from '../Compoents/ThemeContext';
 import Navbar from '../Compoents/Navbar';
 import Footer from '../Compoents/Footer';
 import ImagesBar from '../Compoents/ImagesBar';
-import hampi from '../assets/Hampi-temple.jpg';
-import mysore from '../assets/Mysore-place.jpg';
-import kundamundi from '../assets/Kundamundi.jpg';
-import waterfall from '../assets/Waterfall.jpg';
 
 const PackageDetails = () => {
   const navigate = useNavigate();
@@ -38,64 +34,53 @@ const PackageDetails = () => {
     visible: { scale: 1, opacity: 1, transition: { duration: 0.6 } },
   };
 
-  const itinerary = [
-    {
-      day: 1,
-      title: 'Arrival in Bengaluru & Transfer to Hampi',
-      description: 'Arrive at Bengaluru airport, transfer to Hampi. Evening visit to Virupaksha Temple and Vittala Temple.',
-      activities: ['Airport pickup', 'Scenic drive to Hampi', 'Temple visits'],
-      meals: 'Dinner',
-      accommodation: 'Heritage resort in Hampi'
-    },
-    {
-      day: 2,
-      title: 'Explore Hampi Ruins',
-      description: 'Full day exploring the UNESCO World Heritage site of Hampi. Visit Lotus Mahal, Elephant Stables, and Zenana Enclosure.',
-      activities: ['Guided tour of ruins', 'Coracle ride on Tungabhadra River', 'Sunset at Matanga Hill'],
-      meals: 'Breakfast, Lunch, Dinner',
-      accommodation: 'Heritage resort in Hampi'
-    },
-    {
-      day: 3,
-      title: 'Hampi to Mysore',
-      description: 'Morning departure to Mysore. Visit Srirangapatna en route. Evening at leisure in Mysore.',
-      activities: ['Drive to Mysore', 'Visit Srirangapatna Fort', 'Evening walk in Mysore'],
-      meals: 'Breakfast, Lunch, Dinner',
-      accommodation: 'Heritage hotel in Mysore'
-    },
-    {
-      day: 4,
-      title: 'Mysore Sightseeing',
-      description: 'Explore the royal city of Mysore. Visit Mysore Palace, Chamundi Hill, and Brindavan Gardens.',
-      activities: ['Mysore Palace tour', 'Chamundi Hill visit', 'Brindavan Gardens'],
-      meals: 'Breakfast, Lunch, Dinner',
-      accommodation: 'Heritage hotel in Mysore'
-    },
-    {
-      day: 5,
-      title: 'Mysore to Coorg',
-      description: 'Drive to Coorg (Kodagu). Visit Abbey Falls and Talacauvery. Experience coffee plantation walk.',
-      activities: ['Drive to Coorg', 'Abbey Falls', 'Coffee plantation tour'],
-      meals: 'Breakfast, Lunch, Dinner',
-      accommodation: 'Resort in Coorg'
-    },
-    {
-      day: 6,
-      title: 'Coorg Exploration',
-      description: 'Visit Dubare Elephant Camp, Raja\'s Seat, and local markets. Enjoy Coorg cuisine.',
-      activities: ['Dubare Elephant Camp', 'Raja\'s Seat viewpoint', 'Local market visit'],
-      meals: 'Breakfast, Lunch, Dinner',
-      accommodation: 'Resort in Coorg'
-    },
-    {
-      day: 7,
-      title: 'Departure from Bengaluru',
-      description: 'Drive back to Bengaluru for departure flight. End of tour with sweet memories.',
-      activities: ['Drive to Bengaluru', 'Airport drop'],
-      meals: 'Breakfast',
-      accommodation: 'N/A'
+  // Parse duration to get total days (robust version)
+  const place = cardData.location ? cardData.location.split(',')[0] : 'Destination';
+  let totalDays = 7; // default
+  if (cardData.duration) {
+    const match = cardData.duration.match(/\d+/); // match any number in string
+    if (match) {
+      totalDays = parseInt(match[0]);
     }
-  ];
+  }
+
+  // Dynamic itinerary generation
+  const itinerary = Array.from({ length: totalDays }, (_, index) => {
+    const day = index + 1;
+    let title, description, activities;
+
+    if (day === 1) {
+      title = `Arrival and Transfer to ${place}`;
+      description = `Arrive at the destination airport or station, transfer to ${place}. Evening welcome and relaxation.`;
+      activities = ['Arrival pickup', 'Transfer to accommodation', 'Welcome dinner'];
+    } else if (day === totalDays) {
+      title = `Departure from ${place}`;
+      description = `Morning at leisure or optional activities. Transfer to airport/station for departure. End of tour.`;
+      activities = ['Morning leisure', 'Transfer to departure point', 'Farewell'];
+    } else {
+      const dayActivities = [
+        { title: `Sightseeing in ${place}`, description: `Explore key attractions and landmarks in ${place}.`, activities: ['Guided tours', 'Photo stops', 'Local insights'] },
+        { title: `Cultural Experience in ${place}`, description: `Immerse in local culture, cuisine, and traditions of ${place}.`, activities: ['Cultural visits', 'Local cuisine', 'Traditional activities'] },
+        { title: `Adventure and Nature in ${place}`, description: `Enjoy outdoor activities and natural beauty around ${place}.`, activities: ['Hiking', 'Nature walks', 'Adventure sports'] },
+        { title: `Relaxation and Leisure in ${place}`, description: `Relax with spa, markets, or free time in ${place}.`, activities: ['Spa time', 'Market visits', 'Free exploration'] }
+      ];
+
+      const activityIndex = (day - 2) % dayActivities.length;
+      const activity = dayActivities[activityIndex];
+      title = activity.title;
+      description = activity.description;
+      activities = activity.activities;
+    }
+
+    return {
+      day,
+      title,
+      description,
+      activities,
+      meals: day === 1 ? 'Dinner' : day === totalDays ? 'Breakfast' : 'Breakfast, Lunch, Dinner',
+      accommodation: day === totalDays ? 'N/A' : 'Hotel/Resort'
+    };
+  });
 
   const inclusions = [
     'Accommodation in heritage hotels/resorts',
@@ -120,6 +105,7 @@ const PackageDetails = () => {
     <>
       <Navbar />
       <div className={`min-h-screen overflow-hidden mt-0 pt-20 ${darkMode ? 'bg-gray-900 text-white' : 'bg-green-50 text-black'}`}>
+
         {/* Hero Section */}
         <motion.section
           className="relative py-20 px-4 text-center overflow-hidden"
@@ -133,21 +119,31 @@ const PackageDetails = () => {
           animate="visible"
           variants={fadeInUp}
         >
-          <div className="max-w-4xl mx-auto">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url(${cardData.img})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          ></div>
+          <div className="absolute inset-0 bg-black/40"></div>
+          <div className={`relative z-10 max-w-4xl mx-auto ${!darkMode ? 'bg-black/40' : 'bg-black/40'} p-12 rounded-4xl shadow-2xl`} >
             <motion.h1
-              className="text-5xl md:text-7xl font-bold mb-6 bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+              className="text-5xl md:text-7xl font-bold mb-0 pb-6 bg-linear-to-r from-cyan-100 to-blue-500 bg-clip-text text-transparent"
               variants={fadeInUp}
             >
               {cardData.title}
             </motion.h1>
             <motion.p
-              className={`text-xl md:text-2xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+              className={`text-xl md:text-2xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-300'}`}
               variants={fadeInUp}
             >
               {cardData.duration} | Explore Ancient Wonders & Royal Heritage
             </motion.p>
             <motion.div
-              className={`flex justify-center space-x-8 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+              className={`flex justify-center space-x-8 ${darkMode ? 'text-gray-300' : 'text-gray-300'}`}
               variants={fadeInUp}
             >
               <div className="flex items-center">
@@ -187,7 +183,7 @@ const PackageDetails = () => {
             >
               <div>
                 <p className={`text-lg leading-relaxed mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Embark on a captivating journey through Karnataka's rich heritage. From the ancient ruins of Hampi to the royal palaces of Mysore and the misty hills of Coorg, this 7-day tour offers an immersive experience of South India's cultural treasures.
+                  Embark on a captivating journey through Karnataka's rich heritage. From the ancient ruins of Hampi to the royal palaces of Mysore and the misty hills of Coorg, this {totalDays}-day tour offers an immersive experience of South India's cultural treasures.
                 </p>
                 <p className={`text-lg leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Discover UNESCO World Heritage sites, savor authentic cuisine, and create unforgettable memories in one of India's most diverse states.
@@ -220,7 +216,7 @@ const PackageDetails = () => {
           </div>
         </motion.section>
 
-        {/* Itinerary Section */}
+        {/* Detailed Itinerary */}
         <motion.section
           className={`py-20 px-4 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}
           initial="hidden"
@@ -354,6 +350,7 @@ const PackageDetails = () => {
             </motion.button>
           </div>
         </motion.section>
+
       </div>
       <Footer />
     </>
