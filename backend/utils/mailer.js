@@ -125,3 +125,31 @@ export const sendPaymentSuccessEmail = async (to, bookingDetails) => {
 
   await transporter.sendMail(mailOptions);
 };
+
+// Send welcome email for new user signup
+export const sendWelcomeEmail = async (to, userDetails) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to,
+    subject: 'Welcome to Travel Agency - Your Account is Ready!',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #4CAF50;">Welcome to Travel Agency!</h2>
+        <p>Dear ${userDetails.username || userDetails.displayName},</p>
+        <p>Thank you for joining Travel Agency! Your account has been successfully created and you're now ready to explore amazing destinations around the world.</p>
+        <div style="background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0;">
+          <h3>Account Details:</h3>
+          <p><strong>Username:</strong> ${userDetails.username || userDetails.displayName}</p>
+          <p><strong>Email:</strong> ${userDetails.email}</p>
+          <p><strong>Registration Date:</strong> ${new Date().toLocaleDateString()}</p>
+        </div>
+        <p>Start your journey by browsing our exciting travel packages and destinations. Whether you're planning a relaxing getaway or an adventurous trip, we have something for everyone!</p>
+        <p>If you have any questions or need assistance, feel free to contact our support team.</p>
+        <p>Happy travels!</p>
+        <p>Best regards,<br>Travel Agency Team</p>
+      </div>
+    `
+  };
+
+  await transporter.sendMail(mailOptions);
+};

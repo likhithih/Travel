@@ -109,9 +109,9 @@ export const getAllBookings = async (req, res) => {
 
         const formattedBookings = bookings.map(booking => ({
             id: booking._id,
-            user: booking.user.username || booking.user.googleDisplayName || booking.user.email,
-            userEmail: booking.user.email,
-            destination: booking.destination.name,
+            user: booking.user ? (booking.user.username || booking.user.googleDisplayName || booking.user.email) : 'Unknown User',
+            userEmail: booking.user ? booking.user.email : 'Unknown Email',
+            destination: booking.destination ? booking.destination.name : 'Unknown Destination',
             packageName: booking.packageName,
             travelDate: booking.travelDate.toISOString().split('T')[0],
             travelers: booking.travelers,

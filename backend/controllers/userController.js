@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { sendWelcomeEmail } from '../utils/mailer.js';
 
 // Get user profile
 export const getProfile = async (req, res) => {
@@ -52,6 +53,18 @@ export const googleSignIn = async (req, res) => {
                 username: displayName.replace(/\s+/g, '').toLowerCase() + Math.random().toString(36).substr(2, 5)
             });
             await user.save();
+
+            // Send welcome email for new Google sign-in users
+            try {
+                await sendWelcomeEmail(user.email, {
+                    username: user.username,
+                    displayName: user.googleDisplayName,
+                    email: user.email
+                });
+            } catch (emailError) {
+                console.error('Failed to send welcome email for Google sign-in:', emailError);
+                // Don't fail sign-in if email fails
+            }
         }
 
         // Generate JWT token
@@ -107,6 +120,17 @@ export const registerUser = async (req, res) => {
 
         // Save user to database
         await newUser.save();
+
+        // Send welcome email
+        try {
+            await sendWelcomeEmail(newUser.email, {
+                username: newUser.username,
+                email: newUser.email
+            });
+        } catch (emailError) {
+            console.error('Failed to send welcome email:', emailError);
+            // Don't fail registration if email fails
+        }
 
         // Generate JWT token
         const token = jwt.sign({ userId: newUser._id, email: newUser.email }, process.env.JWT_SECRET , { expiresIn: '1h' });

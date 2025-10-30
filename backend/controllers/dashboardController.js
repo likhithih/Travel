@@ -78,8 +78,8 @@ export const getRecentBookings = async (req, res) => {
 
         const formattedBookings = recentBookings.map(booking => ({
             id: booking._id,
-            user: booking.user.username || booking.user.googleDisplayName || booking.user.email,
-            destination: booking.destination.name,
+            user: booking.user ? (booking.user.username || booking.user.googleDisplayName || booking.user.email) : 'Unknown User',
+            destination: booking.destination ? booking.destination.name : 'Unknown Destination',
             date: booking.createdAt.toISOString().split('T')[0],
             status: booking.status
         }));
