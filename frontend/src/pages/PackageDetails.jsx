@@ -109,6 +109,12 @@ const PackageDetails = () => {
         {/* Hero Section */}
         <motion.section
           className="relative py-20 px-4 text-center overflow-hidden"
+          style={{
+            backgroundImage: `url(${hampi})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
           initial="hidden"
           animate="visible"
           variants={fadeInUp}

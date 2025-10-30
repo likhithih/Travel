@@ -104,7 +104,7 @@ router.post('/verify-payment', authenticateToken, async (req, res) => {
         travelers: bookingData.travelers,
         totalAmount: bookingData.totalAmount,
         specialRequests: bookingData.specialRequests,
-        status: 'Confirmed', // Set to Confirmed since payment is successful
+        status: 'Pending', // Set to Pending for admin review
         paymentStatus: 'Paid',
         paymentId: razorpay_payment_id,
       });

@@ -71,6 +71,7 @@ export default function Signup() {
       if (response.status === 200) {
         toast.success(`Welcome ${result.user.displayName}!`);
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         setTimeout(() => { navigate('/home') }, 2000);
       }
     } catch (error) {

@@ -8,7 +8,8 @@ import {
   FaEye,
   FaBan,
   FaCheck,
-  FaFilter
+  FaFilter,
+  FaSpinner
 } from 'react-icons/fa';
 
 const Users = () => {
@@ -244,7 +245,10 @@ const Users = () => {
         <main className="flex-1 overflow-y-auto p-6">
           {loading ? (
             <div className="flex justify-center items-center h-64">
-              <div className="text-gray-600 dark:text-gray-400">Loading users...</div>
+              <div className="flex flex-col items-center space-y-4">
+                <FaSpinner className="animate-spin text-4xl text-blue-500" />
+                <div className="text-gray-600 dark:text-gray-400 font-medium">Loading users...</div>
+              </div>
             </div>
           ) : error ? (
             <div className="flex justify-center items-center h-64">
