@@ -9,6 +9,15 @@ import {
     deleteDestination,
     upload
 } from '../controllers/destinationController.js';
+import {
+    createUserRequest,
+    getAllUserRequests,
+    getUserRequests,
+    approveUserRequest,
+    rejectUserRequest,
+    editUserRequest,
+    upload as userRequestUpload
+} from '../controllers/userRequestController.js';
 import { authenticateToken, requireAdmin } from '../middleware/auth.js';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
@@ -134,5 +143,13 @@ router.post('/verify-payment', authenticateToken, async (req, res) => {
     res.status(500).json({ message: 'Failed to verify payment' });
   }
 });
+
+// User request routes
+router.post('/user-request', authenticateToken, userRequestUpload.single('image'), createUserRequest); // Authenticated route for users to submit requests
+router.get('/user/requests', authenticateToken, getUserRequests); // Get user's own requests
+router.get('/admin/requests', authenticateToken, requireAdmin, getAllUserRequests);
+router.post('/admin/requests/:requestId/approve', authenticateToken, requireAdmin, approveUserRequest);
+router.post('/admin/requests/:requestId/reject', authenticateToken, requireAdmin, rejectUserRequest);
+router.put('/admin/requests/:requestId/edit', authenticateToken, requireAdmin, editUserRequest);
 
 export default router;

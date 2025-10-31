@@ -397,7 +397,7 @@ const Requests = () => {
                     Image
                   </label>
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_BASEURL}${selectedRequest.image}`}
+                    src={selectedRequest.image}
                     alt={selectedRequest.name}
                     className="w-full max-w-md h-48 object-cover rounded-lg"
                   />

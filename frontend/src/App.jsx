@@ -18,6 +18,7 @@ const Destination = lazy(() => import("./pages/Destination"));
 const About = lazy(() => import("./pages/About"));
 const PackageDetails = lazy(() => import("./pages/PackageDetails"));
 const UserRequest = lazy(() => import("./pages/UserRequest"));
+const RequestStatus = lazy(() => import("./pages/RequestStatus"));
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/destination" element={<Destination />} />
           <Route path="/package-details" element={<PackageDetails />} />
           <Route path="/user-request" element={<UserRequest />} />
+          <Route path="/request-status" element={<ProtectedRoute><RequestStatus /></ProtectedRoute>} />
           <Route path="*" element={<Lottie animationData={ERROR} loop={true} autoplay={true} className="w-screen h-screen bg-orange-400/40" />} />
         </Routes>
       </Suspense>

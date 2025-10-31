@@ -75,7 +75,8 @@ function Navbar() {
                 { name: 'Home', path: 'home' },
                 { name: 'About', path: 'about' },
                 { name: 'Destination', path: 'destination' },
-                { name: 'Booking Status', path: 'booking-status' }
+                { name: 'Booking Status', path: 'booking-status' },
+                { name: 'Request Status', path: 'request-status' }
               ].map((item) => (
                 <li key={item.path}>
                   <NavLink
@@ -223,7 +224,8 @@ function Navbar() {
                       { name: 'Home', path: 'home' },
                       { name: 'About', path: 'about' },
                       { name: 'Destination', path: 'destination' },
-                      { name: 'Booking Status', path: 'booking-status' }
+                      { name: 'Booking Status', path: 'booking-status' },
+                      { name: 'Request Status', path: 'request-status' }
                     ].map((item) => (
                       <li key={item.path}>
                         <NavLink
