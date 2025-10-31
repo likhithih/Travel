@@ -9,7 +9,8 @@ import {
   FaSignOutAlt,
   FaBars,
   FaTimes,
-  FaUser
+  FaUser,
+  FaEnvelope
 } from 'react-icons/fa';
 
 const Sidebar = () => {
@@ -50,6 +51,12 @@ const Sidebar = () => {
       path: '/bookings',
       icon: FaClipboardList,
       label: 'Bookings',
+      badge: null
+    },
+    {
+      path: '/requests',
+      icon: FaEnvelope,
+      label: 'Requests',
       badge: null
     },
     {

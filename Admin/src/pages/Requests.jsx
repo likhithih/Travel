@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
-import { FaEye, FaTrash, FaCheck, FaTimes } from 'react-icons/fa';
+import { FaEye, FaCheck, FaTimes, FaEdit } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 
 const Requests = () => {
@@ -8,6 +8,8 @@ const Requests = () => {
   const [loading, setLoading] = useState(true);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editedRequest, setEditedRequest] = useState({});
 
   useEffect(() => {
     fetchRequests();
@@ -39,6 +41,14 @@ const Requests = () => {
   const handleViewRequest = (request) => {
     setSelectedRequest(request);
     setShowModal(true);
+    setEditMode(false);
+  };
+
+  const handleEditRequest = (request) => {
+    setSelectedRequest(request);
+    setEditedRequest({ ...request });
+    setShowModal(true);
+    setEditMode(true);
   };
 
   const handleApproveRequest = async (requestId) => {
@@ -88,6 +98,33 @@ const Requests = () => {
   const closeModal = () => {
     setShowModal(false);
     setSelectedRequest(null);
+    setEditMode(false);
+    setEditedRequest({});
+  };
+
+  const handleSaveEdit = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASEURL}/admin/requests/${selectedRequest._id}/edit`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(editedRequest)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update request');
+      }
+
+      toast.success('Request updated successfully');
+      fetchRequests(); // Refresh the list
+      closeModal();
+    } catch (error) {
+      toast.error('Failed to update request');
+      console.error('Error updating request:', error);
+    }
   };
 
   return (
@@ -203,6 +240,13 @@ const Requests = () => {
                                   >
                                     <FaTimes className="w-4 h-4" />
                                   </button>
+                                  <button
+                                    onClick={() => handleEditRequest(request)}
+                                    className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
+                                    title="Edit"
+                                  >
+                                    <FaEdit className="w-4 h-4" />
+                                  </button>
                                 </>
                               )}
                             </div>
@@ -223,7 +267,9 @@ const Requests = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Request Details</h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                {editMode ? 'Edit Request' : 'Request Details'}
+              </h3>
               <button
                 onClick={closeModal}
                 className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
@@ -238,31 +284,77 @@ const Requests = () => {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Destination Name
                   </label>
-                  <p className="mt-1 text-sm text-gray-900 dark:text-white">{selectedRequest.name}</p>
+                  {editMode ? (
+                    <input
+                      type="text"
+                      value={editedRequest.name || ''}
+                      onChange={(e) => setEditedRequest({ ...editedRequest, name: e.target.value })}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  ) : (
+                    <p className="mt-1 text-sm text-gray-900 dark:text-white">{selectedRequest.name}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Landscape
                   </label>
-                  <p className="mt-1 text-sm text-gray-900 dark:text-white">{selectedRequest.landscape}</p>
+                  {editMode ? (
+                    <input
+                      type="text"
+                      value={editedRequest.landscape || ''}
+                      onChange={(e) => setEditedRequest({ ...editedRequest, landscape: e.target.value })}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  ) : (
+                    <p className="mt-1 text-sm text-gray-900 dark:text-white">{selectedRequest.landscape}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Budget
                   </label>
-                  <p className="mt-1 text-sm text-gray-900 dark:text-white">₹{selectedRequest.price}</p>
+                  {editMode ? (
+                    <input
+                      type="number"
+                      value={editedRequest.price || ''}
+                      onChange={(e) => setEditedRequest({ ...editedRequest, price: e.target.value })}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  ) : (
+                    <p className="mt-1 text-sm text-gray-900 dark:text-white">₹{selectedRequest.price}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Duration
                   </label>
-                  <p className="mt-1 text-sm text-gray-900 dark:text-white">{selectedRequest.duration}</p>
+                  {editMode ? (
+                    <input
+                      type="text"
+                      value={editedRequest.duration || ''}
+                      onChange={(e) => setEditedRequest({ ...editedRequest, duration: e.target.value })}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  ) : (
+                    <p className="mt-1 text-sm text-gray-900 dark:text-white">{selectedRequest.duration}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Rating
                   </label>
-                  <p className="mt-1 text-sm text-gray-900 dark:text-white">{selectedRequest.rating}</p>
+                  {editMode ? (
+                    <input
+                      type="number"
+                      step="0.1"
+                      value={editedRequest.rating || ''}
+                      onChange={(e) => setEditedRequest({ ...editedRequest, rating: e.target.value })}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  ) : (
+                    <p className="mt-1 text-sm text-gray-900 dark:text-white">{selectedRequest.rating}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -284,10 +376,19 @@ const Requests = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Description
                 </label>
-                <div
-                  className="text-sm text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 p-3 rounded-lg max-h-40 overflow-y-auto"
-                  dangerouslySetInnerHTML={{ __html: selectedRequest.description }}
-                />
+                {editMode ? (
+                  <textarea
+                    value={editedRequest.description || ''}
+                    onChange={(e) => setEditedRequest({ ...editedRequest, description: e.target.value })}
+                    rows={4}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                ) : (
+                  <div
+                    className="text-sm text-gray-900 dark:text-white bg-gray-50 dark:bg-gray-700 p-3 rounded-lg max-h-40 overflow-y-auto"
+                    dangerouslySetInnerHTML={{ __html: selectedRequest.description }}
+                  />
+                )}
               </div>
 
               {selectedRequest.image && (
@@ -307,19 +408,47 @@ const Requests = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Popular
                 </label>
-                <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                  {selectedRequest.popular ? 'Yes' : 'No'}
-                </p>
+                {editMode ? (
+                  <select
+                    value={editedRequest.popular || false}
+                    onChange={(e) => setEditedRequest({ ...editedRequest, popular: e.target.value === 'true' })}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value={false}>No</option>
+                    <option value={true}>Yes</option>
+                  </select>
+                ) : (
+                  <p className="mt-1 text-sm text-gray-900 dark:text-white">
+                    {selectedRequest.popular ? 'Yes' : 'No'}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="flex justify-end space-x-3 mt-6">
-              <button
-                onClick={closeModal}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              >
-                Close
-              </button>
+              {editMode ? (
+                <>
+                  <button
+                    onClick={closeModal}
+                    className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSaveEdit}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Save Changes
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={closeModal}
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                >
+                  Close
+                </button>
+              )}
             </div>
           </div>
         </div>

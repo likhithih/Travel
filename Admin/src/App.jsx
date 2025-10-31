@@ -7,6 +7,7 @@ import Bookings from './pages/Bookings'
 import Destinations from './pages/Destinations'
 import AddDestination from './pages/AddDestination'
 import 'react-toastify/dist/ReactToastify.css';
+import Requests from './pages/Requests'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
       <Route path="/bookings" element={<Bookings />} />
       <Route path="/destinations" element={<Destinations />} />
       <Route path="/add-destination" element={<AddDestination />} />
+      <Route path="/requests" element={<Requests/>}/>
     </Routes>
   )
 }
