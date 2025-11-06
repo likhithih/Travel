@@ -10,7 +10,7 @@ import {
   FaBars,
   FaTimes,
   FaUser,
-  FaEnvelope
+  FaEnvelope 
 } from 'react-icons/fa';
 
 const Sidebar = () => {
@@ -94,26 +94,26 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div className={`
-        fixed top-0 left-0 h-screen bg-white text-gray-900 z-50 transition-all duration-300 ease-in-out shadow-2xl border-r border-gray-200
+        fixed top-0 left-0 h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white z-50 transition-all duration-300 ease-in-out shadow-2xl border-r border-gray-200 dark:border-gray-700
         ${isOpen ? 'w-57' : 'w-0 lg:w-20'}
         lg:relative lg:z-auto
       `}>
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <div className={`flex items-center space-x-3 ${!isOpen && 'lg:justify-center'}`}>
-            <div >
-              <img src="/Travel-favicon.png" alt="Travel Icon" className="w-10 h-10" />
+            <div className="w-10 h-10 bg-linear-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+              <FaUser className="text-white" size={20} />
             </div>
             {isOpen && (
               <div>
-                <h1 className="font-bold text-xl text-gray-900">Travel Admin</h1>
-                <p className="text-xs text-gray-500">Management Portal</p>
+                <h1 className="font-bold text-xl text-gray-900 dark:text-white">Travel Admin</h1>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Management Portal</p>
               </div>
             )}
           </div>
           <button
             onClick={toggleSidebar}
-            className="lg:hidden text-gray-500 hover:text-gray-700 transition-colors p-2 rounded-lg hover:bg-gray-100"
+            className="lg:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             <FaTimes size={16} />
           </button>
@@ -133,15 +133,15 @@ const Sidebar = () => {
                     className={`
                       group flex items-center px-4 py-3 rounded-xl transition-all duration-200 relative
                       ${isActive
-                        ? 'bg-indigo-50 text-indigo-700 shadow-sm'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                        ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 shadow-sm'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
                       }
                       ${!isOpen && 'lg:justify-center lg:px-3'}
                     `}
                     title={!isOpen ? item.label : ''}
                   >
                     <div className="flex items-center flex-1 min-w-0">
-                      <div className={`relative ${isActive ? 'text-indigo-600' : 'text-gray-500 group-hover:text-indigo-500'} transition-colors duration-200`}>
+                      <div className={`relative ${isActive ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-indigo-500'} transition-colors duration-200`}>
                         <Icon size={18} />
                         {item.badge && (
                           <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
@@ -170,7 +170,7 @@ const Sidebar = () => {
             onClick={handleLogout}
             className={`
               group flex items-center w-full px-4 py-3 rounded-xl transition-all duration-200
-              text-gray-700 hover:bg-red-50 hover:text-red-700 border border-transparent hover:border-red-200
+              text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-700 dark:hover:text-red-300 border border-transparent hover:border-red-200 dark:hover:border-red-800
               ${!isOpen && 'lg:justify-center lg:px-3'}
             `}
             title={!isOpen ? 'Logout' : ''}
@@ -190,7 +190,7 @@ const Sidebar = () => {
       {/* Mobile menu button */}
       <button
         onClick={toggleSidebar}
-        className="lg:hidden fixed top-4 left-4 z-50 bg-white text-gray-900 p-3 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-200"
+        className="lg:hidden fixed top-4 left-4 z-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-3 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-200"
       >
         <FaBars size={18} />
       </button>
