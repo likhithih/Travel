@@ -34,15 +34,15 @@ const allowedOrigins = [
 // ✅ CORS Middleware
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // allow Postman / curl
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.log('❌ Blocked by CORS:', origin);
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: [
+      'http://localhost:5173', // frontend local
+      'http://localhost:5174', // admin local
+      'http://localhost:5175',
+      'https://travel-karnataka-jo9p.vercel.app', // frontend (user)
+      'https://travel-karnataka-xt8s.vercel.app', // admin
+      'https://travel-karnataka.vercel.app', // root
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
   })
 );
