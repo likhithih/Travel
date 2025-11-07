@@ -40,6 +40,7 @@ app.use(
       'http://localhost:5175',
       'https://travel-karnataka-jo9p.vercel.app', // frontend (user)
       'https://travel-karnataka-xt8s.vercel.app', // admin
+      'https://travel-karnataka-snvwwc1ao-likhithihs-projects.vercel.app', // backend domain
       'https://travel-karnataka.vercel.app', // root
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
