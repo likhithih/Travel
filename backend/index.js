@@ -56,9 +56,9 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // Routes
-app.use('/', userRoutes);
-app.use('/', dashboardRoutes);
-app.use('/', bookingRoutes);
+app.use('/api', userRoutes);
+app.use('/api', dashboardRoutes);
+app.use('/api', bookingRoutes);
 
 // Connect DB
 connectDB(process.env.CONNECTDB);

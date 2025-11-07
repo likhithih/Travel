@@ -8,7 +8,7 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "index.js",
       "headers": {
         "Access-Control-Allow-Origin": "https://travel-karnataka-jo9p.vercel.app",
@@ -17,6 +17,10 @@
         "Access-Control-Allow-Credentials": "true",
         "Cross-Origin-Opener-Policy": "unsafe-none"
       }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "index.js"
     }
   ]
 }

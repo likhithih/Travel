@@ -43,7 +43,7 @@ export default function Signup() {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/register`, formData);
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/register`, formData);
         toast.success('Signup successful!');
         setTimeout(() => { navigate('/login') }, 2000);
       } catch (error) {
@@ -66,7 +66,7 @@ export default function Signup() {
         photoURL: result.user.photoURL
       };
 
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/google-signin`, googleUserData);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/google-signin`, googleUserData);
 
       if (response.status === 200) {
         toast.success(`Welcome ${result.user.displayName}!`);
@@ -76,7 +76,11 @@ export default function Signup() {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Google Sign-in failed. Please try again.");
+      if (error.code === 'auth/popup-closed-by-user') {
+        toast.error("Sign-in was cancelled. Please try again.");
+      } else {
+        toast.error("Google Sign-in failed. Please try again.");
+      }
     }
   };
 
